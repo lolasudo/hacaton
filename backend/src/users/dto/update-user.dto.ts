@@ -1,8 +1,7 @@
 import { PartialType, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateUserDto } from './create-user.dto';
-
 import { Transform, Type } from 'class-transformer';
-import { IsEmail, IsOptional, MinLength } from 'class-validator';
+import { IsEmail, IsOptional, MinLength, IsPhoneNumber } from 'class-validator';
 import { FileDto } from '../../files/dto/file.dto';
 import { RoleDto } from '../../roles/dto/role.dto';
 import { StatusDto } from '../../statuses/dto/status.dto';
@@ -21,27 +20,34 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   password?: string;
 
   provider?: string;
-
   socialId?: string | null;
 
-  @ApiPropertyOptional({ example: 'John', type: String })
+  @ApiPropertyOptional({ example: 'Иван', type: String })
   @IsOptional()
   firstName?: string | null;
 
-  @ApiPropertyOptional({ example: 'Doe', type: String })
+  @ApiPropertyOptional({ example: 'Петров', type: String })
   @IsOptional()
   lastName?: string | null;
+
+  @ApiPropertyOptional({ example: '+7 (999) 123-45-67', type: String })
+  @IsOptional()
+  @IsPhoneNumber('RU')
+  phone?: string | null;
+
+ 
+  // ❌ УБИРАЕМ roleId - используем существующее role
 
   @ApiPropertyOptional({ type: () => FileDto })
   @IsOptional()
   photo?: FileDto | null;
 
-  @ApiPropertyOptional({ type: () => RoleDto })
+  @ApiPropertyOptional({ type: RoleDto })
   @IsOptional()
   @Type(() => RoleDto)
   role?: RoleDto | null;
 
-  @ApiPropertyOptional({ type: () => StatusDto })
+  @ApiPropertyOptional({ type: StatusDto })
   @IsOptional()
   @Type(() => StatusDto)
   status?: StatusDto;

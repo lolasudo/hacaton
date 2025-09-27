@@ -13,7 +13,6 @@ import {
 import { RoleEntity } from '../../../../../roles/infrastructure/persistence/relational/entities/role.entity';
 import { StatusEntity } from '../../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
 import { FileEntity } from '../../../../../files/infrastructure/persistence/relational/entities/file.entity';
-
 import { AuthProvidersEnum } from '../../../../../auth/auth-providers.enum';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 
@@ -24,8 +23,6 @@ export class UserEntity extends EntityRelationalHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // For "string | null" we need to use String type.
-  // More info: https://github.com/typeorm/typeorm/issues/2567
   @Column({ type: String, unique: true, nullable: true })
   email: string | null;
 
@@ -46,6 +43,10 @@ export class UserEntity extends EntityRelationalHelper {
   @Index()
   @Column({ type: String, nullable: true })
   lastName: string | null;
+
+  // ✅ ДОБАВЛЯЕМ phone
+  @Column({ type: String, nullable: true })
+  phone: string | null;
 
   @OneToOne(() => FileEntity, {
     eager: true,

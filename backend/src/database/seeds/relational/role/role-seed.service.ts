@@ -12,32 +12,66 @@ export class RoleSeedService {
   ) {}
 
   async run() {
-    const countUser = await this.repository.count({
-      where: {
-        id: RoleEnum.user,
-      },
-    });
-
-    if (!countUser) {
-      await this.repository.save(
-        this.repository.create({
-          id: RoleEnum.user,
-          name: 'User',
-        }),
-      );
-    }
-
+    // ✅ Создаем ADMIN роль
     const countAdmin = await this.repository.count({
       where: {
-        id: RoleEnum.admin,
+        id: RoleEnum.ADMIN,
       },
     });
 
     if (!countAdmin) {
       await this.repository.save(
         this.repository.create({
-          id: RoleEnum.admin,
+          id: RoleEnum.ADMIN,
           name: 'Admin',
+        }),
+      );
+    }
+
+    // ✅ Создаем CUSTOMER роль
+    const countCustomer = await this.repository.count({
+      where: {
+        id: RoleEnum.CUSTOMER,
+      },
+    });
+
+    if (!countCustomer) {
+      await this.repository.save(
+        this.repository.create({
+          id: RoleEnum.CUSTOMER,
+          name: 'Customer',
+        }),
+      );
+    }
+
+    // ✅ Создаем CONTRACTOR роль
+    const countContractor = await this.repository.count({
+      where: {
+        id: RoleEnum.CONTRACTOR,
+      },
+    });
+
+    if (!countContractor) {
+      await this.repository.save(
+        this.repository.create({
+          id: RoleEnum.CONTRACTOR,
+          name: 'Contractor',
+        }),
+      );
+    }
+
+    // ✅ Создаем INSPECTOR роль
+    const countInspector = await this.repository.count({
+      where: {
+        id: RoleEnum.INSPECTOR,
+      },
+    });
+
+    if (!countInspector) {
+      await this.repository.save(
+        this.repository.create({
+          id: RoleEnum.INSPECTOR,
+          name: 'Inspector',
         }),
       );
     }

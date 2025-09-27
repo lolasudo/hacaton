@@ -1,16 +1,6 @@
-import {
-  // decorators here
-  Transform,
-  Type,
-} from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  // decorators here
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, MinLength, IsPhoneNumber } from 'class-validator';
 import { FileDto } from '../../files/dto/file.dto';
 import { RoleDto } from '../../roles/dto/role.dto';
 import { StatusDto } from '../../statuses/dto/status.dto';
@@ -28,16 +18,24 @@ export class CreateUserDto {
   password?: string;
 
   provider?: string;
-
   socialId?: string | null;
 
-  @ApiProperty({ example: 'John', type: String })
+  @ApiProperty({ example: 'Иван', type: String })
   @IsNotEmpty()
   firstName: string | null;
 
-  @ApiProperty({ example: 'Doe', type: String })
+  @ApiProperty({ example: 'Петров', type: String })
   @IsNotEmpty()
   lastName: string | null;
+
+  // ✅ ДОБАВЛЯЕМ ТОЛЬКО phone
+  @ApiProperty({ example: '+7 (999) 123-45-67', type: String })
+  @IsNotEmpty()
+  @IsPhoneNumber('RU')
+  phone: string | null;
+
+  // ❌ УБИРАЕМ roleId - используем существующее role
+ 
 
   @ApiPropertyOptional({ type: () => FileDto })
   @IsOptional()

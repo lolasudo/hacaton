@@ -47,6 +47,15 @@ export class UserSchemaClass extends EntityDocumentHelper {
   })
   lastName: string | null;
 
+  // ✅ ДОБАВЛЯЕМ ТОЛЬКО ТЕЛЕФОН - это необходимо по ТЗ для связи на объектах
+  @Prop({
+    type: String,
+    default: null,
+  })
+  phone: string | null;
+
+  // ❌ companyName и position НЕ ДОБАВЛЯЕМ - в ТЗ не требуются
+
   @Prop({
     type: FileSchemaClass,
   })

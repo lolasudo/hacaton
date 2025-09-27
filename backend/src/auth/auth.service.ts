@@ -136,7 +136,7 @@ export class AuthService {
       user = userByEmail;
     } else if (socialData.id) {
       const role = {
-        id: RoleEnum.user,
+        id: RoleEnum.CONTRACTOR, // ✅ ИСПРАВЛЕНО
       };
       const status = {
         id: StatusEnum.active,
@@ -146,6 +146,7 @@ export class AuthService {
         email: socialEmail ?? null,
         firstName: socialData.firstName ?? null,
         lastName: socialData.lastName ?? null,
+        phone: null, // ✅ ДОБАВЛЕНО phone
         socialId: socialData.id,
         provider: authProvider,
         role,
@@ -194,18 +195,24 @@ export class AuthService {
   }
 
   async register(dto: AuthRegisterLoginDto): Promise<void> {
+    const hash = await bcrypt.hash(dto.password, 10);
+
     const user = await this.usersService.create({
       ...dto,
       email: dto.email,
+      phone: dto.phone, // ✅ ДОБАВЛЕНО phone
       role: {
-        id: RoleEnum.user,
+        id: RoleEnum.CONTRACTOR, // ✅ ИСПРАВЛЕНО
       },
       status: {
         id: StatusEnum.inactive,
       },
+      password: hash,
+      firstName: dto.firstName,
+      lastName: dto.lastName,
     });
 
-    const hash = await this.jwtService.signAsync(
+    const confirmHash = await this.jwtService.signAsync(
       {
         confirmEmailUserId: user.id,
       },
@@ -222,7 +229,7 @@ export class AuthService {
     await this.mailService.userSignUp({
       to: dto.email,
       data: {
-        hash,
+        hash: confirmHash,
       },
     });
   }

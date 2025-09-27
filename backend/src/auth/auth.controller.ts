@@ -25,6 +25,11 @@ import { NullableType } from '../utils/types/nullable.type';
 import { User } from '../users/domain/user';
 import { RefreshResponseDto } from './dto/refresh-response.dto';
 
+// роли
+import { Roles } from '../roles/roles.decorator';
+import { RolesGuard } from '../roles/roles.guard';
+import { RoleEnum } from '../roles/roles.enum';
+
 @ApiTags('Auth')
 @Controller({
   path: 'auth',
@@ -33,13 +38,9 @@ import { RefreshResponseDto } from './dto/refresh-response.dto';
 export class AuthController {
   constructor(private readonly service: AuthService) {}
 
-  @SerializeOptions({
-    groups: ['me'],
-  })
+  @SerializeOptions({ groups: ['me'] })
   @Post('email/login')
-  @ApiOkResponse({
-    type: LoginResponseDto,
-  })
+  @ApiOkResponse({ type: LoginResponseDto })
   @HttpCode(HttpStatus.OK)
   public login(@Body() loginDto: AuthEmailLoginDto): Promise<LoginResponseDto> {
     return this.service.validateLogin(loginDto);
@@ -48,63 +49,78 @@ export class AuthController {
   @Post('email/register')
   @HttpCode(HttpStatus.NO_CONTENT)
   async register(@Body() createUserDto: AuthRegisterLoginDto): Promise<void> {
+    // теперь userDto должен содержать roleId (роль)
     return this.service.register(createUserDto);
   }
 
+  // ---------------------- примеры ролевого доступа ----------------------
+
+  // Только служба строительного контроля (заказчик) может создавать объект
+  @ApiBearerAuth()
+  @Post('create-object')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(RoleEnum.CUSTOMER)
+  public async createObject(@Request() req) {
+    return { message: 'Объект создан заказчиком', user: req.user };
+  }
+
+  // Только прораб может добавлять материалы
+  @ApiBearerAuth()
+  @Post('add-material')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(RoleEnum.CONTRACTOR)
+  public async addMaterial(@Request() req) {
+    return { message: 'Материалы добавлены прорабом', user: req.user };
+  }
+
+  // Только инспектор может инициировать проверку
+  @ApiBearerAuth()
+  @Post('inspection')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(RoleEnum.INSPECTOR)
+  public async inspection(@Request() req) {
+    return { message: 'Инспектор инициировал проверку', user: req.user };
+  }
+
+  // ---------------------- стандартные методы ----------------------
+
   @Post('email/confirm')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmEmail(
-    @Body() confirmEmailDto: AuthConfirmEmailDto,
-  ): Promise<void> {
+  async confirmEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {
     return this.service.confirmEmail(confirmEmailDto.hash);
   }
 
   @Post('email/confirm/new')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async confirmNewEmail(
-    @Body() confirmEmailDto: AuthConfirmEmailDto,
-  ): Promise<void> {
+  async confirmNewEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {
     return this.service.confirmNewEmail(confirmEmailDto.hash);
   }
 
   @Post('forgot/password')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async forgotPassword(
-    @Body() forgotPasswordDto: AuthForgotPasswordDto,
-  ): Promise<void> {
+  async forgotPassword(@Body() forgotPasswordDto: AuthForgotPasswordDto): Promise<void> {
     return this.service.forgotPassword(forgotPasswordDto.email);
   }
 
   @Post('reset/password')
   @HttpCode(HttpStatus.NO_CONTENT)
   resetPassword(@Body() resetPasswordDto: AuthResetPasswordDto): Promise<void> {
-    return this.service.resetPassword(
-      resetPasswordDto.hash,
-      resetPasswordDto.password,
-    );
+    return this.service.resetPassword(resetPasswordDto.hash, resetPasswordDto.password);
   }
 
   @ApiBearerAuth()
-  @SerializeOptions({
-    groups: ['me'],
-  })
+  @SerializeOptions({ groups: ['me'] })
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
-  @ApiOkResponse({
-    type: User,
-  })
+  @ApiOkResponse({ type: User })
   @HttpCode(HttpStatus.OK)
   public me(@Request() request): Promise<NullableType<User>> {
     return this.service.me(request.user);
   }
 
   @ApiBearerAuth()
-  @ApiOkResponse({
-    type: RefreshResponseDto,
-  })
-  @SerializeOptions({
-    groups: ['me'],
-  })
+  @ApiOkResponse({ type: RefreshResponseDto })
+  @SerializeOptions({ groups: ['me'] })
   @Post('refresh')
   @UseGuards(AuthGuard('jwt-refresh'))
   @HttpCode(HttpStatus.OK)
@@ -120,25 +136,16 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.NO_CONTENT)
   public async logout(@Request() request): Promise<void> {
-    await this.service.logout({
-      sessionId: request.user.sessionId,
-    });
+    await this.service.logout({ sessionId: request.user.sessionId });
   }
 
   @ApiBearerAuth()
-  @SerializeOptions({
-    groups: ['me'],
-  })
+  @SerializeOptions({ groups: ['me'] })
   @Patch('me')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({
-    type: User,
-  })
-  public update(
-    @Request() request,
-    @Body() userDto: AuthUpdateDto,
-  ): Promise<NullableType<User>> {
+  @ApiOkResponse({ type: User })
+  public update(@Request() request, @Body() userDto: AuthUpdateDto): Promise<NullableType<User>> {
     return this.service.update(request.user, userDto);
   }
 

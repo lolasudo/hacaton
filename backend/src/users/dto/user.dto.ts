@@ -3,9 +3,10 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UserDto {
   @ApiProperty({
-    type: String,
-    example: 'userId',
+    type: Number,
+    example: 1,
+    description: 'ID пользователя'
   })
   @IsNotEmpty()
-  id: string | number;
+  id: number; // Меняем string на number для consistency
 }

@@ -27,9 +27,6 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    // Do not remove comment below.
-    // <creating-property />
-
     let password: string | undefined = undefined;
 
     if (createUserDto.password) {
@@ -114,10 +111,10 @@ export class UsersService {
     }
 
     return this.usersRepository.create({
-      // Do not remove comment below.
-      // <creating-property-payload />
       firstName: createUserDto.firstName,
       lastName: createUserDto.lastName,
+      // ✅ ДОБАВЛЯЕМ phone
+      phone: createUserDto.phone,
       email: email,
       password: password,
       photo: photo,
@@ -173,9 +170,6 @@ export class UsersService {
     id: User['id'],
     updateUserDto: UpdateUserDto,
   ): Promise<User | null> {
-    // Do not remove comment below.
-    // <updating-property />
-
     let password: string | undefined = undefined;
 
     if (updateUserDto.password) {
@@ -268,10 +262,10 @@ export class UsersService {
     }
 
     return this.usersRepository.update(id, {
-      // Do not remove comment below.
-      // <updating-property-payload />
       firstName: updateUserDto.firstName,
       lastName: updateUserDto.lastName,
+      // ✅ ДОБАВЛЯЕМ phone
+      phone: updateUserDto.phone,
       email,
       password,
       photo,

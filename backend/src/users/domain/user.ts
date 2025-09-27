@@ -55,6 +55,12 @@ export class User {
   lastName: string | null;
 
   @ApiProperty({
+    type: String,
+    example: '+7 (999) 123-45-67',
+  })
+  phone: string | null;
+
+  @ApiProperty({
     type: () => FileType,
   })
   photo?: FileType | null;
