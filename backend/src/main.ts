@@ -12,6 +12,14 @@ import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
+import { mkdirSync, existsSync } from 'fs'; // ← ДОБАВИТЬ
+import { join } from 'path'; // ← ДОБАВИТЬ
+
+// Создаем папку для загрузок TTN ← ДОБАВИТЬ ЭТОТ БЛОК
+const uploadsPath = join(process.cwd(), 'uploads', 'ttn');
+if (!existsSync(uploadsPath)) {
+  mkdirSync(uploadsPath, { recursive: true });
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });

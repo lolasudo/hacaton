@@ -10,11 +10,19 @@ export class RolesGuard implements CanActivate {
       'roles',
       [context.getClass(), context.getHandler()],
     );
-    if (!roles.length) {
+    
+    // ИСПРАВЛЕНИЕ: Добавьте проверку на undefined/null
+    if (!roles || !roles.length) {
       return true;
     }
+    
     const request = context.switchToHttp().getRequest();
 
-    return roles.map(String).includes(String(request.user?.role?.id));
+    // Дополнительная проверка на существование пользователя и роли
+    if (!request.user || !request.user.role) {
+      return false;
+    }
+
+    return roles.map(String).includes(String(request.user.role.id));
   }
 }
