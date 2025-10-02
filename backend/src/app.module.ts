@@ -29,6 +29,7 @@ import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
 import { ConstructionObjectsModule } from './construction-objects/construction-objects.module'; // ✅ ДОБАВИТЬ
 import { WorkSchedulesModule } from './work-schedules/work-schedules.module';
+import { DefectsModule } from './defects/defects.module';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -95,7 +96,8 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailerModule,
     HomeModule,
     ConstructionObjectsModule,
-    WorkSchedulesModule, // ✅ ДОБАВИТЬ ЭТУ СТРОЧКУ
+    WorkSchedulesModule,
+     DefectsModule,
   ],
 })
 export class AppModule {}

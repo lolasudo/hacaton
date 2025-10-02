@@ -3,7 +3,7 @@ import { ConstructionObjectEntity } from '../entities/construction-object.entity
 
 export class ConstructionObjectMapper {
   static toDomain(raw: ConstructionObjectEntity): ConstructionObject {
-    const domain = new ConstructionObject();
+    const domain = new ConstructionObject({});
     domain.id = raw.id;
     domain.name = raw.name;
     domain.address = raw.address;

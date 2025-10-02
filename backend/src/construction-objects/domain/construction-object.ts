@@ -11,4 +11,11 @@ export class ConstructionObject {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
+
+  // defects?: Defect[]; // Замечания службы контроля
+  // violations?: Violation[]; // Нарушения контрольных органов
+
+  constructor(partial: Partial<ConstructionObject>) {
+    Object.assign(this, partial);
+  }
 }
