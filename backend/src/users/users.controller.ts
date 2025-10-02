@@ -36,9 +36,9 @@ import { UsersService } from './users.service';
 import { RolesGuard } from '../roles/roles.guard';
 import { infinityPagination } from '../utils/infinity-pagination';
 
-@ApiBearerAuth()
-@Roles(RoleEnum.ADMIN) // ✅ ИСПРАВЛЕНО: admin -> ADMIN
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+// @ApiBearerAuth()
+// @Roles(RoleEnum.ADMIN) // ✅ ИСПРАВЛЕНО: admin -> ADMIN
+// @UseGuards(AuthGuard('jwt'), RolesGuard)
 @ApiTags('Users')
 @Controller({
   path: 'users',

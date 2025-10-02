@@ -7,25 +7,30 @@ import { CreateTTNDto } from '../dto/create-ttn.dto';
 import { UpdateTTNDto } from '../dto/update-ttn.dto';
 import { UpdateTTNStatusDto } from '../dto/update-ttn-status.dto';
 import { NullableType } from '../../utils/types/nullable.type';
-import { TTNRecognitionResult } from '../infrastructure/ocr/local-ocr.service';
 import { TTNStatus } from '../domain/ttn-status.enum';
+import { TTNItem } from '../domain/ttn-item';
 
-interface ExtendedTTNRecognitionResult extends TTNRecognitionResult {
+// Интерфейс для OCR результата (совместимый с YandexVisionOCRService)
+interface IOCRResult {
+  invoiceNumber: string;
+  invoiceDate: Date;
+  supplier: string;
+  carrier?: string;
+  vehicleNumber?: string;
+  driverName?: string;
   items: Array<{
     materialName: string;
     quantity: number;
     unit: string;
     price?: number;
     totalAmount?: number;
-    batchNumber?: string;
-    qualityDocuments?: string[];
-    matchedMaterialId?: number;
-    matchConfidence?: number;
   }>;
+  rawText: string;
+  confidence: number;
 }
 
 interface IOCRService {
-  recognizeTTN(imageBuffer: Buffer): Promise<ExtendedTTNRecognitionResult>;
+  recognizeTTN(imageBuffer: Buffer): Promise<IOCRResult>;
 }
 
 @Injectable()
@@ -38,51 +43,124 @@ export class TTNService {
     private readonly ttnFileService: TTNFileService,
   ) {}
 
+  // 🔴 ДОБАВЛЯЕМ НОВЫЙ МЕТОД processTTNWithOCR
+  async processTTNWithOCR(
+    file: Express.Multer.File,
+    createTTNDto: CreateTTNDto,
+    contractorId: number,
+    recognitionResult: IOCRResult,
+  ): Promise<TTN> {
+    try {
+      const photoPath = await this.ttnFileService.saveTTNPhoto(file);
+      
+      console.log('🔍 Processing TTN with OCR result:', {
+        invoiceNumber: recognitionResult.invoiceNumber,
+        supplier: recognitionResult.supplier,
+        itemsCount: recognitionResult.items?.length || 0,
+      });
+
+      const ttn = new TTN();
+      ttn.invoiceNumber = recognitionResult.invoiceNumber || 'НЕ РАСПОЗНАНО';
+      ttn.invoiceDate = recognitionResult.invoiceDate || new Date();
+      ttn.supplier = recognitionResult.supplier || 'НЕ РАСПОЗНАНО';
+      ttn.carrier = recognitionResult.carrier;
+      ttn.vehicleNumber = recognitionResult.vehicleNumber;
+      ttn.driverName = recognitionResult.driverName;
+      
+      // Преобразуем строку в число
+      ttn.constructionObjectId = parseInt(createTTNDto.constructionObjectId, 10);
+      
+      ttn.contractorId = contractorId;
+      ttn.status = TTNStatus.UPLOADED;
+      ttn.photoPath = photoPath;
+      ttn.recognizedData = recognitionResult;
+      ttn.createdAt = new Date();
+      ttn.updatedAt = new Date();
+
+      // Создаем TTNItem
+      ttn.items = (recognitionResult.items || []).map((item, index) => {
+        const ttnItem = new TTNItem();
+        ttnItem.materialName = item.materialName || 'Неизвестный материал';
+        ttnItem.quantity = item.quantity || 0;
+        ttnItem.unit = item.unit || 'шт.';
+        ttnItem.price = item.price;
+        ttnItem.totalAmount = item.totalAmount;
+        ttnItem.createdAt = new Date();
+        ttnItem.updatedAt = new Date();
+        return ttnItem;
+      });
+
+      console.log('🔍 Creating TTN with items:', ttn.items.length);
+      
+      const savedTTN = await this.ttnRepository.create(ttn);
+      console.log('✅ TTN successfully created with ID:', savedTTN.id);
+      
+      return savedTTN;
+
+    } catch (error) {
+      console.error('❌ Error in processTTNWithOCR:', error);
+      throw error;
+    }
+  }
+
+  // 🔴 ОБНОВЛЯЕМ СУЩЕСТВУЮЩИЙ МЕТОД processTTN
   async processTTN(
     file: Express.Multer.File,
     createTTNDto: CreateTTNDto,
     contractorId: number,
   ): Promise<TTN> {
-    const photoPath = await this.ttnFileService.saveTTNPhoto(file);
-    const recognitionResult = await this.ocrService.recognizeTTN(file.buffer);
+    try {
+      const photoPath = await this.ttnFileService.saveTTNPhoto(file);
+      
+      console.log('🔍 Starting OCR recognition in processTTN...');
+      
+      const recognitionResult = await this.ocrService.recognizeTTN(file.buffer);
 
-    // 🔴 ДОБАВЛЯЕМ ЛОГИРОВАНИЕ ДЛЯ ДИАГНОСТИКИ
-    console.log('🔍 OCR Recognition Result:', recognitionResult);
-    console.log('🔍 OCR Items:', recognitionResult.items);
+      console.log('🔍 OCR Recognition Result:', {
+        invoiceNumber: recognitionResult.invoiceNumber,
+        supplier: recognitionResult.supplier,
+        itemsCount: recognitionResult.items?.length || 0,
+      });
 
-    const ttn = new TTN();
-    ttn.invoiceNumber = recognitionResult.invoiceNumber;
-    ttn.invoiceDate = recognitionResult.invoiceDate;
-    ttn.supplier = recognitionResult.supplier;
-    
-    // Преобразуем строку в число
-    ttn.constructionObjectId = parseInt(createTTNDto.constructionObjectId, 10);
-    
-    ttn.contractorId = contractorId;
-    ttn.status = TTNStatus.UPLOADED;
-    ttn.photoPath = photoPath;
-    ttn.recognizedData = recognitionResult;
-    ttn.createdAt = new Date();
-    ttn.updatedAt = new Date();
+      const ttn = new TTN();
+      ttn.invoiceNumber = recognitionResult.invoiceNumber || 'НЕ РАСПОЗНАНО';
+      ttn.invoiceDate = recognitionResult.invoiceDate || new Date();
+      ttn.supplier = recognitionResult.supplier || 'НЕ РАСПОЗНАНО';
+      ttn.carrier = recognitionResult.carrier;
+      ttn.vehicleNumber = recognitionResult.vehicleNumber;
+      ttn.driverName = recognitionResult.driverName;
+      
+      ttn.constructionObjectId = parseInt(createTTNDto.constructionObjectId, 10);
+      ttn.contractorId = contractorId;
+      ttn.status = TTNStatus.UPLOADED;
+      ttn.photoPath = photoPath;
+      ttn.recognizedData = recognitionResult;
+      ttn.createdAt = new Date();
+      ttn.updatedAt = new Date();
 
-    // 🔴 ИСПРАВЛЕНИЕ: Защита от undefined items
-    ttn.items = (recognitionResult.items || []).map((item, index) => ({
-      id: index + 1,
-      ttnId: 0,
-      materialName: item.materialName || 'Неизвестный материал',
-      quantity: item.quantity || 0,
-      unit: item.unit || 'шт.',
-      price: item.price,
-      totalAmount: item.totalAmount,
-      batchNumber: item.batchNumber,
-      qualityDocuments: item.qualityDocuments || [],
-      matchedMaterialId: item.matchedMaterialId,
-      matchConfidence: item.matchConfidence,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }));
+      ttn.items = (recognitionResult.items || []).map((item, index) => {
+        const ttnItem = new TTNItem();
+        ttnItem.materialName = item.materialName || 'Неизвестный материал';
+        ttnItem.quantity = item.quantity || 0;
+        ttnItem.unit = item.unit || 'шт.';
+        ttnItem.price = item.price;
+        ttnItem.totalAmount = item.totalAmount;
+        ttnItem.createdAt = new Date();
+        ttnItem.updatedAt = new Date();
+        return ttnItem;
+      });
 
-    return this.ttnRepository.create(ttn);
+      console.log('🔍 Creating TTN with items:', ttn.items.length);
+      
+      const savedTTN = await this.ttnRepository.create(ttn);
+      console.log('✅ TTN successfully created with ID:', savedTTN.id);
+      
+      return savedTTN;
+
+    } catch (error) {
+      console.error('❌ Error in processTTN:', error);
+      throw error;
+    }
   }
 
   // Найти ТТН по ID

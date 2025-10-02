@@ -16,6 +16,7 @@ import {
   Query,
   ParseIntPipe,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
@@ -25,13 +26,13 @@ import { Roles } from '../../roles/roles.decorator';
 import { RoleEnum } from '../../roles/roles.enum';
 import { TTNService } from '../services/ttn.service';
 import { CreateTTNDto } from '../dto/create-ttn.dto';
-import { UpdateTTNDto } from '../dto/update-ttn.dto'; // Для обновления данных
-import { UpdateTTNStatusDto } from '../dto/update-ttn-status.dto'; // Для обновления статуса
+import { UpdateTTNDto } from '../dto/update-ttn.dto';
+import { UpdateTTNStatusDto } from '../dto/update-ttn-status.dto';
 import { GetTTNListDto } from '../dto/get-ttn-list.dto';
 import { TTN } from '../domain/ttn';
+import { YandexVisionOCRService } from '../infrastructure/ocr/yandex-ocr.service';
 
-// 🔴 ИСПРАВЛЯЕМ РОЛИ - используем существующие в вашем RoleEnum
-const CONTROL_ROLES = [RoleEnum.ADMIN]; // Временно только ADMIN
+const CONTROL_ROLES = [RoleEnum.ADMIN];
 const CONTRACTOR_ROLES = [RoleEnum.CONTRACTOR, RoleEnum.ADMIN];
 
 @ApiBearerAuth()
@@ -42,7 +43,10 @@ const CONTRACTOR_ROLES = [RoleEnum.CONTRACTOR, RoleEnum.ADMIN];
   version: '1',
 })
 export class TTNController {
-  constructor(private readonly ttnService: TTNService) {}
+  constructor(
+    private readonly ttnService: TTNService,
+    private readonly ocrService: YandexVisionOCRService,
+  ) {}
 
   @Post('upload')
   @Roles(RoleEnum.CONTRACTOR)
@@ -55,7 +59,54 @@ export class TTNController {
     @Body() createTTNDto: CreateTTNDto,
     @Request() req,
   ): Promise<TTN> {
-    return this.ttnService.processTTN(file, createTTNDto, req.user.id);
+    try {
+      // Проверяем, что файл загружен
+      if (!file) {
+        throw new BadRequestException('Файл не загружен');
+      }
+
+      // Проверяем тип файла
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException('Недопустимый тип файла. Разрешены только JPEG, PNG');
+      }
+
+      // Проверяем размер файла (макс. 10 МБ)
+      const maxSize = 10 * 1024 * 1024; // 10 МБ
+      if (file.size > maxSize) {
+        throw new BadRequestException('Размер файла не должен превышать 10 МБ');
+      }
+
+      console.log('🔍 Starting OCR recognition...');
+      
+      // Используем OCR для распознавания ТТН
+      const recognitionResult = await this.ocrService.recognizeTTN(file.buffer);
+
+      console.log('✅ OCR completed:', {
+        invoiceNumber: recognitionResult.invoiceNumber,
+        supplier: recognitionResult.supplier,
+        itemsCount: recognitionResult.items?.length || 0
+      });
+
+      // 🔴 ИСПРАВЛЕНИЕ: Передаем только createTTNDto и recognitionResult
+      return await this.ttnService.processTTNWithOCR(
+        file, 
+        createTTNDto, // Передаем оригинальный DTO
+        req.user.id, 
+        recognitionResult // Передаем результат OCR
+      );
+
+    } catch (error) {
+      console.error('❌ OCR Error:', error);
+      
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      
+      // Если OCR не сработал, создаем ТТН только с данными из DTO (без OCR)
+      console.log('🔄 Fallback to standard processTTN method (without OCR)');
+      return await this.ttnService.processTTN(file, createTTNDto, req.user.id);
+    }
   }
 
   @Get()
