@@ -12,7 +12,7 @@ export class ConstructionObjectsService {
     private readonly constructionObjectsRepository: ConstructionObjectRepository,
   ) {}
   async create(createDto: CreateObjectDto, customerId: number): Promise<ConstructionObject> {
-    const object = new ConstructionObject();
+    const object = new ConstructionObject({});
     object.name = createDto.name;
     object.address = createDto.address;
     object.polygon = createDto.polygon;

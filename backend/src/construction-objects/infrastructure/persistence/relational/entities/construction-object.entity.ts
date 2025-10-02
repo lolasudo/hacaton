@@ -7,6 +7,7 @@ import {
   DeleteDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserEntity } from '../../../../../users/infrastructure/persistence/relational/entities/user.entity';
 
@@ -59,4 +60,11 @@ export class ConstructionObjectEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: Date;
+
+ 
+  // @OneToMany(() => Defect, defect => defect.object)
+  // defects: Defect[];
+
+  // @OneToMany(() => Violation, violation => violation.object)
+  // violations: Violation[];
 }
