@@ -28,6 +28,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
 import { ConstructionObjectsModule } from './construction-objects/construction-objects.module'; // ✅ ДОБАВИТЬ
+import { WorkSchedulesModule } from './work-schedules/work-schedules.module';
 
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
@@ -93,7 +94,8 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailModule,
     MailerModule,
     HomeModule,
-    ConstructionObjectsModule, // ✅ ДОБАВИТЬ ЭТУ СТРОЧКУ
+    ConstructionObjectsModule,
+    WorkSchedulesModule, // ✅ ДОБАВИТЬ ЭТУ СТРОЧКУ
   ],
 })
 export class AppModule {}
