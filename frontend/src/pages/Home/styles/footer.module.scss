@@ -1,0 +1,150 @@
+@use '../../../styles/globals' as g;
+
+.footer {
+  width: 100%;
+  background-color: #D3DCE7;
+  color: #1A202C;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  padding: 80px 60px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .footerTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 60px;
+  }
+
+  .footerLogo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 300px;
+
+    .logoWrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .logoIcon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .logoText {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 150%;
+        letter-spacing: -0.03em;
+      }
+    }
+
+    .logoDesc {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 150%;
+      letter-spacing: -0.02em;
+    }
+
+    .socials {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+
+      .socialIcon {
+        width: 33.6px;
+        height: 33.6px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        box-shadow: 0px 13px 18px rgba(178, 183, 218, 0.08);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.3s;
+
+        &:hover {
+          background-color: #50565f;
+        }
+
+        svg {
+          width: 18px;
+          height: 18px;
+          fill: rgb(0, 0, 0);
+        }
+      }
+    }
+  }
+
+  .footerColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 150px;
+
+    .columnTitle {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 150%;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .columnLink {
+      text-decoration: none;
+      color: #1A202C;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 150%;
+      letter-spacing: -0.02em;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footerLine {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(174, 174, 174, 0.16);
+  }
+
+  .footerCopyright {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+
+  /* ==== адаптив ==== */
+  @media (max-width: 1024px) {
+    padding: 60px 40px;
+    .footerTop {
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+    .footerTop {
+      flex-direction: column;
+      gap: 30px;
+    }
+    .footerLogo {
+      align-items: center;
+      text-align: center;
+
+      .socials {
+        justify-content: center;
+      }
+    }
+    .footerCopyright {
+      text-align: center;
+    }
+  }
+}

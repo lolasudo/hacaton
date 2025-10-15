@@ -1,0 +1,248 @@
+html, body, #root {
+  overflow-x: hidden; // 🔹 запрещаем горизонтальный скролл всему сайту
+}
+/* === БАННЕР === */
+.banner {
+  position: relative;
+  width: 100%;
+  height: 733px;
+  top: 100px;
+  left: 0;
+  background: #CED7E4;
+  overflow-x: hidden; // 🔹 запрещаем горизонтальный скролл
+  overflow-y: hidden; // 🔹 при желании можно скрыть вертикальный скролл
+}
+ 
+/* === БАННЕР === */
+// .banner {
+//   position: relative;
+//   width: 100%;
+//   min-height: 733px;        /* минимальная высота */
+//   background-color: #CED7E4;
+//   background-size: cover;    /* растягиваем фон */
+//   background-position: center;
+//   background-attachment: fixed; /* фиксируем фон при скролле */
+//   padding: 90px 0px;       /* внутренние отступы сверху/снизу и по бокам */
+//   box-sizing: border-box;
+//   overflow: hidden;
+//   display: flex;
+//   justify-content: center;   /* центрируем основной контейнер */
+//   align-items: flex-start;   /* текст сверху */
+// }
+
+/* === Основной контейнер === */
+/* Основной контейнер */
+.bannerContainer {
+  max-width: 100%; // 🔹 не превышаем ширину экрана
+  box-sizing: border-box; // 🔹 учитываем паддинги в ширину
+}
+
+/* === Текстовый блок === */
+.textContainer {
+    max-width: 100%; // 🔹 чтобы текст не вылезал
+  position: absolute;
+  top: 194px;
+  left: clamp(60px, 4vw, 180px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.8s ease, left 0.6s ease;
+  will-change: transform;
+}
+
+/* === Анимация плавного сдвига текста для разных экранов === */
+@media (min-width: 1280px) {
+  .textContainer {
+    transform: translateX(1vw);
+  }
+}
+
+@media (min-width: 1600px) {
+  .textContainer {
+    transform: translateX(2vw);
+  }
+}
+
+@media (min-width: 1920px) {
+  .textContainer {
+    transform: translateX(3vw);
+    left: 90px; /* ✅ Идеальный баланс под 1920px */
+  }
+}
+
+/* === Подзаголовок === */
+.subtitle {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 121.2%;
+  color: #1A202C;
+  margin-bottom: 47px;
+  width: 351px;
+}
+
+/* === Заголовок === */
+.title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 121.2%;
+  text-transform: uppercase;
+  color: #1A202C;
+  margin-bottom: 54px;
+  width: 575px;
+}
+
+/* === Описание === */
+.description {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 160%;
+  color: #1A202C;
+  opacity: 0.45;
+  margin-bottom: 68px;
+  width: 534px;
+}
+
+/* === КНОПКИ === */
+.buttonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Основная кнопка */
+.primaryButton {
+  width: 150px;
+  height: 44px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1A202C;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  }
+}
+
+/* Вторичная ссылка */
+.secondaryLink {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: rgba(26, 32, 44, 0.46);
+  text-decoration: none;
+}
+
+/* === КАРТИНКА === */
+.imageSection {
+   max-width: 100%; // 🔹 картинка не выходит за пределы экрана
+  position: absolute;
+  top: 79px;
+  right: 0;
+  width: 729px;
+  height: 656px;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+/* === МОБИЛЬНАЯ ВЕРСИЯ === */
+@media (max-width: 767px) {
+  .banner {
+    position: relative;
+    top: 0;
+    height: auto;
+    padding: 60px 0;
+  }
+
+  .bannerContainer {
+    flex-direction: column;
+  }
+
+  .textContainer {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 30px;
+    transform: none; /* 🔹 отключаем сдвиг на телефонах */
+  }
+
+  .subtitle,
+  .title,
+  .description {
+    width: 100%;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .primaryButton {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .imageSection {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    order: -1;
+    margin-bottom: 30px;
+  }
+
+  .imagePlaceholder img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+/* === Анимация плавного появления текста при загрузке === */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.textContainer {
+  animation: fadeSlideIn 1.2s ease-out forwards;
+}

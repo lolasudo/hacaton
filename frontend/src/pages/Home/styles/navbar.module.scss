@@ -1,0 +1,225 @@
+@use '../../../styles/globals' as g;
+@use '../../../styles/mixins' as m;
+
+.navbar {
+  box-sizing: border-box;
+  position: fixed;
+  width: 100%;
+  height: g.$navbar-height;
+  left: 0px;
+  top: 0px;
+  background: g.$color-background;
+  border: 1px solid g.$color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+
+  &::before {
+    content: '';
+    flex: 1;
+    max-width: calc((100% - #{g.$breakpoint-large}) / 2);
+  }
+
+  &::after {
+    content: '';
+    flex: 1;
+    max-width: calc((100% - #{g.$breakpoint-large}) / 2);
+  }
+
+  @include m.mobile {
+    height: g.$navbar-height-mobile;
+  }
+}
+
+.navbarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: g.$breakpoint-large;
+  margin: 0 auto;
+  padding: 0 g.$container-padding-desktop;
+
+  @media (max-width: #{g.$breakpoint-large - 1px}) {
+    max-width: g.$breakpoint-desktop;
+  }
+
+  @media (max-width: #{g.$breakpoint-desktop - 1px}) {
+    max-width: 100%;
+    padding: 0 g.$container-padding-tablet;
+  }
+
+  @include m.mobile {
+    padding: 0 g.$container-padding-mobile;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-sm;
+  flex-shrink: 0;
+}
+
+.houseIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: g.$icon-size-large;
+    height: g.$icon-size-large;
+    object-fit: contain;
+    transition: transform g.$transition-fast;
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+
+  @include m.large {
+    img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @include m.mobile {
+    img {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+.logoText {
+  @include m.typography(xl, semibold);
+  color: g.$color-text-dark;
+  white-space: nowrap;
+
+  @include m.large {
+    font-size: g.$font-size-2xl;
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-lg;
+  }
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-xl;
+  height: g.$button-height;
+  flex-shrink: 0;
+
+  @include m.large {
+    gap: g.$spacing-2xl;
+    height: 44px;
+  }
+
+  @include m.mobile {
+    gap: g.$spacing-md;
+  }
+}
+
+.mosLink {
+  @include m.typography(base, medium);
+  color: g.$color-primary;
+  opacity: 0.9;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity g.$transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-sm;
+  }
+}
+
+.registerLink {
+  @include m.typography(base, medium);
+  color: g.$color-primary;
+  opacity: 0.75;
+  text-decoration: underline;
+  white-space: nowrap;
+  transition: opacity g.$transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-sm;
+  }
+}
+
+.divider {
+  width: 1px;
+  height: 21px;
+  background: g.$color-primary;
+  opacity: 0.8;
+  flex-shrink: 0;
+
+  @include m.large {
+    height: 24px;
+  }
+
+  @include m.mobile {
+    display: none;
+  }
+}
+
+.loginBtn {
+  width: 100px;
+  height: 40px;
+  background: g.$color-primary;
+  border-radius: g.$border-radius-sm;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all g.$transition-fast;
+
+  @include m.typography(base, medium);
+  color: g.$color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: g.$color-primary-dark;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @include m.large {
+    width: 120px;
+    height: 44px;
+    font-size: g.$font-size-lg;
+  }
+
+  @include m.mobile {
+    width: 90px;
+    height: 36px;
+    font-size: g.$font-size-sm;
+  }
+}

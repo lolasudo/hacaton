@@ -1,0 +1,67 @@
+/* globals.scss */
+$color-primary: #486284;
+$color-primary-dark: #3a5170;
+$color-background: #CED7E4;
+$color-text-dark: #1A202C;
+$color-white: #FFFFFF;
+
+$font-family: 'Plus Jakarta Sans', sans-serif;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-2xl: 24px;
+
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+
+$spacing-xs: 8px;
+$spacing-sm: 12px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 40px;
+
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1440px;
+$breakpoint-large: 1800px;
+
+$navbar-height: 100px;
+$navbar-height-mobile: 80px;
+$button-height: 38px;
+$button-height-large: 44px;
+$icon-size: 24px;
+$icon-size-large: 32px;
+
+$border-radius-sm: 4px;
+$border-radius-md: 6px;
+$border-width: 1px;
+
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $color-background;
+  font-family: $font-family;
+  color: $color-text-dark;
+}
+/* ===== CONTAINER PADDING ===== */
+$container-padding-mobile: 20px;
+$container-padding-tablet: 5%;
+$container-padding-desktop: 117px;
+$container-padding-large: 240px;
+/* ===== LETTER SPACING ===== */
+$letter-spacing-tight: -0.01em;
+$letter-spacing-normal: 0em;
+$letter-spacing-wide: 0.02em;
