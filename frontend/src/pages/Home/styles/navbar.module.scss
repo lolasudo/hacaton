@@ -2,30 +2,17 @@
 @use '../../../styles/mixins' as m;
 
 .navbar {
-  box-sizing: border-box;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: g.$navbar-height;
-  left: 0px;
-  top: 0px;
-  background: g.$color-background;
-  border: 1px solid g.$color-primary;
+  background-color: g.$color-background;
+  border-bottom: 1px solid g.$color-primary;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   z-index: 1000;
-
-  &::before {
-    content: '';
-    flex: 1;
-    max-width: calc((100% - #{g.$breakpoint-large}) / 2);
-  }
-
-  &::after {
-    content: '';
-    flex: 1;
-    max-width: calc((100% - #{g.$breakpoint-large}) / 2);
-  }
 
   @include m.mobile {
     height: g.$navbar-height-mobile;
@@ -38,15 +25,11 @@
   justify-content: space-between;
   width: 100%;
   max-width: g.$breakpoint-large;
-  margin: 0 auto;
   padding: 0 g.$container-padding-desktop;
+  margin: 0 auto;
 
-  @media (max-width: #{g.$breakpoint-large - 1px}) {
+  @include m.tablet {
     max-width: g.$breakpoint-desktop;
-  }
-
-  @media (max-width: #{g.$breakpoint-desktop - 1px}) {
-    max-width: 100%;
     padding: 0 g.$container-padding-tablet;
   }
 
@@ -59,7 +42,6 @@
   display: flex;
   align-items: center;
   gap: g.$spacing-sm;
-  flex-shrink: 0;
 }
 
 .houseIcon {
@@ -72,24 +54,20 @@
     height: g.$icon-size-large;
     object-fit: contain;
     transition: transform g.$transition-fast;
-  }
 
-  &:hover img {
-    transform: scale(1.1);
-  }
+    @include m.mobile {
+      width: 28px;
+      height: 28px;
+    }
 
-  @include m.large {
-    img {
+    @include m.large {
       width: 40px;
       height: 40px;
     }
   }
 
-  @include m.mobile {
-    img {
-      width: 28px;
-      height: 28px;
-    }
+  &:hover img {
+    transform: scale(1.1);
   }
 }
 
@@ -98,12 +76,12 @@
   color: g.$color-text-dark;
   white-space: nowrap;
 
-  @include m.large {
-    font-size: g.$font-size-2xl;
-  }
-
   @include m.mobile {
     font-size: g.$font-size-lg;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-2xl;
   }
 }
 
@@ -111,59 +89,41 @@
   display: flex;
   align-items: center;
   gap: g.$spacing-xl;
-  height: g.$button-height;
-  flex-shrink: 0;
-
-  @include m.large {
-    gap: g.$spacing-2xl;
-    height: 44px;
-  }
 
   @include m.mobile {
     gap: g.$spacing-md;
   }
+
+  @include m.large {
+    gap: g.$spacing-2xl;
+  }
 }
 
-.mosLink {
+.mosLink,
+.registerLink {
   @include m.typography(base, medium);
   color: g.$color-primary;
-  opacity: 0.9;
   text-decoration: none;
   white-space: nowrap;
+  opacity: 0.9;
   transition: opacity g.$transition-fast;
 
   &:hover {
     opacity: 1;
   }
 
-  @include m.large {
-    font-size: g.$font-size-lg;
-  }
-
   @include m.mobile {
     font-size: g.$font-size-sm;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
   }
 }
 
 .registerLink {
-  @include m.typography(base, medium);
-  color: g.$color-primary;
   opacity: 0.75;
   text-decoration: underline;
-  white-space: nowrap;
-  transition: opacity g.$transition-fast;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  @include m.large {
-    font-size: g.$font-size-lg;
-  }
-
-  @include m.mobile {
-    font-size: g.$font-size-sm;
-  }
 }
 
 .divider {
@@ -171,39 +131,32 @@
   height: 21px;
   background: g.$color-primary;
   opacity: 0.8;
-  flex-shrink: 0;
-
-  @include m.large {
-    height: 24px;
-  }
 
   @include m.mobile {
     display: none;
   }
+
+  @include m.large {
+    height: 24px;
+  }
 }
 
 .loginBtn {
+  @include m.typography(base, medium);
   width: 100px;
   height: 40px;
-  background: g.$color-primary;
-  border-radius: g.$border-radius-sm;
-  border: none;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all g.$transition-fast;
-
-  @include m.typography(base, medium);
+  background-color: g.$color-primary;
   color: g.$color-white;
+  border: none;
+  border-radius: g.$border-radius-sm;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &:focus {
-    outline: none;
-  }
+  transition: all g.$transition-fast;
 
   &:hover {
-    background: g.$color-primary-dark;
+    background-color: g.$color-primary-dark;
     transform: scale(1.05);
   }
 
@@ -211,15 +164,19 @@
     transform: scale(0.98);
   }
 
-  @include m.large {
-    width: 120px;
-    height: 44px;
-    font-size: g.$font-size-lg;
+  &:focus {
+    outline: none;
   }
 
   @include m.mobile {
     width: 90px;
     height: 36px;
     font-size: g.$font-size-sm;
+  }
+
+  @include m.large {
+    width: 120px;
+    height: 44px;
+    font-size: g.$font-size-lg;
   }
 }
