@@ -1,5 +1,5 @@
-@use '../../../styles/globals' as g;
-@use '../../../styles/mixins' as m;
+@use '../../../styles/globals.scss' as g;
+@use '../../../styles/mixins.scss' as m;
 
 .navbar {
   position: fixed;
@@ -100,7 +100,7 @@
 }
 
 .mosLink,
-.registerLink {
+.profileLink {
   @include m.typography(base, medium);
   color: g.$color-primary;
   text-decoration: none;
@@ -122,8 +122,27 @@
 }
 
 .registerLink {
+  @include m.typography(base, medium);
+  color: g.$color-primary;
+  background: none;
+  border: none;
   opacity: 0.75;
   text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity g.$transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-sm;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
+  }
 }
 
 .divider {

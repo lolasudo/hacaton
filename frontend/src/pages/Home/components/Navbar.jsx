@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import styles from '../styles/navbar.module.scss';
-import HomeIcon from '../../../assets/icons/gridicons_house.svg';
-import RegisterModal from '../../../components/Profile/RegisterModal';
-import LoginModal from '../../../components/Profile/LoginModal';
+import styles from "../styles/navbar.module.scss";
+import RegisterModal from "../../../components/Profile/RegisterModal";
+import LoginModal from "../../../components/Profile/LoginModal";
 
 const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
@@ -15,7 +14,7 @@ const Navbar = () => {
           {/* === ЛОГО === */}
           <div className={styles.logo}>
             <div className={styles.houseIcon}>
-              <img src={HomeIcon} alt="Дом" />
+              <span>🏠</span>
             </div>
             <span className={styles.logoText}>СтройКонтроль</span>
           </div>
@@ -23,18 +22,20 @@ const Navbar = () => {
           {/* === ПРАВАЯ ЧАСТЬ === */}
           <div className={styles.navRight}>
             <a href="https://mos.ru" className={styles.mosLink}>Mos.ru</a>
+            
+            {/* Ссылка на личный кабинет */}
+            <a href="/profile" className={styles.profileLink}>
+              Личный кабинет
+            </a>
+            
             <div className={styles.divider}></div>
 
-            <a
-              href="#"
+            <button
               className={styles.registerLink}
-              onClick={(e) => {
-                e.preventDefault();
-                setIsRegisterOpen(true);
-              }}
+              onClick={() => setIsRegisterOpen(true)}
             >
               Register
-            </a>
+            </button>
 
             <button
               className={styles.loginBtn}

@@ -1,0 +1,349 @@
+@use '../../../styles/globals.scss' as *;
+
+.profilePage {
+  display: flex;
+  min-height: 100vh;
+  background: #FAFBFD;
+  padding-top: 100px;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 20px;
+  margin-left: 83px;
+}
+
+.welcomeSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.welcomeText {
+  h1 {
+    font-family: $font-family;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 30px;
+    color: #3E435D;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-family: $font-family;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 20px;
+    color: #ADA7A7;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  width: 300px;
+  border: 1px solid rgba(72, 98, 132, 0.1);
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ADA7A7;
+  width: 100%;
+
+  &::placeholder {
+    color: #ADA7A7;
+  }
+}
+
+.notificationButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}
+
+.profileCard {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 30px;
+  margin: 0 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #CED7E4;
+}
+
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #CED7E4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarPlaceholder {
+  font-family: $font-family;
+  font-weight: 600;
+  font-size: 32px;
+  color: $color-primary;
+}
+
+.userInfo {
+  h2 {
+    font-family: $font-family;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    color: #000000;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-family: $font-family;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    opacity: 0.5;
+  }
+}
+
+.editButton {
+  background: $color-primary;
+  border-radius: 4px;
+  padding: 12px 24px;
+  color: $color-white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.profileForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-family: $font-family;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  opacity: 0.8;
+}
+
+.formInput {
+  background: #FAFBFD;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid rgba(72, 98, 132, 0.1);
+  font-family: $font-family;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  transition: border-color 0.3s ease;
+
+  &::placeholder {
+    color: #000000;
+    opacity: 0.4;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+  }
+}
+
+.selectWrapper {
+  position: relative;
+
+  .formSelect {
+    width: 100%;
+    background: #FAFBFD;
+    border-radius: 8px;
+    padding: 12px 16px;
+    border: 1px solid rgba(72, 98, 132, 0.1);
+    font-family: $font-family;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    appearance: none;
+    cursor: pointer;
+
+    &:focus {
+      border-color: $color-primary;
+      outline: none;
+    }
+  }
+
+  .selectArrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #000000;
+    opacity: 0.5;
+  }
+}
+
+.emailSection {
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    color: #000000;
+    margin-bottom: 20px;
+  }
+}
+
+.emailItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.emailIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: 50%;
+}
+
+.emailInfo {
+  p {
+    font-family: $font-family;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    margin-bottom: 4px;
+  }
+
+  span {
+    font-family: $font-family;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+    opacity: 0.5;
+  }
+}
+
+.addEmailButton {
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: $color-primary;
+  font-family: $font-family;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background: rgba(65, 130, 249, 0.2);
+  }
+}
+
+// Responsive
+@media (max-width: $breakpoint-tablet) {
+  .profileForm {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .welcomeSection {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .searchBox {
+    width: 100%;
+  }
+
+  .profileHeader {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .mainContent {
+    margin-left: 0;
+    padding: 20px 10px;
+  }
+}

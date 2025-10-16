@@ -1,0 +1,59 @@
+@use '../../../styles/globals.scss' as *;
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 100px;
+  width: 83px;
+  height: calc(100vh - 100px);
+  background: rgba(229, 233, 238, 0.46);
+  border-radius: 0px 10px 0px 0px;
+  padding: 48px 10px 10px;
+  z-index: 100;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 57px;
+  height: 100%;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #F0F3F6;
+  border: none;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($color-primary, 0.1);
+    transform: scale(1.05);
+  }
+
+  &.active {
+    background: rgba($color-primary, 0.16);
+    
+    .menuIcon {
+      color: $color-primary;
+    }
+  }
+}
+
+.menuIcon {
+  font-size: 24px;
+}
+
+// Responsive
+@media (max-width: $breakpoint-tablet) {
+  .sidebar {
+    display: none;
+  }
+}
