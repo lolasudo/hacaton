@@ -1,0 +1,67 @@
+.sidebar {
+  width: 70px; // чуть шире в свернутом виде
+  background-color: #f4f6fa;
+  transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  border-right: 1px solid #dfe3ee;
+  display: flex;
+  flex-direction: column;
+
+  &.expanded {
+    width: 240px; // шире при раскрытии
+  }
+
+  .sidebarContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .sidebarItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: #e1e5ee;
+      transform: translateX(3px);
+    }
+
+    .sidebarIcon {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s, color 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .sidebarLabel {
+      margin-left: 15px;
+      white-space: nowrap;
+      font-weight: 500;
+      font-size: 14px;
+      color: #486284;
+      opacity: 0;
+      transform: translateX(-15px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+  }
+
+  &.expanded .sidebarItem .sidebarLabel {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,180 @@
+@use '../../../styles/globals' as g;
+@use '../../../styles/mixins' as m;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #486284;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 28px 64px;
+
+  @include m.mobile {
+    height: 80px;
+    padding: 20px 32px;
+  }
+}
+
+.navbarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: g.$breakpoint-large;
+  padding: 0 g.$container-padding-desktop;
+  margin: 0 auto;
+
+  @include m.tablet {
+    max-width: g.$breakpoint-desktop;
+    padding: 0 g.$container-padding-tablet;
+  }
+
+  @include m.mobile {
+    padding: 0 g.$container-padding-mobile;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-sm;
+  cursor: pointer;
+}
+
+.houseIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: g.$icon-size-large;
+    height: g.$icon-size-large;
+    object-fit: contain;
+    transition: transform g.$transition-fast;
+
+    @include m.mobile {
+      width: 28px;
+      height: 28px;
+    }
+
+    @include m.large {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+}
+
+.logoText {
+  @include m.typography(xl, semibold);
+  color: g.$color-text-dark;
+  white-space: nowrap;
+
+  @include m.mobile {
+    font-size: g.$font-size-lg;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-2xl;
+  }
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-2xl;
+
+  @include m.tablet {
+    gap: g.$spacing-xl;
+  }
+
+  @include m.mobile {
+    gap: g.$spacing-lg;
+  }
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-xl;
+
+  @include m.tablet {
+    gap: g.$spacing-lg;
+  }
+
+  @include m.mobile {
+    gap: g.$spacing-md;
+  }
+}
+
+.navLink {
+  @include m.typography(base, medium);
+  color: g.$color-primary;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0.8;
+  transition: all g.$transition-fast;
+  padding: g.$spacing-sm g.$spacing-md;
+  border-radius: g.$border-radius-sm;
+
+  &:hover {
+    opacity: 1;
+    background: rgba(g.$color-primary, 0.05);
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-sm;
+    padding: g.$spacing-xs g.$spacing-sm;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
+  }
+}
+
+.profileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all g.$transition-fast;
+
+  &:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  @include m.mobile {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Убираем лишние стили
+.mosLink,
+.registerLink,
+.divider,
+.loginBtn,
+.iconsContainer,
+.searchIcon,
+.notificationIcon {
+  display: none;
+}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styles from '../styles/navbar.module.scss';
 import HomeIcon from '../../../assets/icons/gridicons_house.svg';
-import RegisterModal from '../../../components/Profile/RegisterModal';
-import LoginModal from '../../../components/Profile/LoginModal';
+import RegisterModal from '../../../auth/AuthModals/RegisterModal';
+import LoginModal from '../../../auth/AuthModals/LoginModal';// или правильный путь
 
 const Navbar = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);

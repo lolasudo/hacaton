@@ -3,7 +3,7 @@ import Navbar from './components/Navbar';
 import Banner from './components/Banner';
 import MainContent from './components/MainContent';
 import styles from './styles/home.module.scss';
-import Footer from './components/Footer';
+
 
 const Home = () => {
   return (
@@ -11,7 +11,6 @@ const Home = () => {
       <Navbar />
       <Banner />
       <MainContent />
-      <Footer />
     </div>
   );
 };
