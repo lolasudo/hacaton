@@ -42,6 +42,8 @@
 }
 
 .logo {
+  text-decoration: none; // убираем подчёркивание
+  color: inherit;        // сохраняем текущий цвет текста
   display: flex;
   align-items: center;
   gap: g.$spacing-sm;
