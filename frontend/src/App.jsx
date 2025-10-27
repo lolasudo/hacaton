@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile/Profile"; // Добавьте /Profile // Добавьте импорт Profile
 import Footer from "./pages/Home/components/Footer"; // Исправьте путь к футеру
 import './styles/globals.scss';
-import ProRabControl from './pages/CONTRACTOR/ProрабControl';
+import ProRabControl from './pages/CONTRACTOR/contractorControl/ContractorControl';
 
 function App() {
   return (
