@@ -6,6 +6,7 @@ import Profile from "./pages/Profile/Profile"; // Добавьте /Profile // �
 import Footer from "./pages/Home/components/Footer"; // Исправьте путь к футеру
 import './styles/globals.scss';
 import ProRabControl from './pages/CONTRACTOR/contractorControl/ContractorControl';
+import ProRabComments from './pages/CONTRACTOR/conractorComments/contractorComments';
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             {/* Добавьте другие маршруты позже */}
-            <Route path="/control" element={<ProRabControl />} /> {/* <-- наш Прораб Контроль */}
+            <Route path="/control" element={<ProRabControl />} />
+             <Route path="/remarks" element={<ProRabComments />} />
           </Routes>
           <Footer />
         </div>

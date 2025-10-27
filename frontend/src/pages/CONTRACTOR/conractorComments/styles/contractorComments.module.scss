@@ -1,11 +1,6 @@
 @use '../../../../styles/globals.scss' as *;
 @use '../../../../styles/mixins.scss' as m;
 
-// Дополнительные переменные
-$color-error: #E74C3C;
-$color-text-light: #666666;
-$color-border-light: #CED7E4;
-
 .page {
   min-height: 100vh;
   padding-top: 100px;
@@ -93,97 +88,254 @@ $color-border-light: #CED7E4;
   }
 }
 
-// Компонентные стили
-.stepContent,
-.materialData,
-.fileUploader,
-.stepActions {
+// Стили для списка замечаний
+.remarksList {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: $spacing-lg;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: $spacing-md;
+  margin-bottom: $spacing-lg;
 
   label {
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     color: $color-text-dark;
-    margin-bottom: $spacing-xs;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+// Стили для выбранного замечания
+.selectedRemarkInfo {
+  background: $color-white;
+  border-radius: 12px;
+  padding: $spacing-xl;
+  margin-top: $spacing-md;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  animation: slideInUp 0.4s ease-out;
+
+  .remarkDetails {
+    h4 {
+      @include m.typography(lg, bold);
+      color: $color-primary-dark;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid rgba($color-primary, 0.2);
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+.remarkMeta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+
+  .metaLabel {
+    @include m.typography(sm, semibold);
+    color: $color-text-dark;
+    min-width: 120px;
+    background: rgba($color-primary, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
   }
 
-  input {
-    padding: 10px 14px;
-    border: 1px solid #CED7E4;
+  span:last-child {
+    @include m.typography(sm, normal);
+    color: $color-text-dark;
+    flex: 1;
+  }
+
+  .deadline {
+    color: #E74C3C;
+    font-weight: $font-weight-semibold;
+    background: rgba(#E74C3C, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .priority {
+    font-weight: $font-weight-semibold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    
+    &.high {
+      color: #E74C3C;
+      background: rgba(#E74C3C, 0.1);
+    }
+    
+    &.medium {
+      color: #F39C12;
+      background: rgba(#F39C12, 0.1);
+    }
+    
+    &.low {
+      color: #27AE60;
+      background: rgba(#27AE60, 0.1);
+    }
+  }
+
+  .author {
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+}
+
+.remarkDescription {
+  background: #f8f9fa;
+  padding: $spacing-lg;
+  border-radius: 8px;
+  margin-bottom: $spacing-lg;
+
+  strong {
+    @include m.typography(sm, semibold);
+    color: $color-primary-dark;
+    display: block;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.requiredActions {
+  background: #f8f9fa;
+  padding: $spacing-lg;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.actionsLabel {
+  @include m.typography(sm, semibold);
+  color: $color-primary-dark;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.actionsList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.actionItem {
+  @include m.typography(sm, normal);
+  color: $color-text-dark;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($color-primary, 0.05);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($color-primary, 0.1);
+  }
+}
+
+// Анимации
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Стили для описания исправления
+.correctionData {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.selectedRemarkInfo {
+  h4 {
+    @include m.typography(base, semibold);
+    color: $color-text-dark;
+    margin-bottom: $spacing-xs;
+  }
+  
+  p {
+    @include m.typography(sm, normal);
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    padding: $spacing-sm $spacing-md;
+    border-radius: 6px;
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-dark;
+    margin-bottom: $spacing-sm;
+  }
+
+  textarea {
+    padding: $spacing-md;
+    border: 2px solid #e9ecef;
     border-radius: $border-radius-md;
     font-size: $font-size-base;
-    transition: $transition-fast;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.5;
 
     &:focus {
       outline: none;
       border-color: $color-primary;
-      box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+      background: #fff;
+    }
+
+    &::placeholder {
+      color: $color-text-light;
     }
   }
 }
 
-.row {
-  display: flex;
-  gap: $spacing-md;
-
-  @include m.tablet {
-    flex-direction: column;
-  }
+.helperText {
+  font-size: $font-size-sm;
+  color: $color-text-light;
+  margin-top: $spacing-xs;
+  font-style: italic;
 }
 
-// TTN Input
-.ttnInput {
-  position: relative;
-
-  .input {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #CED7E4;
-    border-radius: $border-radius-md;
-    font-size: $font-size-base;
-  }
-
-  .suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: $color-white;
-    border: 1px solid #CED7E4;
-    border-radius: $border-radius-md;
-    max-height: 150px;
-    overflow-y: auto;
-    z-index: 10;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .suggestionItem {
-    padding: 8px 12px;
-    cursor: pointer;
-    border-bottom: 1px solid #f0f0f0;
-
-    &:last-child {
-      border-bottom: none;
-    }
-
-    &:hover {
-      background: rgba($color-primary, 0.1);
-    }
-  }
-}
-
-// File Uploader
+// File Uploader стили
 .fileUploader {
   display: flex;
   flex-direction: column;
@@ -210,11 +362,6 @@ $color-border-light: #CED7E4;
     align-items: center;
     justify-content: center;
     gap: $spacing-sm;
-    
-    svg {
-      font-size: 20px;
-      color: $color-primary;
-    }
   }
 
   &:hover {
@@ -283,7 +430,7 @@ $color-border-light: #CED7E4;
       flex-shrink: 0;
       
       &:hover {
-        color: $color-error;
+        color: #E74C3C;
       }
     }
   }
@@ -327,39 +474,23 @@ $color-border-light: #CED7E4;
     padding: 4px;
     
     &:hover {
-      color: $color-error;
+      color: #E74C3C;
       background: $color-white;
     }
   }
 }
 
-.fileItem {
-  display: flex;
-  align-items: center;
-  background: $color-white;
-  padding: 8px 12px;
-  border-radius: $border-radius-sm;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-  gap: 8px;
-
-  .fileIcon {
-    font-size: 18px;
-    color: $color-primary;
-  }
-
-  .deleteIcon {
-    margin-left: auto;
-    color: $color-text-dark;
-    cursor: pointer;
-
-    &:hover {
-      color: $color-error;
-    }
-  }
+.supportedFormats {
+  font-size: $font-size-sm;
+  color: $color-text-light;
+  text-align: center;
+  margin-top: $spacing-md;
+  padding: $spacing-sm;
+  background: rgba($color-primary, 0.05);
+  border-radius: $border-radius-md;
 }
 
-// Step Actions - ОБНОВЛЕННЫЕ СТИЛИ
-// Step Actions - ОБНОВЛЕННЫЕ СТИЛИ
+// Step Actions стили
 .stepActions {
   background: #f8f9fa;
   border: 1px solid #e9ecef;
@@ -405,7 +536,6 @@ $color-border-light: #CED7E4;
   max-width: 100%;
   box-sizing: border-box;
   
-  // Убедитесь, что textarea не выходит за границы
   display: block;
   overflow: auto;
 
@@ -505,45 +635,7 @@ $color-border-light: #CED7E4;
   line-height: 1.4;
 }
 
-// Адаптивность для мобильных устройств
-@include m.mobile {
-  .stepActions {
-    padding: 16px;
-    margin: 16px 0;
-  }
-
-  .actions {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .button {
-    min-width: auto;
-    width: 100%;
-  }
-
-  .textarea {
-    min-height: 60px;
-    font-size: 16px; // Улучшает UX на мобильных
-  }
-}
-
-// Для планшетов
-@include m.tablet {
-  .stepActions {
-    padding: 20px;
-  }
-
-  .actions {
-    justify-content: space-between;
-  }
-
-  .button {
-    min-width: 140px;
-    flex: 1;
-  }
-}
-// React Select
+// React Select стили
 .reactSelect {
   width: 100%;
   margin-bottom: $spacing-md;
@@ -593,39 +685,38 @@ $color-border-light: #CED7E4;
   }
 }
 
-// Вспомогательные тексты
-.helperText,
-.supportedFormats {
-  font-size: $font-size-sm;
-  color: darken($color-text-dark, 30%);
-  margin-top: 4px;
-}
-
-.supportedFormats {
-  text-align: center;
-  margin-top: $spacing-md;
-  padding: $spacing-sm;
-  background: rgba($color-primary, 0.05);
-  border-radius: $border-radius-md;
-}
-
-.datePicker {
-  padding: 10px 14px;
-  border: 1px solid #CED7E4;
-  border-radius: $border-radius-md;
-  width: 100%;
-  font-size: $font-size-base;
-  transition: $transition-fast;
-
-  &:focus {
-    outline: none;
-    border-color: $color-primary;
-    box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
-  }
-}
-
-// Адаптивность для мобильных устройств
+// Адаптивность
 @include m.mobile {
+  .selectedRemarkInfo {
+    padding: $spacing-lg;
+  }
+
+  .remarkMeta {
+    grid-template-columns: 1fr;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  .metaItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-xs;
+
+    .metaLabel {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  .stepWrapper .step {
+    margin-left: 0;
+    margin-top: $spacing-md;
+  }
+
+  .circle {
+    align-self: flex-start;
+  }
+
   .fileList {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: $spacing-sm;
@@ -638,55 +729,44 @@ $color-border-light: #CED7E4;
   
   .dragDrop {
     padding: $spacing-lg;
-    
-    p {
-      font-size: $font-size-sm;
-    }
   }
 
-  // Адаптивность для StepActions
   .stepActions {
     padding: 16px;
+    margin: 16px 0;
   }
 
   .actions {
     flex-direction: column;
+    gap: 8px;
   }
 
   .button {
     min-width: auto;
     width: 100%;
   }
-}
 
-// Анимация появления
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .textarea {
+    min-height: 60px;
+    font-size: 16px;
   }
 }
 
-.filePreview {
-  animation: fadeIn 0.3s ease-out;
-}
+@include m.tablet {
+  .remarkMeta {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-// Стили для нативного select (если используется)
-.select {
-  padding: 10px 14px;
-  border: 1px solid #CED7E4;
-  border-radius: $border-radius-md;
-  font-size: $font-size-base;
-  background: $color-white;
-  transition: $transition-fast;
+  .stepActions {
+    padding: 20px;
+  }
 
-  &:focus {
-    outline: none;
-    border-color: $color-primary;
-    box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
+  .actions {
+    justify-content: space-between;
+  }
+
+  .button {
+    min-width: 140px;
+    flex: 1;
   }
 }
