@@ -1,0 +1,406 @@
+// GanttChart.module.scss
+@import '../../../../styles/globals.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all $transition-normal;
+  border: $border-width solid rgba(72, 98, 132, 0.1);
+
+  &.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    border-radius: 0;
+    border: none;
+  }
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-white;
+  border-bottom: $border-width solid rgba(72, 98, 132, 0.1);
+  padding: $spacing-sm $spacing-lg;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: $spacing-xs $spacing-md;
+    gap: $spacing-sm;
+  }
+}
+
+.toolbarLeft,
+.toolbarCenter,
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  display: flex !important;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0 $spacing-md !important;
+  width: auto !important;
+  background: $color-primary !important;
+  color: $color-white !important;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-sm;
+
+  &:hover {
+    background: $color-primary-dark !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(72, 98, 132, 0.3);
+  }
+}
+
+.taskInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  background: rgba(72, 98, 132, 0.05);
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-primary;
+
+  svg {
+    font-size: $font-size-sm;
+  }
+}
+
+.zoomGroup,
+.viewGroup,
+.historyGroup,
+.exportGroup {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  background: rgba(72, 98, 132, 0.03);
+  border-radius: $border-radius-md;
+  padding: 2px;
+
+  button {
+    min-width: 36px;
+    border-radius: $border-radius-sm;
+    
+    &:hover {
+      background: rgba(72, 98, 132, 0.1);
+    }
+  }
+}
+
+.viewGroup {
+  button {
+    width: auto;
+    padding: 0 $spacing-sm !important;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    transition: all $transition-fast;
+
+    &.active {
+      background: $color-primary !important;
+      color: $color-white !important;
+    }
+  }
+}
+
+.zoomAuto {
+  font-size: $font-size-sm !important;
+}
+
+// Базовые стили кнопок
+.toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: $border-radius-md;
+  background: transparent;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  transition: all $transition-fast;
+  color: $color-text-dark;
+
+  &:hover:not(:disabled) {
+    background: rgba(72, 98, 132, 0.1);
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.fullscreenButton {
+  border: $border-width solid rgba(72, 98, 132, 0.2) !important;
+  
+  &:hover {
+    border-color: $color-primary !important;
+  }
+}
+
+.ganttContainer {
+  flex: 1;
+  min-height: 600px;
+  background: $color-white;
+  overflow: hidden;
+  
+  // Стили для Gantt chart
+  :global {
+    .gantt_task_scale,
+    .gantt_grid_scale,
+    .gantt_grid_data {
+      min-width: fit-content;
+    }
+    
+    .gantt_grid_head_cell {
+      background: lighten($color-primary, 65%);
+      border-right: $border-width solid lighten($color-primary, 60%);
+      font-weight: $font-weight-semibold;
+      color: $color-primary;
+      font-size: $font-size-sm;
+    }
+    
+    .gantt_scale_cell {
+      border-right: $border-width solid lighten($color-primary, 60%);
+      background: lighten($color-primary, 68%);
+      font-weight: $font-weight-medium;
+      color: $color-text-dark;
+    }
+    
+    .gantt_task_row {
+      border-bottom: $border-width solid rgba(72, 98, 132, 0.1);
+    }
+    
+    .gantt_task_cell {
+      border-right: $border-width solid rgba(72, 98, 132, 0.1);
+    }
+    
+    .gantt_task_link {
+      .gantt_line_wrapper {
+        stroke: $color-primary;
+      }
+    }
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: $color-white;
+  padding: $spacing-xl;
+  border-radius: $border-radius-lg;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .modalHeader {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-sm;
+
+    .modalIcon {
+      color: $color-primary;
+      font-size: $font-size-lg;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: $color-text-dark;
+    }
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $color-text-dark;
+  }
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.formInput {
+  padding: $spacing-sm;
+  border: $border-width solid rgba(72, 98, 132, 0.2);
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-family: $font-family;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba(72, 98, 132, 0.1);
+  }
+
+  &::placeholder {
+    color: $color-text-light;
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+
+  button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all $transition-fast;
+    font-family: $font-family;
+  }
+}
+
+.cancelButton {
+  background: rgba(72, 98, 132, 0.05);
+  color: $color-text-dark;
+
+  &:hover {
+    background: rgba(72, 98, 132, 0.1);
+  }
+}
+
+.submitButton {
+  background: $color-primary;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(72, 98, 132, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// Адаптивность
+@media (max-width: $breakpoint-tablet) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-sm;
+  }
+
+  .toolbarLeft,
+  .toolbarCenter,
+  .toolbarRight {
+    justify-content: center;
+  }
+
+  .ganttContainer {
+    min-height: 500px;
+  }
+
+  .modal {
+    margin: $spacing-md;
+    padding: $spacing-lg;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .toolbar {
+    padding: $spacing-xs;
+  }
+
+  .toolbarLeft,
+  .toolbarCenter,
+  .toolbarRight {
+    gap: $spacing-xs;
+  }
+
+  .primaryButton span {
+    display: none;
+  }
+
+  .taskInfo span {
+    display: none;
+  }
+
+  .ganttContainer {
+    min-height: 400px;
+  }
+
+  .modal {
+    padding: $spacing-md;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+}

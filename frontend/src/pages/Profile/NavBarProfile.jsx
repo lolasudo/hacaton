@@ -26,6 +26,7 @@ const Navbar = () => {
             <Link to="/remarks" className={styles.navLink}>Замечания</Link>
             <Link to="/journal" className={styles.navLink}>Журнал</Link>
            <Link to="/control" className={styles.navLink}>Контроль</Link>
+            <Link to="/schedule" className={styles.navLink}>График работ</Link>
 
           </div>
 
