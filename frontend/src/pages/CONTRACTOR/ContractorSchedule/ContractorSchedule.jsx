@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from "../../Profile/NavBarProfile";
+import Navbar from "../../Profile/components/NavBarProfile";
 import GanttPro from '../ContractorSchedule/components/GanttChart';
 import ScheduleActions from '../ContractorSchedule/components/ScheduleActions';
 import UsersTable from './components/UsersTable';

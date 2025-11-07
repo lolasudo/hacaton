@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../../Profile/NavBarProfile";
+import Navbar from "../../Profile/components/NavBarProfile";
 import styles from "./styles/ProrabControl.module.scss";
 import Select from "react-select";
 import { IMaskInput } from "react-imask";

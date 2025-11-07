@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../../Profile/NavBarProfile";
+import Navbar from "../../Profile/components/NavBarProfile";
 import styles from "./styles/ContractorComments.module.scss";
 import Select from "react-select";
 import RemarksList from "./components/RemarksList";
@@ -15,7 +15,7 @@ const ContractorComments = () => {
     selectedRemark: null
   });
 
-  // Моковые данные замечаний
+
   const remarksOptions = [
     {
       value: 1,
