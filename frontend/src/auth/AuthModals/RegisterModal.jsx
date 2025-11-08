@@ -15,7 +15,7 @@ const RegisterModal = ({ isOpen, onClose, onSwitchToLogin }) => {
       return;
     }
     console.log('Регистрация:', { email, password });
-    // тут можно вызвать API / открыть success и т.д.
+    
   };
 
   return (

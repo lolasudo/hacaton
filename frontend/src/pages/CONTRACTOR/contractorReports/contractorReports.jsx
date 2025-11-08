@@ -8,8 +8,6 @@ import {
   FaCalendarAlt,
   FaExclamationTriangle,
   FaCheckCircle,
-  FaCamera,
-  FaUpload,
   FaPaperPlane,
 } from "react-icons/fa";
 import {
@@ -25,11 +23,13 @@ import {
   Legend,
 } from "recharts";
 import "../../Profile/styles/select-styles.scss";
+import PhotoUpload from '../../../components/PhotoUpload/PhotoUpload'; // Добавь этот импорт
 
 const ContractorReports = () => {
   const [selectedPeriod, setSelectedPeriod] = useState({ value: "week", label: "Неделя" });
   const [selectedWorkType, setSelectedWorkType] = useState({ value: "all", label: "Все работы" });
   const [selectedDailyWork, setSelectedDailyWork] = useState(null);
+  const [photoFiles, setPhotoFiles] = useState([]);
 
   const metricsData = {
     overallProgress: 75,
@@ -47,8 +47,8 @@ const ContractorReports = () => {
   ];
 
   const issuesData = [
-    { description: "Неравномерная укладка", deadline: "05.10", overdue: 2, status: "critical" },
-    { description: "Отсутствие ограждения", deadline: "03.10", overdue: 4, status: "critical" },
+    { description: "Неравномерная укладка брусчатки", deadline: "05.10", overdue: 2, status: "critical" },
+    { description: "Отсутствие защитного ограждения", deadline: "03.10", overdue: 4, status: "critical" },
     { description: "Несоответствие паспорту качества", deadline: "07.10", overdue: 0, status: "warning" },
   ];
 
@@ -65,12 +65,12 @@ const ContractorReports = () => {
   ];
 
   const forecastData = [
-    { week: "1 неделя", progress: 45 },
-    { week: "2 неделя", progress: 55 },
-    { week: "3 неделя", progress: 65 },
-    { week: "4 неделя", progress: 75 },
-    { week: "5 неделя", progress: 85 },
-    { week: "6 неделя", progress: 95 },
+    { week: "1 нед", progress: 45 },
+    { week: "2 нед", progress: 55 },
+    { week: "3 нед", progress: 65 },
+    { week: "4 нед", progress: 75 },
+    { week: "5 нед", progress: 85 },
+    { week: "6 нед", progress: 95 },
   ];
 
   const periodOptions = [
@@ -100,10 +100,10 @@ const ContractorReports = () => {
 
         <div className={style.actions}>
           <button className={style.exportButton} onClick={() => handleExport("excel")}>
-            <FaFileExcel /> Excel
+            <FaFileExcel /> Экспорт в Excel
           </button>
           <button className={style.exportButton} onClick={() => handleExport("pdf")}>
-            <FaFilePdf /> PDF
+            <FaFilePdf /> Экспорт в PDF
           </button>
         </div>
       </div>
@@ -168,13 +168,13 @@ const ContractorReports = () => {
             <div className={style.chartContainer}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={progressData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="day" fontSize={12} />
+                  <YAxis fontSize={12} />
                   <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="plan" stroke="#3B82F6" name="План" />
-                  <Line type="monotone" dataKey="fact" stroke="#10B981" name="Факт" />
+                  <Line type="monotone" dataKey="plan" stroke="#3B82F6" name="План" strokeWidth={2} />
+                  <Line type="monotone" dataKey="fact" stroke="#10B981" name="Факт" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -222,21 +222,24 @@ const ContractorReports = () => {
               <FaExclamationTriangle /> Статус замечаний
             </h3>
             <div className={style.statusOverview}>
-              <span className={style.statusCritical}>
-                🔴 Критические: {statusCounts.critical}
-              </span>
-              <span className={style.statusWarning}>
-                🟡 Требуют внимания: {statusCounts.warning}
-              </span>
-              <span className={style.statusResolved}>
-                🟢 Исправлено: {statusCounts.resolved}
-              </span>
+              <div className={style.statusItem}>
+                <span className={style.statusDotCritical}></span>
+                <span>Критические: {statusCounts.critical}</span>
+              </div>
+              <div className={style.statusItem}>
+                <span className={style.statusDotWarning}></span>
+                <span>Требуют внимания: {statusCounts.warning}</span>
+              </div>
+              <div className={style.statusItem}>
+                <span className={style.statusDotResolved}></span>
+                <span>Исправлено: {statusCounts.resolved}</span>
+              </div>
             </div>
             <table className={style.issuesTable}>
               <thead>
                 <tr>
                   <th className={style.tableHeader}>Замечание</th>
-                  <th className={style.tableHeader}>Срок</th>
+                  <th className={style.tableHeader}>Срок исправления</th>
                   <th className={style.tableHeader}>Просрочка</th>
                 </tr>
               </thead>
@@ -245,8 +248,8 @@ const ContractorReports = () => {
                   <tr key={i}>
                     <td className={style.tableCell}>{issue.description}</td>
                     <td className={style.tableCell}>{issue.deadline}</td>
-                    <td className={`${style.tableCell} ${style.statusCritical}`}>
-                      {issue.overdue} дня
+                    <td className={`${style.tableCell} ${issue.status === 'critical' ? style.statusCritical : style.statusWarning}`}>
+                      {issue.overdue > 0 ? `${issue.overdue} дн.` : 'В срок'}
                     </td>
                   </tr>
                 ))}
@@ -262,11 +265,11 @@ const ContractorReports = () => {
             <div className={style.chartContainer}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={forecastData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="week" />
-                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="week" fontSize={12} />
+                  <YAxis fontSize={12} />
                   <Tooltip />
-                  <Bar dataKey="progress" fill="#3B82F6" name="Прогресс (%)" />
+                  <Bar dataKey="progress" fill="#3B82F6" name="Прогресс (%)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -305,14 +308,18 @@ const ContractorReports = () => {
               <textarea
                 className={style.formTextarea}
                 placeholder="Опишите полученные замечания..."
+                rows="3"
               />
             </div>
 
-            <div className={style.photoUpload}>
+            {/* ЗАМЕНЕННЫЙ БЛОК - используем компонент PhotoUpload */}
+            <div className={style.formGroup}>
               <label className={style.formLabel}>Фотоотчет за день</label>
-              <div className={style.uploadButton}>
-                <FaCamera /> <FaUpload style={{ marginLeft: 8 }} /> Загрузить фотографии
-              </div>
+              <PhotoUpload 
+                photos={photoFiles}
+                onPhotosChange={setPhotoFiles}
+                maxPhotos={10}
+              />
             </div>
 
             <button type="submit" className={style.submitButton}>

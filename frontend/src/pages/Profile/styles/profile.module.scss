@@ -7,9 +7,7 @@
   background-color: #ffffff;
 }
 
-/* ==========================
-   MAIN CONTAINER
-========================== */
+
 .profileContainer {
   display: flex;
   min-height: 100vh;
@@ -33,9 +31,7 @@
   }
 }
 
-/* ==========================
-   WELCOME SECTION
-========================== */
+
 .welcomeSection {
   display: flex;
   justify-content: space-between;
@@ -127,9 +123,7 @@
   }
 }
 
-/* ==========================
-   PROFILE CARD
-========================== */
+
 .profileCard {
   background: $color-white;
   border-radius: 10px;
@@ -138,9 +132,6 @@
   overflow: hidden;
 }
 
-/* ==========================
-   PROFILE HEADER (голубая полоска)
-========================== */
 .profileHeader {
   height: 120px;
   background: $color-background;
@@ -157,9 +148,7 @@
   }
 }
 
-/* ==========================
-   PROFILE USER SECTION (под голубой полоской)
-========================== */
+
 .profileUserSection {
   display: flex;
   justify-content: space-between;
@@ -216,9 +205,6 @@
   }
 }
 
-/* ==========================
-   EDIT BUTTON
-========================== */
 .editButton {
   background: $color-primary;
   border-radius: $border-radius-sm;
@@ -239,9 +225,7 @@
   }
 }
 
-/* ==========================
-   PROFILE FORM
-========================== */
+
 .profileForm {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -301,16 +285,12 @@
   }
 }
 
-/* ==========================
-   SELECT WRAPPER (устаревшие стили - скрываем)
-========================== */
+
 .selectWrapper {
   display: none;
 }
 
-/* ==========================
-   EMAIL SECTION
-========================== */
+
 .emailSection {
   padding: 0 $spacing-xl $spacing-xl;
   
@@ -380,9 +360,7 @@
   }
 }
 
-/* ==========================
-   LOADING STATE
-========================== */
+
 .loading {
   text-align: center;
   padding: $spacing-2xl;
@@ -394,9 +372,7 @@
   min-height: 200px;
 }
 
-/* ==========================
-   MOBILE RESPONSIVE
-========================== */
+
 @include m.mobile {
   .mainContent {
     padding: $spacing-md $spacing-sm;
@@ -443,9 +419,7 @@
   }
 }
 
-/* ==========================
-   REACT SELECT OVERRIDES
-========================== */
+
 .react-select-container {
   .react-select__control {
     background: #FAFBFD;

@@ -12,7 +12,6 @@ const GanttPro = () => {
   const [currentZoom, setCurrentZoom] = useState("weeks");
   const [taskCount, setTaskCount] = useState(0);
 
-  // === Инициализация Gantt ===
   useEffect(() => {
     if (!ganttContainer.current) return;
 
@@ -35,11 +34,10 @@ const GanttPro = () => {
     gantt.config.grid_resize = true;
     gantt.config.drag_progress = true;
     gantt.config.drag_links = true;
-    
-    // Русская локализация
+   
     gantt.i18n.setLocale("ru");
     
-    // Колонки
+   
     gantt.config.columns = [
       { name: "text", label: "Задача", width: 250, tree: true },
       { name: "start_date", label: "Начало", width: 100, align: "center" },
@@ -48,10 +46,10 @@ const GanttPro = () => {
       { name: "progress", label: "Прогресс", width: 80, align: "center", template: (obj) => `${Math.round(obj.progress * 100)}%` }
     ];
 
-    // Инициализация
+   
     gantt.init(ganttContainer.current);
 
-    // Загрузка тестовых данных
+    
     const initialData = [
       { id: 1, text: "Подготовка площадки", start_date: "2024-03-01", duration: 5, progress: 1 },
       { id: 2, text: "Земляные работы", start_date: "2024-03-05", duration: 10, progress: 0.8 },
@@ -67,7 +65,7 @@ const GanttPro = () => {
 
     setTaskCount(initialData.length);
 
-    // Настройка zoom
+   
     const zoomConfig = {
       levels: [
         { 
@@ -102,10 +100,10 @@ const GanttPro = () => {
     gantt.ext.zoom.init(zoomConfig);
     gantt.ext.zoom.setLevel("weeks");
 
-    // Undo/Redo
+    
     gantt.plugins({ undo: true });
 
-    // События для обновления счетчика задач
+    
     gantt.attachEvent("onTaskAdded", (id, item) => {
       setTaskCount(prev => prev + 1);
       return true;
@@ -116,7 +114,7 @@ const GanttPro = () => {
       return true;
     });
 
-    // Автоподгонка после загрузки
+    
     setTimeout(() => {
       gantt.ext.zoom.auto();
     }, 100);
@@ -284,10 +282,8 @@ const GanttPro = () => {
         </div>
       </div>
 
-      {/* === Контейнер диаграммы === */}
       <div className={styles.ganttContainer} ref={ganttContainer}></div>
 
-      {/* === Модальное окно === */}
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>

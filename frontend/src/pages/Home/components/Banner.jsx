@@ -6,7 +6,7 @@ const Banner = () => {
     <section className={styles.banner}>
       <div className={styles.bannerContainer}>
         
-        {/* Контейнер для текста - все элементы выровнены вертикально */}
+        
         <div className={styles.textContainer}>
           
           <div className={styles.subtitle}>
@@ -21,7 +21,6 @@ const Banner = () => {
             Сервис для цифрового сопровождения работ по благоустройству городских территорий
           </p>
           
-          {/* Контейнер для кнопок */}
           <div className={styles.buttonsContainer}>
             <button className={styles.primaryButton}>
               Войти в журнал
@@ -34,10 +33,10 @@ const Banner = () => {
           
         </div>
 
-        {/* Image */}
+      
         <div className={styles.imageSection}>
           <div className={styles.imagePlaceholder}>
-            <img src="/src/assets/images/image 5.png" alt="Строительный контроль" />
+            <img src="/src/assets/images/Group.svg" alt="Строительный контроль" />
           </div>
         </div>
 

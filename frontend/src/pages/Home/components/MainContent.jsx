@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from '../styles/maincontent.module.scss';
 
-import img1 from '../../../assets/images/image 6.png';
-import img2 from '../../../assets/images/image 7.png';
-import img3 from '../../../assets/images/image 8.png';
+import img1 from '../../../assets/images/Component 38.svg';
+import img2 from '../../../assets/images/Component 39.svg';
+import img3 from '../../../assets/images/Component 40.svg';
 
 const cardsData = [
   {

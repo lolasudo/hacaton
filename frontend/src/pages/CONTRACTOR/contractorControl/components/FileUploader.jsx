@@ -1,6 +1,7 @@
 import React from "react";
-import { FaFileAlt, FaTrashAlt, FaCamera, FaImage } from "react-icons/fa";
+import { FaFileAlt, FaTrashAlt } from "react-icons/fa";
 import styles from "../styles/ProrabControl.module.scss";
+import PhotoUpload from "../../../../components/PhotoUpload/PhotoUpload";
 
 const FileUploader = ({ formData, updateFormData }) => {
   const handleFilesDrop = (field) => (e) => {
@@ -18,15 +19,12 @@ const FileUploader = ({ formData, updateFormData }) => {
     updateFormData(field, formData[field].filter((_, i) => i !== index));
   };
 
-  // Функция для создания превью
-  const getFilePreview = (file) => {
-    if (file.type.startsWith('image/')) {
-      return URL.createObjectURL(file);
-    }
-    return null;
+  // Обработчики для разных типов файлов
+  const handlePhotosChange = (newPhotos) => {
+    updateFormData('photoFiles', newPhotos);
   };
 
-  const FileSection = ({ title, field, accept, capture, optional = false }) => (
+  const FileSection = ({ title, field, accept, optional = false }) => (
     <div className={styles.uploadSection}>
       <div
         className={styles.dragDrop}
@@ -35,7 +33,7 @@ const FileUploader = ({ formData, updateFormData }) => {
         onClick={() => document.getElementById(`${field}Input`).click()}
       >
         <p>
-          {field === 'photoFiles' ? <FaCamera /> : <FaFileAlt />} 
+          <FaFileAlt /> 
           {title} {optional && "(необязательно)"}
         </p>
         <input
@@ -43,14 +41,13 @@ const FileUploader = ({ formData, updateFormData }) => {
           id={`${field}Input`}
           multiple
           accept={accept}
-          capture={capture}
           onChange={handleFilesSelect(field)}
           style={{ display: "none" }}
         />
       </div>
       
       <div className={styles.fileList}>
-        {formData[field].map((file, i) => (
+        {formData[field]?.map((file, i) => (
           <FilePreview 
             key={i} 
             file={file} 
@@ -63,13 +60,25 @@ const FileUploader = ({ formData, updateFormData }) => {
 
   return (
     <div className={styles.fileUploader}>
-      <FileSection
-        title="Загрузить фото или сфотографировать"
-        field="photoFiles"
-        accept="image/*"
-        capture="environment"
-      />
+     
+      <div className={styles.uploadSection}>
+        <label style={{ 
+          fontSize: '14px', 
+          fontWeight: '600', 
+          color: '#1A202C',
+          marginBottom: '8px',
+          display: 'block' 
+        }}>
+        
+        </label>
+        <PhotoUpload 
+          photos={formData.photoFiles || []}
+          onPhotosChange={handlePhotosChange}
+          maxPhotos={20}
+        />
+      </div>
       
+      {/* Обычная загрузка для других файлов */}
       <FileSection
         title="Загрузить ТТН"
         field="ttnFiles"
@@ -90,7 +99,7 @@ const FileUploader = ({ formData, updateFormData }) => {
   );
 };
 
-// Отдельный компонент для превью файлов
+// FilePreview компонент остается без изменений
 const FilePreview = ({ file, onRemove }) => {
   const isImage = file.type.startsWith('image/');
   const previewUrl = isImage ? URL.createObjectURL(file) : null;

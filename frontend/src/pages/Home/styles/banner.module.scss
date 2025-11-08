@@ -1,4 +1,4 @@
-/* === Глобальные настройки === */
+
 html, body, #root {
   overflow-x: hidden;
   margin: 0;
@@ -6,7 +6,7 @@ html, body, #root {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* === БАННЕР === */
+
 .banner {
   position: relative;
   width: 100%;
@@ -16,18 +16,18 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Контейнер */
+
 .bannerContainer {
   position: relative;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   display: flex;
-  align-items: center; /* ✅ текст теперь по центру баннера */
+  align-items: center; 
   justify-content: flex-start;
 }
 
-/* === ТЕКСТ === */
+
 .textContainer {
   position: relative;
   left: clamp(60px, 4vw, 180px);
@@ -38,7 +38,7 @@ html, body, #root {
   animation: fadeSlideIn 1.2s ease-out forwards;
 }
 
-/* Подзаголовок */
+
 .subtitle {
   font-weight: 500;
   font-size: 14px;
@@ -47,7 +47,6 @@ html, body, #root {
   width: 351px;
 }
 
-/* Заголовок */
 .title {
   font-weight: 800;
   font-size: 32px;
@@ -58,7 +57,7 @@ html, body, #root {
   width: 575px;
 }
 
-/* Описание */
+
 .description {
   font-weight: 500;
   font-size: 16px;
@@ -69,7 +68,7 @@ html, body, #root {
   width: 534px;
 }
 
-/* Кнопки */
+
 .buttonsContainer {
   display: flex;
   align-items: center;
@@ -104,23 +103,28 @@ html, body, #root {
   text-decoration: none;
 }
 
-/* === КАРТИНКА === */
+
 .imageSection {
   position: absolute;
-  bottom: 0;   /* ✅ приклеена к низу */
-  right: 0;    /* ✅ приклеена к правому краю */
+  bottom: 0;   
+  right: 0;    
   width: 729px;
-  height: auto;
+  height: 680px;
   z-index: 1;
+  background: #AAB5C4;
+  border-radius: 63px 0 0 0;
 }
 
 .imagePlaceholder {
   width: 100%;
   height: 100%;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   img {
-    width: 100%;
-    height: auto;
+    width: 80%; /* Уменьшаем в 2 раза */
+    height: 80%; /* Уменьшаем в 2 раза */
     object-fit: contain;
     display: block;
     transition: transform 0.3s ease;
@@ -131,7 +135,6 @@ html, body, #root {
   }
 }
 
-/* === МОБИЛЬНАЯ ВЕРСИЯ === */
 @media (max-width: 767px) {
   .banner {
     top: 0;
@@ -186,7 +189,7 @@ html, body, #root {
   }
 }
 
-/* === Анимация появления текста === */
+
 @keyframes fadeSlideIn {
   from {
     opacity: 0;

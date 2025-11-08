@@ -5,9 +5,6 @@
   padding: 0;
 }
 
-/* ==========================
-   WELCOME SECTION (как в профиле)
-========================== */
 .welcomeSection {
   display: flex;
   justify-content: space-between;
@@ -62,9 +59,6 @@
   }
 }
 
-/* ==========================
-   REPORTS CARD (как profileCard)
-========================== */
 .reportsCard {
   background: $color-white;
   border-radius: 10px;
@@ -73,9 +67,7 @@
   overflow: hidden;
 }
 
-/* ==========================
-   CARD HEADER (голубая полоска как в профиле)
-========================== */
+
 .cardHeader {
   height: 120px;
   background: $color-background;
@@ -92,9 +84,7 @@
   }
 }
 
-/* ==========================
-   FILTERS SECTION
-========================== */
+
 .filtersSection {
   display: flex;
   gap: $spacing-md;
@@ -120,9 +110,7 @@
   }
 }
 
-/* ==========================
-   DASHBOARD METRICS
-========================== */
+
 .dashboard {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -150,9 +138,7 @@
   color: $color-text-light;
 }
 
-/* ==========================
-   CONTENT GRID
-========================== */
+
 .contentGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -170,9 +156,7 @@
   }
 }
 
-/* ==========================
-   SECTIONS (chart, materials, issues)
-========================== */
+
 .chartSection, .materialsSection, .issuesSection {
   background: #FAFBFD;
   padding: $spacing-lg;
@@ -204,9 +188,7 @@
   color: $color-text-light;
 }
 
-/* ==========================
-   TABLES
-========================== */
+
 .materialsTable, .issuesTable {
   width: 100%;
   border-collapse: collapse;
@@ -259,9 +241,7 @@
   font-weight: $font-weight-semibold;
 }
 
-/* ==========================
-   DAILY REPORT SECTION
-========================== */
+
 .dailyReportSection {
   background: #FAFBFD;
   padding: $spacing-xl;
@@ -344,25 +324,27 @@
 }
 
 .submitButton {
-  @include m.typography(base, semibold);
-  height: $button-height-large;
-  padding: 0 $spacing-lg;
-  background: $color-primary;
-  color: $color-white;
-  border: none;
+  background: rgba(65, 130, 249, 0.1);
   border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  color: $color-primary;
+  @include m.typography(base, normal);
+  border: none;
   cursor: pointer;
-  transition: $transition-fast;
-  align-self: flex-start;
-  
+  transition: all $transition-normal;
+  width: 100%;
+  margin-top: $spacing-sm;
+
   &:hover {
-    background: $color-primary-dark;
+    background: rgba(65, 130, 249, 0.2);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
-/* ==========================
-   MOBILE RESPONSIVE
-========================== */
 @include m.mobile {
   .reportsCard {
     margin: 0 $spacing-sm;
@@ -398,9 +380,7 @@
   }
 }
 
-/* ==========================
-   TABLET RESPONSIVE
-========================== */
+
 @include m.tablet {
   .cardHeader {
     height: 80px;
@@ -423,4 +403,112 @@
 .fadeIn {
   opacity: 1;
   transition: opacity 0.4s ease;
+}
+// Добавь эти стили в contractorReports.module.scss
+
+.statusOverview {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  @include m.typography(sm, medium);
+  color: $color-text-dark;
+}
+
+.statusDotCritical,
+.statusDotWarning,
+.statusDotResolved {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.statusDotCritical {
+  background: #e53e3e;
+}
+
+.statusDotWarning {
+  background: #dd6b20;
+}
+
+.statusDotResolved {
+  background: #38a169;
+}
+
+.dragDrop {
+  border: 2px dashed #CED7E4;
+  border-radius: 6px;
+  padding: $spacing-lg;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #FFFFFF;
+  
+  &:hover {
+    border-color: $color-primary;
+    background: #f8fafc;
+  }
+  
+  p {
+    margin: 0;
+    @include m.typography(base, medium);
+    color: $color-text-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+  }
+}
+
+// Улучшенные стили для таблиц
+.materialsTable, .issuesTable {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: $spacing-sm;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    @include m.typography(sm, normal);
+  }
+  
+  th {
+    @include m.typography(sm, semibold);
+    color: $color-text-light;
+    background: #f8fafc;
+  }
+}
+
+// Улучшенные стили для карточек метрик
+.metricCard {
+  background: #FAFBFD;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($color-primary, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.metricValue {
+  @include m.typography(xl, bold);
+  color: $color-text-dark;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.metricLabel {
+  @include m.typography(sm, normal);
+  color: $color-text-light;
 }

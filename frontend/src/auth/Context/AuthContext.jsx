@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // При загрузке приложения проверяем, есть ли сохраненная сессия
+  
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
-  // Функция входа
+  
   const login = async (email, password) => {
     try {
       // TODO: Заменить на реальный API вызов
@@ -38,15 +38,7 @@ export const AuthProvider = ({ children }) => {
       // Имитация запроса к API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Здесь будет реальный запрос:
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password })
-      // });
-      // const data = await response.json();
-      
-      // Временные данные пользователя
+     
       const userData = {
         id: 1,
         email: email,
@@ -56,9 +48,9 @@ export const AuthProvider = ({ children }) => {
         organization: 'СтройГрупп'
       };
       
-      const token = 'fake-jwt-token'; // В реальности придет с бэкенда
+      const token = 'fake-jwt-token'; 
       
-      // Сохраняем в localStorage (в реальности только token)
+      
       localStorage.setItem('user', JSON.stringify(userData));
       localStorage.setItem('token', token);
       
@@ -75,24 +67,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Функция регистрации
+  
   const register = async (email, password) => {
     try {
       // TODO: Заменить на реальный API вызов
       console.log('Register attempt:', { email, password });
       
-      // Имитация запроса к API
+     
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Здесь будет реальный запрос:
-      // const response = await fetch('/api/auth/register', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password })
-      // });
-      // const data = await response.json();
-      
-      // В реальности здесь будет ответ от сервера
+     
       return { 
         success: true, 
         message: 'Регистрация успешна! Теперь вы можете войти.' 
@@ -106,7 +90,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Функция выхода
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
@@ -114,7 +97,6 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // Обновление данных пользователя
   const updateUser = (newUserData) => {
     const updatedUser = { ...user, ...newUserData };
     setUser(updatedUser);

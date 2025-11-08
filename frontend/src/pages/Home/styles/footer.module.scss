@@ -7,7 +7,7 @@
   background-color: g.$color-background;
   color: g.$color-text-dark;
   font-family: g.$font-family;
-  padding: g.$spacing-2xl g.$spacing-xl g.$spacing-lg;
+  padding: g.$spacing-4xl g.$spacing-xl g.$spacing-lg;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -108,7 +108,7 @@
     text-align: left;
   }
 
-  // ===== адаптив =====
+  
   @include m.tablet {
     padding: g.$spacing-xl g.$spacing-md;
     .footerTop {
