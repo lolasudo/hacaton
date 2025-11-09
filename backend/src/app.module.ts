@@ -32,7 +32,7 @@ import { ConstructionObjectsModule } from './construction-objects/construction-o
 import { WorkSchedulesModule } from './work-schedules/work-schedules.module';
 import { DefectsModule } from './defects/defects.module';
 import { ActsModule } from './acts/acts.module'; 
-
+import { ChecklistsModule } from './acts/checklist.module';
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
   .isDocumentDatabase
@@ -101,7 +101,8 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     //TTNModule,
     WorkSchedulesModule,
     DefectsModule,
-    ActsModule, 
+    ActsModule,
+    ChecklistsModule,
   ],
 })
 export class AppModule {}

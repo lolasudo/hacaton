@@ -1,15 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ActEntity } from '../entities/act.entity';
 import { CreateActDto } from '../dto/create-act.dto';
 import { UpdateActDto } from '../dto/update-act.dto';
+import { PdfGenerationService } from './pdf-generation.service';
 
 @Injectable()
 export class ActService {
   constructor(
     @InjectRepository(ActEntity)
     private readonly actRepository: Repository<ActEntity>,
+    private readonly pdfGenerationService: PdfGenerationService, // Добавляем сервис PDF
   ) {}
 
   async findAll(): Promise<ActEntity[]> {
@@ -58,6 +60,7 @@ export class ActService {
 
   async generateActPdf(actId: number): Promise<Buffer> {
     const act = await this.findById(actId);
-    return Buffer.from(`PDF for Act ${act.actNumber}`);
+    console.log('Generating PDF for act:', act.actNumber);
+    return this.pdfGenerationService.generateActPdf(act);
   }
 }

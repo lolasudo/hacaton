@@ -9,8 +9,11 @@ import {
   Query,
   UseInterceptors,
   UploadedFiles,
-  ParseIntPipe 
+  ParseIntPipe,
+  Res,
+  Header 
 } from '@nestjs/common';
+import { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ActService } from '../services/act.service';
 import { CreateActDto } from '../dto/create-act.dto';
@@ -55,8 +58,16 @@ export class ActController {
   }
 
   @Get(':id/pdf')
-  async generatePdf(@Param('id', ParseIntPipe) id: number): Promise<Buffer> {
-    return this.actService.generateActPdf(id);
+  @Header('Content-Type', 'application/pdf')
+  @Header('Content-Disposition', 'attachment; filename="act.pdf"')
+  async generatePdf(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
+    try {
+      const pdfBuffer = await this.actService.generateActPdf(id);
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      res.status(500).json({ message: 'Ошибка генерации PDF' });
+    }
   }
 
   @Post(':id/attachments')
@@ -65,7 +76,6 @@ export class ActController {
     @Param('id', ParseIntPipe) id: number,
     @UploadedFiles() files: Express.Multer.File[]
   ) {
-    // Логика загрузки файлов будет здесь
     return { message: 'Files uploaded successfully', filesCount: files.length };
   }
 }

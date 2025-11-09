@@ -6,8 +6,11 @@ import {
   Body, 
   Param, 
   Query,
-  ParseIntPipe 
+  ParseIntPipe,
+  Res,
+  Header 
 } from '@nestjs/common';
+import { Response } from 'express';
 import { ChecklistService } from '../services/checklist.service';
 import { CreateChecklistDto } from '../dto/create-checklist.dto';
 import { ChecklistEntity } from '../entities/checklist.entity';
@@ -51,7 +54,15 @@ export class ChecklistController {
   }
 
   @Get(':id/pdf')
-  async generatePdf(@Param('id', ParseIntPipe) id: number): Promise<Buffer> {
-    return this.checklistService.generateChecklistPdf(id);
+  @Header('Content-Type', 'application/pdf')
+  @Header('Content-Disposition', 'attachment; filename="checklist.pdf"')
+  async generatePdf(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
+    try {
+      const pdfBuffer = await this.checklistService.generateChecklistPdf(id);
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      res.status(500).json({ message: 'Ошибка генерации PDF' });
+    }
   }
 }

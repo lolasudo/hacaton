@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { ChecklistEntity, ChecklistType } from '../entities/checklist.entity';
 import { ChecklistItemEntity } from '../entities/checklist-item.entity';
 import { CreateChecklistDto } from '../dto/create-checklist.dto';
+import { PdfGenerationService } from './pdf-generation.service';
 
 @Injectable()
 export class ChecklistService {
   constructor(
     @InjectRepository(ChecklistEntity)
     private readonly checklistRepository: Repository<ChecklistEntity>,
+    private readonly pdfGenerationService: PdfGenerationService, // Добавляем сервис PDF
   ) {}
 
   async findAll(): Promise<ChecklistEntity[]> {
@@ -75,7 +77,7 @@ export class ChecklistService {
     return this.checklistRepository.findOne({
       where: { 
         object: { id: objectId },
-        type: ChecklistType.OBJECT_OPENING // ИСПРАВЛЕНО: используем enum вместо строки
+        type: ChecklistType.OBJECT_OPENING
       },
       relations: ['items', 'createdBy']
     });
@@ -83,7 +85,7 @@ export class ChecklistService {
 
   async generateChecklistPdf(checklistId: number): Promise<Buffer> {
     const checklist = await this.findById(checklistId);
-    // Здесь будет логика генерации PDF для чек-листа
-    return Buffer.from(`PDF for Checklist ${checklist.name}`);
+    console.log('Generating PDF for checklist:', checklist.name);
+    return this.pdfGenerationService.generateChecklistPdf(checklist);
   }
 }
