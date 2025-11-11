@@ -33,6 +33,7 @@ import { WorkSchedulesModule } from './work-schedules/work-schedules.module';
 import { DefectsModule } from './defects/defects.module';
 import { ActsModule } from './acts/acts.module'; 
 import { ChecklistsModule } from './acts/checklist.module';
+import { ReportingModule } from './reporting/reporting.module';
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
   .isDocumentDatabase
@@ -103,6 +104,7 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     DefectsModule,
     ActsModule,
     ChecklistsModule,
+    ReportingModule,
   ],
 })
 export class AppModule {}

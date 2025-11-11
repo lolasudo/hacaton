@@ -15,6 +15,15 @@ export class ConstructionObjectRelationalRepository extends ConstructionObjectRe
   ) {
     super();
   }
+
+  // Добавляем недостающий метод find
+  async find(): Promise<ConstructionObject[]> {
+    const entities = await this.constructionObjectsRepository.find({
+      relations: ['customer', 'contractor'],
+    });
+    return entities.map((entity) => ConstructionObjectMapper.toDomain(entity));
+  }
+
   async create(data: ConstructionObject): Promise<ConstructionObject> {
     const persistenceEntity = ConstructionObjectMapper.toPersistence(data);
     const newEntity = await this.constructionObjectsRepository.save(
