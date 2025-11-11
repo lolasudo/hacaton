@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; // центрируем весь контент по вертикали
+  justify-content: center; 
   padding: 100px 20px;
 }
 
@@ -18,7 +18,7 @@
   line-height: g.$line-height-normal;
   color: g.$color-primary;
   text-align: center;
-  margin-bottom: g.$spacing-md; // оставляем как есть
+  margin-bottom: g.$spacing-md; 
 }
 
 .description {
@@ -29,13 +29,13 @@
   color: g.$color-text-dark;
   text-align: center;
   max-width: 908px;
-  margin-bottom: 120px; // увеличили отступ от текста до карточек
+  margin-bottom: 120px;
 }
 
 
 .cardsContainer {
   display: flex;
-  justify-content: center; // по центру
+  justify-content: center; 
   align-items: center;
   gap: 40px;
   flex-wrap: wrap;
@@ -72,7 +72,7 @@
   }
 }
 
-/* Адаптив */
+
 @media (max-width: g.$breakpoint-tablet) {
   .sectionTitle {
     font-size: 36px;

@@ -22,14 +22,14 @@ const Profile = () => {
     organization: ''
   });
 
-  // ДОБАВИТЬ этот useEffect для отслеживания URL
+  
   useEffect(() => {
     if (location.pathname === '/profile') {
       setActiveSection('profile');
     } else if (location.pathname === '/profile/reports') {
       setActiveSection('reports');
     }
-    // Добавьте другие пути по аналогии
+    
   }, [location.pathname]);
 
   const roleOptions = [
@@ -208,7 +208,7 @@ const Profile = () => {
         />
         
         <div className={styles.mainContent}>
-          {/* Welcome Section показываем только для профиля */}
+          
           {activeSection === 'profile' && (
             <div className={styles.welcomeSection}>
               <div className={styles.welcomeText}>
@@ -234,7 +234,7 @@ const Profile = () => {
             </div>
           )}
 
-          {/* Рендерим контент в зависимости от активной секции */}
+          {/* активная секция для всех блоков */}
           {activeSection === 'profile' ? renderProfileContent() : <ContractorReports />}
         </div>
       </div>

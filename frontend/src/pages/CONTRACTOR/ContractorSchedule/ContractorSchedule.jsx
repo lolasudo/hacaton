@@ -25,7 +25,6 @@ const ContractorSchedule = () => {
     window.location.reload();
   };
 
-  // Пример данных для таблицы пользователей
   const usersData = [
     {
       id: 1,

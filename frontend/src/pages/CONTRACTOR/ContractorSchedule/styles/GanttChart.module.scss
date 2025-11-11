@@ -1,4 +1,4 @@
-// GanttChart.module.scss
+
 @import '../../../../styles/globals.scss';
 
 .wrapper {
@@ -123,7 +123,7 @@
   font-size: $font-size-sm !important;
 }
 
-// Базовые стили кнопок
+
 .toolbar button {
   display: flex;
   align-items: center;
@@ -349,7 +349,6 @@
   }
 }
 
-// Адаптивность
 @media (max-width: $breakpoint-tablet) {
   .toolbar {
     flex-direction: column;

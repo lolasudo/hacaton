@@ -88,7 +88,7 @@
   }
 }
 
-// Стили для списка замечаний
+
 .remarksList {
   display: flex;
   flex-direction: column;
@@ -108,7 +108,6 @@
   }
 }
 
-// Стили для выбранного замечания
 .selectedRemarkInfo {
   background: $color-white;
   border-radius: 12px;
@@ -258,7 +257,7 @@
   }
 }
 
-// Анимации
+
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -270,7 +269,6 @@
   }
 }
 
-// Стили для описания исправления
 .correctionData {
   display: flex;
   flex-direction: column;
@@ -335,7 +333,7 @@
   font-style: italic;
 }
 
-// File Uploader стили
+
 .fileUploader {
   display: flex;
   flex-direction: column;
@@ -490,7 +488,7 @@
   border-radius: $border-radius-md;
 }
 
-// Step Actions стили
+
 .stepActions {
   background: #f8f9fa;
   border: 1px solid #e9ecef;
@@ -635,7 +633,7 @@
   line-height: 1.4;
 }
 
-// React Select стили
+
 .reactSelect {
   width: 100%;
   margin-bottom: $spacing-md;
@@ -685,7 +683,7 @@
   }
 }
 
-// Адаптивность
+
 @include m.mobile {
   .selectedRemarkInfo {
     padding: $spacing-lg;

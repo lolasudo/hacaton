@@ -8,8 +8,7 @@ import './styles/globals.scss';
 import ProRabControl from './pages/CONTRACTOR/contractorControl/ContractorControl';
 import ProRabComments from './pages/CONTRACTOR/conractorComments/contractorComments';
 import ContractorSchedule from "./pages/CONTRACTOR/ContractorSchedule/ContractorSchedule";
-import ContractorReports from "./pages/CONTRACTOR/contractorReports/contractorReports";
-
+import { HiddenWorks, Technique, Workers } from './pages/CONTRACTOR/contractorJournal';
 function App() {
   return (
     <AuthProvider>
@@ -21,6 +20,11 @@ function App() {
             <Route path="/control" element={<ProRabControl />} />
             <Route path="/remarks" element={<ProRabComments />} />
             <Route path="/schedule" element={<ContractorSchedule />} />
+
+
+            <Route path="/journal/hidden" element={<HiddenWorks />} />
+            <Route path="/journal/technique" element={<Technique />} />
+            <Route path="/journal/workers" element={<Workers />} />
             
           </Routes>
           <Footer />

@@ -12,7 +12,7 @@ const Navbar = () => {
     <>
       <nav className={styles.navbar}>
         <div className={styles.navbarContent}>
-          {/* === ЛОГО === */}
+   
           <div className={styles.logo}>
             <div className={styles.houseIcon}>
               <img src={HomeIcon} alt="Дом" />
@@ -20,7 +20,7 @@ const Navbar = () => {
             <span className={styles.logoText}>СтройКонтроль</span>
           </div>
 
-          {/* === ПРАВАЯ ЧАСТЬ === */}
+     
           <div className={styles.navRight}>
             <a href="https://mos.ru" className={styles.mosLink}>Mos.ru</a>
             <div className={styles.divider}></div>
@@ -46,7 +46,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* === МОДАЛКИ === */}
+      
       <RegisterModal
         isOpen={isRegisterOpen}
         onClose={() => setIsRegisterOpen(false)}

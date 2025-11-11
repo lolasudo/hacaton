@@ -42,8 +42,8 @@
 }
 
 .logo {
-  text-decoration: none; // убираем подчёркивание
-  color: inherit;        // сохраняем текущий цвет текста
+  text-decoration: none; 
+  color: inherit;        
   display: flex;
   align-items: center;
   gap: g.$spacing-sm;
@@ -170,7 +170,6 @@
   }
 }
 
-// Убираем лишние стили
 .mosLink,
 .registerLink,
 .divider,
@@ -179,4 +178,37 @@
 .searchIcon,
 .notificationIcon {
   display: none;
+}
+// Переопределяем стили для селекта журнала в навбаре
+.navItems {
+  .journalSelect {
+    .react-select-container {
+      .react-select__control {
+        background: transparent !important;
+        border: none !important;
+        min-height: 40px !important;
+        box-shadow: none !important;
+        
+        &:hover {
+          background: rgba(72, 98, 132, 0.05) !important;
+        }
+      }
+      
+      .react-select__placeholder {
+        color: g.$color-primary !important;
+        opacity: 0.8 !important;
+        font-weight: 500 !important;
+      }
+      
+      .react-select__single-value {
+        color: g.$color-primary !important;
+        opacity: 0.8 !important;
+        font-weight: 500 !important;
+      }
+      
+      .react-select__dropdown-indicator {
+        color: rgba(72, 98, 132, 0.6) !important;
+      }
+    }
+  }
 }

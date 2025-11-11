@@ -629,3 +629,45 @@ $color-border-light: #CED7E4;
     box-shadow: 0 0 0 2px rgba($color-primary, 0.15);
   }
 }
+
+
+
+// В ProrabControl.module.scss
+.recognizedData {
+  background: #f0f9ff;
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.recognizedFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.recognitionNote {
+  color: #6b7280;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.locationInfo {
+  background: #f0fdf4;
+  border: 1px solid #10b981;
+  border-radius: 6px;
+  padding: 12px;
+  margin-top: 16px;
+  
+  span {
+    color: #065f46;
+    font-weight: 500;
+  }
+  
+  small {
+    color: #047857;
+    font-size: 12px;
+  }
+}

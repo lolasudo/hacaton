@@ -6,7 +6,6 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerTop}>
-        {/* Логотип */}
         <div className={styles.footerLogo}>
           <div className={styles.logoWrapper}>
             <img src={HomeIcon} alt="Logo" className={styles.logoIcon} />
@@ -16,7 +15,7 @@ const Footer = () => {
             Цифровой контроль <br /> строительных объектов Москвы
           </div>
 
-          {/* Соцсети */}
+
           <div className={styles.socials}>
             <div className={styles.socialIcon}>
               <svg viewBox="0 0 24 24">
@@ -36,14 +35,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Колонки */}
+  
         <div className={styles.footerColumn}>
           <div className={styles.columnTitle}>О нас</div>
           <a href="#" className={styles.columnLink}>Прозрачность</a>
           <a href="#" className={styles.columnLink}>Геолокация</a>
           <a href="#" className={styles.columnLink}>Контакты</a>
         </div>
-
         <div className={styles.footerColumn}>
           <div className={styles.columnTitle}>Сервисы</div>
           <a href="#" className={styles.columnLink}>mos.ru</a>
@@ -60,7 +58,6 @@ const Footer = () => {
       </div>
 
       <div className={styles.footerLine}></div>
-
       <div className={styles.footerCopyright}>
         © 2025 Электронный журнал строительного контроля. Комплекс градостроительной политики и строительства города Москвы
       </div>

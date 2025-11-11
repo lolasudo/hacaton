@@ -1,5 +1,5 @@
 .sidebar {
-  width: 70px; // чуть шире в свернутом виде
+  width: 70px; 
   background-color: #f4f6fa;
   transition: width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
@@ -8,7 +8,7 @@
   flex-direction: column;
 
   &.expanded {
-    width: 240px; // шире при раскрытии
+    width: 240px;
   }
 
   .sidebarContent {

@@ -1,0 +1,83 @@
+@use '../../../../../styles/globals' as g;
+@use '../../../../../styles/mixins' as m;
+
+// Те же стили что и в других модулях
+.page {
+  padding-top: 100px;
+  min-height: 100vh;
+  background: #FAFBFD;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: g.$spacing-xl;
+}
+
+.title {
+  @include m.typography(xxl, semibold);
+  color: g.$color-text-dark;
+  margin-bottom: g.$spacing-sm;
+}
+
+.subtitle {
+  @include m.typography(lg, normal);
+  color: g.$color-text-light;
+  margin-bottom: g.$spacing-2xl;
+}
+
+.form {
+  background: white;
+  padding: g.$spacing-2xl;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: g.$spacing-lg;
+  margin-bottom: g.$spacing-lg;
+
+  @include m.mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: g.$spacing-xs;
+
+  label {
+    @include m.typography(base, medium);
+    color: g.$color-text-dark;
+  }
+
+  input, select, textarea {
+    padding: g.$spacing-md;
+    border: 1px solid rgba(72, 98, 132, 0.2);
+    border-radius: 8px;
+    @include m.typography(base, normal);
+    
+    &:focus {
+      outline: none;
+      border-color: g.$color-primary;
+    }
+  }
+}
+
+.submitButton {
+  background: g.$color-primary;
+  color: white;
+  border: none;
+  padding: g.$spacing-md g.$spacing-xl;
+  border-radius: 8px;
+  @include m.typography(base, medium);
+  cursor: pointer;
+  transition: background g.$transition-normal;
+
+  &:hover {
+    background: g.$color-primary-dark;
+  }
+}
