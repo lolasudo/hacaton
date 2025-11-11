@@ -9,8 +9,8 @@ import {
   UsePipes, 
   ValidationPipe,
   Req,
-  ParseIntPipe,
-  BadRequestException
+  BadRequestException,
+  UseGuards
 } from '@nestjs/common';
 import { ReportingService } from '../services/reporting.service';
 import { CreateReportDto } from '../dto/create-report.dto';
@@ -24,12 +24,15 @@ export class ReportingController {
   @Post('reports')
   @UsePipes(new ValidationPipe())
   async createReport(@Body() createReportDto: CreateReportDto, @Req() req) {
-    return await this.reportingService.createReport(createReportDto, req.user.id);
+    // Заглушка для userId пока не настроена аутентификация
+    const userId = req.user?.id || 'system-user';
+    return await this.reportingService.createReport(createReportDto, userId);
   }
 
   @Get('reports')
   async getUserReports(@Req() req) {
-    return await this.reportingService.getUserReports(req.user.id);
+    const userId = req.user?.id || 'system-user';
+    return await this.reportingService.getUserReports(userId);
   }
 
   @Get('reports/:id')
@@ -49,7 +52,8 @@ export class ReportingController {
     @Body('description') description: string,
     @Req() req
   ) {
-    return await this.reportingService.createDashboard(name, description, req.user.id);
+    const userId = req.user?.id || 'system-user';
+    return await this.reportingService.createDashboard(name, description, userId);
   }
 
   @Get('dashboards/:id')

@@ -1,7 +1,7 @@
 // src/modules/reporting/services/reporting.service.ts
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, In } from 'typeorm';
+import { Repository, Between } from 'typeorm';
 import { Report } from '../entities/report.entity';
 import { Dashboard } from '../entities/dashboard.entity';
 import { KPIMetric } from '../entities/kpi.entity';
@@ -13,12 +13,10 @@ import {
   KPIResponse
 } from '../interfaces/reporting.interface';
 
-
 import { ConstructionObjectsService } from '../../construction-objects/services/construction-objects.service';
 import { WorkSchedulesService } from '../../work-schedules/work-schedules.service';
 import { DefectsService } from '../../defects/services/defects.service';
 
-// Интерфейсы для типов
 interface ConstructionObject {
   id: number;
   name: string;
@@ -48,7 +46,6 @@ interface Defect {
   priority: string;
   dueDate?: Date;
   createdAt: Date;
-  constructionObject?: ConstructionObject;
 }
 
 @Injectable()
@@ -65,16 +62,21 @@ export class ReportingService {
     private readonly defectsService: DefectsService,
   ) {}
 
-  // CRUD для отчетов
   async createReport(createReportDto: CreateReportDto, userId: string): Promise<Report> {
-    const report = this.reportRepository.create({
-      ...createReportDto,
-      createdBy: userId,
-      status: 'draft',
-      data: await this.generateReportData(createReportDto.type, createReportDto.filters)
-    });
+    try {
+      const reportData = await this.generateReportData(createReportDto.type, createReportDto.filters);
+      
+      const report = this.reportRepository.create({
+        ...createReportDto,
+        createdBy: userId,
+        status: 'draft',
+        data: reportData
+      });
 
-    return await this.reportRepository.save(report);
+      return await this.reportRepository.save(report);
+    } catch (error) {
+      throw new BadRequestException(`Failed to create report: ${error.message}`);
+    }
   }
 
   async getReport(id: string): Promise<Report> {
@@ -106,7 +108,6 @@ export class ReportingService {
     return await this.reportRepository.save(report);
   }
 
-  // Дашборды
   async createDashboard(name: string, description: string, userId: string): Promise<Dashboard> {
     const dashboard = this.dashboardRepository.create({
       name,
@@ -131,7 +132,6 @@ export class ReportingService {
     return dashboard;
   }
 
-  // KPI метрики
   async getKPIMetrics(query: KPIQueryDto): Promise<KPIResponse[]> {
     const where: any = {};
     
@@ -144,7 +144,11 @@ export class ReportingService {
     }
     
     if (query.objectId) {
-      where.objectId = query.objectId;
+      const objectId = parseInt(query.objectId);
+      if (isNaN(objectId)) {
+        throw new BadRequestException('Invalid object ID format');
+      }
+      where.objectId = objectId;
     }
     
     if (query.startDate && query.endDate) {
@@ -167,37 +171,74 @@ export class ReportingService {
     frequency: string,
     objectId?: string
   ): Promise<KPIMetric> {
-    const metric = this.kpiRepository.create({
-      name,
-      category,
-      value,
-      target,
-      frequency,
-      objectId,
-      measurementDate: new Date()
-    });
+    let objectIdNum: number | undefined = undefined;
 
-    return await this.kpiRepository.save(metric);
+    // Validate and convert objectId
+    if (objectId) {
+      objectIdNum = parseInt(objectId);
+      if (isNaN(objectIdNum)) {
+        throw new BadRequestException('Invalid object ID format');
+      }
+
+      // Verify construction object exists
+      try {
+        const objects = await this.getAllConstructionObjects();
+        const objectExists = objects.some(obj => obj.id === objectIdNum);
+        
+        if (!objectExists) {
+          throw new NotFoundException(`Construction object with ID ${objectId} not found`);
+        }
+      } catch (error) {
+        if (error instanceof NotFoundException) {
+          throw error;
+        }
+        console.warn(`Could not verify construction object ${objectId}:`, error);
+        throw new BadRequestException(`Cannot verify construction object with ID ${objectId}`);
+      }
+    }
+
+    // Create entity instance manually to avoid TypeORM create method issues
+    const metric = new KPIMetric();
+    metric.name = name;
+    metric.category = category;
+    metric.value = value;
+    metric.target = target;
+    metric.frequency = frequency;
+    metric.objectId = objectIdNum;
+    metric.measurementDate = new Date();
+
+    try {
+      return await this.kpiRepository.save(metric);
+    } catch (error) {
+      if (error.code === '23503') { // Foreign key violation
+        throw new BadRequestException(`Construction object with ID ${objectId} does not exist`);
+      }
+      throw error;
+    }
   }
 
   async getConstructionReadiness(objectId?: string): Promise<ConstructionReadinessData[]> {
     try {
-      // Получаем все объекты строительства через существующие методы
       const objects = await this.getAllConstructionObjects();
       
-      // Фильтруем по objectId если указан
-      const filteredObjects = objectId 
-        ? objects.filter(obj => obj.id.toString() === objectId)
-        : objects;
+      let filteredObjects = objects;
+      if (objectId) {
+        const objectIdNum = parseInt(objectId);
+        if (isNaN(objectIdNum)) {
+          throw new BadRequestException('Invalid object ID format');
+        }
+        filteredObjects = objects.filter(obj => obj.id === objectIdNum);
+        
+        if (filteredObjects.length === 0) {
+          throw new NotFoundException(`Construction object with ID ${objectId} not found`);
+        }
+      }
 
       const readinessData: ConstructionReadinessData[] = [];
 
       for (const object of filteredObjects) {
         try {
-          // Получаем рабочие графики для объекта
           const workSchedules = await this.workSchedulesService.findByObjectId(object.id);
-          
-          // Собираем все задачи из всех графиков
           const allTasks: Task[] = workSchedules.flatMap((schedule: WorkSchedule) => schedule.tasks || []);
           
           const totalTasks = allTasks.length;
@@ -231,7 +272,6 @@ export class ReportingService {
           });
         } catch (error) {
           console.error(`Error processing object ${object.id}:`, error);
-          // Продолжаем обработку других объектов
           continue;
         }
       }
@@ -239,6 +279,9 @@ export class ReportingService {
       return readinessData;
     } catch (error) {
       console.error('Error in getConstructionReadiness:', error);
+      if (error instanceof NotFoundException || error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error('Failed to fetch construction readiness data');
     }
   }
@@ -248,10 +291,12 @@ export class ReportingService {
       let defects: Defect[] = [];
       
       if (objectId) {
-        // Получаем дефекты для конкретного объекта
-        defects = await this.defectsService.findAllForObject(parseInt(objectId));
+        const objectIdNum = parseInt(objectId);
+        if (isNaN(objectIdNum)) {
+          throw new BadRequestException('Invalid object ID format');
+        }
+        defects = await this.defectsService.findAllForObject(objectIdNum);
       } else {
-        // Получаем все дефекты
         defects = await this.getAllDefects();
       }
 
@@ -264,7 +309,7 @@ export class ReportingService {
       }, {} as { [key: string]: number });
 
       const bySeverity = defects.reduce((acc, defect) => {
-        const severity = defect.priority || 'medium'; // Используем priority вместо severity
+        const severity = defect.priority || 'medium';
         acc[severity] = (acc[severity] || 0) + 1;
         return acc;
       }, {} as { [key: string]: number });
@@ -284,11 +329,13 @@ export class ReportingService {
       };
     } catch (error) {
       console.error('Error in getDefectsStatistics:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error('Failed to fetch defects statistics');
     }
   }
 
-  // Дополнительные методы для расширенной аналитики
   async getPerformanceMetrics(objectId?: string) {
     const readinessData = await this.getConstructionReadiness(objectId);
     const defectsData = await this.getDefectsStatistics(objectId);
@@ -303,10 +350,15 @@ export class ReportingService {
 
   async getTimelineData(objectId: string, startDate: string, endDate: string) {
     try {
-      const workSchedules = await this.workSchedulesService.findByObjectId(parseInt(objectId));
+      const objectIdNum = parseInt(objectId);
+      if (isNaN(objectIdNum)) {
+        throw new BadRequestException('Invalid object ID format');
+      }
+
+      const workSchedules = await this.workSchedulesService.findByObjectId(objectIdNum);
       const allTasks: Task[] = workSchedules.flatMap((schedule: WorkSchedule) => schedule.tasks || []);
       
-      const defects = await this.defectsService.findAllForObject(parseInt(objectId));
+      const defects = await this.defectsService.findAllForObject(objectIdNum);
       const filteredDefects = defects.filter(defect => {
         const defectDate = new Date(defect.createdAt);
         return defectDate >= new Date(startDate) && defectDate <= new Date(endDate);
@@ -332,27 +384,33 @@ export class ReportingService {
       };
     } catch (error) {
       console.error('Error in getTimelineData:', error);
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error('Failed to fetch timeline data');
     }
   }
 
-  // Приватные методы
   private async generateReportData(type: string, filters: any): Promise<any> {
-    switch (type) {
-      case 'readiness':
-        return await this.getConstructionReadiness(filters?.objectId);
-      case 'defects':
-        return await this.getDefectsStatistics(filters?.objectId);
-      case 'performance':
-        return await this.getPerformanceMetrics(filters?.objectId);
-      case 'timeline':
-        return await this.getTimelineData(
-          filters?.objectId, 
-          filters?.startDate, 
-          filters?.endDate
-        );
-      default:
-        return { message: 'Custom report data' };
+    try {
+      switch (type) {
+        case 'readiness':
+          return await this.getConstructionReadiness(filters?.objectId);
+        case 'defects':
+          return await this.getDefectsStatistics(filters?.objectId);
+        case 'performance':
+          return await this.getPerformanceMetrics(filters?.objectId);
+        case 'timeline':
+          return await this.getTimelineData(
+            filters?.objectId, 
+            filters?.startDate, 
+            filters?.endDate
+          );
+        default:
+          return { message: 'Custom report data' };
+      }
+    } catch (error) {
+      throw new Error(`Failed to generate report data: ${error.message}`);
     }
   }
 
@@ -385,7 +443,6 @@ export class ReportingService {
     return Math.round((avgReadiness * 0.6) + (defectScore * 0.3) + (overduePenalty * 0.1));
   }
 
-  // Вспомогательные методы для получения данных
   private async getAllConstructionObjects(): Promise<ConstructionObject[]> {
     try {
       const objects = await this.constructionObjectsService.findAll();

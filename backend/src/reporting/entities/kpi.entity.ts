@@ -22,12 +22,12 @@ export class KPIMetric {
   @Column({ type: 'enum', enum: ['daily', 'weekly', 'monthly', 'quarterly'] })
   frequency: string;
 
-  @ManyToOne(() => ConstructionObjectEntity)
+  @ManyToOne(() => ConstructionObjectEntity, { nullable: true })
   @JoinColumn({ name: 'object_id' })
   object: ConstructionObjectEntity;
 
-  @Column({ name: 'object_id', nullable: true })
-  objectId: string;
+  @Column({ name: 'object_id', nullable: true, type: 'integer' })
+  objectId?: number; // Изменено на optional number
 
   @Column({ type: 'date' })
   measurementDate: Date;

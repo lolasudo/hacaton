@@ -4,7 +4,6 @@ import { CreateWorkScheduleDto } from './dto/create-work-schedule.dto';
 import { UpdateWorkScheduleDto } from './dto/update-work-schedule.dto';
 import { WorkSchedule, Task } from './entities/work-schedule.entity';
 
-// 🔔 Сервис уведомлений теперь внутри этого же файла
 @Injectable()
 export class NotificationsService {
   private notifications: any[] = [];
@@ -21,7 +20,6 @@ export class NotificationsService {
     };
     
     this.notifications.push(notification);
-    console.log(`🔔 Создано уведомление: ${message} для пользователя ${userId}`);
     return notification;
   }
 
@@ -58,10 +56,8 @@ export class WorkSchedulesService {
   private idCounter = 1;
   private taskIdCounter = 1;
 
-  // 🔔 Теперь создаем экземпляр сервиса уведомлений внутри
   private readonly notificationsService = new NotificationsService();
 
-  // 🔧 ВАЛИДАЦИЯ ЗАВИСИМОСТЕЙ
   private validateDependencies(tasks: Task[], scheduleId?: number): void {
     const taskIds = tasks.map(task => task.id);
     
@@ -73,7 +69,6 @@ export class WorkSchedulesService {
           );
         }
         
-        // Проверяем циклические зависимости
         if (this.hasCircularDependency(tasks, task.id, depId)) {
           throw new BadRequestException(
             `Обнаружена циклическая зависимость между задачами ${task.id} и ${depId}`
@@ -101,17 +96,14 @@ export class WorkSchedulesService {
     return false;
   }
 
-  // 📅 ВАЛИДАЦИЯ ДАТ
   private validateTaskDates(tasks: Task[]): void {
     for (const task of tasks) {
-      // Проверяем что дата окончания позже даты начала
       if (task.endDate <= task.startDate) {
         throw new BadRequestException(
           `Дата окончания задачи "${task.name}" должна быть позже даты начала`
         );
       }
       
-      // Проверяем что длительность соответствует датам
       const calculatedDuration = Math.ceil(
         (task.endDate.getTime() - task.startDate.getTime()) / (1000 * 60 * 60 * 24)
       );
@@ -123,7 +115,6 @@ export class WorkSchedulesService {
       }
     }
     
-    // Проверяем зависимости по датам
     this.validateDependencyDates(tasks);
   }
 
@@ -140,7 +131,6 @@ export class WorkSchedulesService {
     }
   }
 
-  // 📊 ДАННЫЕ ДЛЯ ДИАГРАММЫ ГАНТА
   getGanttData(scheduleId: number): any {
     const schedule = this.findOne(scheduleId);
     
@@ -158,11 +148,9 @@ export class WorkSchedulesService {
         status: task.status,
         assignedTo: task.assignedTo,
         duration: task.duration,
-        // Дополнительные поля для фронтенда
         custom_class: task.status === 'completed' ? 'completed-task' : 
                      task.status === 'in_progress' ? 'in-progress-task' : 'not-started-task'
       })),
-      // Метаданные для календаря
       calendar: {
         minDate: this.getMinDate(schedule.tasks),
         maxDate: this.getMaxDate(schedule.tasks)
@@ -182,7 +170,6 @@ export class WorkSchedulesService {
     return new Date(Math.max(...tasks.map(task => task.endDate.getTime())));
   }
 
-  // 🎯 ОСНОВНЫЕ МЕТОДЫ С ВАЛИДАЦИЕЙ
   create(createWorkScheduleDto: CreateWorkScheduleDto): WorkSchedule {
     const tasks: Task[] = createWorkScheduleDto.tasks.map(task => ({
       id: this.taskIdCounter++,
@@ -196,10 +183,7 @@ export class WorkSchedulesService {
       status: 'not_started',
     }));
 
-    // Валидация дат
     this.validateTaskDates(tasks);
-    
-    // Валидация зависимостей
     this.validateDependencies(tasks);
 
     const newSchedule: WorkSchedule = {
@@ -223,7 +207,6 @@ export class WorkSchedulesService {
       throw new NotFoundException(`Work schedule with ID ${id} not found`);
     }
 
-    // ✅ Исключаем tasks из обновления - они обновляются отдельными методами
     const { tasks, ...updateData } = updateWorkScheduleDto;
 
     this.workSchedules[scheduleIndex] = {
@@ -235,11 +218,9 @@ export class WorkSchedulesService {
     return this.workSchedules[scheduleIndex];
   }
 
-  // ✅ КРИТИЧЕСКИ ВАЖНО: Предложить изменения графика (для прораба)
   proposeChanges(scheduleId: number, proposedTasks: any[]): WorkSchedule {
     const schedule = this.findOne(scheduleId);
     
-    // Преобразуем предложенные задачи к типу Task
     const tasks: Task[] = proposedTasks.map(task => ({
       id: task.id || this.taskIdCounter++,
       name: task.name,
@@ -252,19 +233,15 @@ export class WorkSchedulesService {
       status: task.status || 'not_started',
     }));
 
-    // Валидация дат
     this.validateTaskDates(tasks);
-    
-    // Валидация зависимостей
     this.validateDependencies(tasks);
 
     schedule.tasks = tasks;
     schedule.status = 'pending_approval';
     schedule.updatedAt = new Date();
 
-    // 🔔 Уведомление для службы контроля
     this.notificationsService.createNotification(
-      schedule.createdBy, // ID службы контроля
+      schedule.createdBy,
       `Прораб предложил изменения в графике "${schedule.name}"`,
       'schedule_change_proposed',
       scheduleId
@@ -273,7 +250,6 @@ export class WorkSchedulesService {
     return schedule;
   }
 
-  // ✅ КРИТИЧЕСКИ ВАЖНО: Согласовать изменения (для службы контроля)
   approveChanges(scheduleId: number, approved: boolean): WorkSchedule {
     const schedule = this.findOne(scheduleId);
     
@@ -285,8 +261,7 @@ export class WorkSchedulesService {
 
     schedule.updatedAt = new Date();
 
-    // 🔔 Уведомление для прораба
-    const foremanId = schedule.tasks[0]?.assignedTo || 2; // ID прораба
+    const foremanId = schedule.tasks[0]?.assignedTo || 2;
     this.notificationsService.createNotification(
       foremanId,
       approved ? 
@@ -299,7 +274,6 @@ export class WorkSchedulesService {
     return schedule;
   }
 
-  // 🔔 МЕТОДЫ ДЛЯ РАБОТЫ С УВЕДОМЛЕНИЯМИ
   getUserNotifications(userId: number) {
     return this.notificationsService.getAllUserNotifications(userId);
   }
@@ -316,7 +290,6 @@ export class WorkSchedulesService {
     this.notificationsService.markAllAsRead(userId);
   }
 
-  // Остальные методы остаются без изменений
   findByObjectId(objectId: number): WorkSchedule[] {
     return this.workSchedules.filter(schedule => schedule.objectId === objectId);
   }
@@ -345,7 +318,7 @@ export class WorkSchedulesService {
       throw new NotFoundException(`Task with ID ${taskId} not found`);
     }
 
-    task.progress = Math.max(0, Math.min(100, progress)); // Ограничиваем прогресс 0-100%
+    task.progress = Math.max(0, Math.min(100, progress));
     task.status = progress === 100 ? 'completed' : 
                   progress > 0 ? 'in_progress' : 'not_started';
     
