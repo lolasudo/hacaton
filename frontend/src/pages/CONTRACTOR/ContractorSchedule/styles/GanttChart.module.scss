@@ -1,4 +1,3 @@
-
 @import '../../../../styles/globals.scss';
 
 .wrapper {
@@ -6,400 +5,365 @@
   flex-direction: column;
   height: 100%;
   background: $color-white;
-  border-radius: $border-radius-lg;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   overflow: hidden;
-  transition: all $transition-normal;
-  border: $border-width solid rgba(72, 98, 132, 0.1);
+  border: 1px solid rgba(72,98,132,0.1);
+  transition: all 0.3s ease;
 
   &.fullscreen {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
+    inset: 0;
     border-radius: 0;
     border: none;
+    z-index: 1000;
   }
 }
 
+/* -------------------
+   TOOLBAR
+------------------- */
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: $color-white;
-  border-bottom: $border-width solid rgba(72, 98, 132, 0.1);
-  padding: $spacing-sm $spacing-lg;
-  gap: $spacing-md;
+  border-bottom: 1px solid rgba(72,98,132,0.1);
+  padding: 16px 24px;
+  gap: 20px;
   flex-wrap: wrap;
-
-  @media (max-width: $breakpoint-tablet) {
-    padding: $spacing-xs $spacing-md;
-    gap: $spacing-sm;
-  }
 }
 
-.toolbarLeft,
-.toolbarCenter,
-.toolbarRight {
+.toolbarLeft, .toolbarRight, .toolbarCenter {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
+/* -------------------
+   ОСНОВНЫЕ КНОПКИ
+------------------- */
 .primaryButton {
-  display: flex !important;
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: #486284;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
   align-items: center;
-  gap: $spacing-xs;
-  padding: 0 $spacing-md !important;
-  width: auto !important;
-  background: $color-primary !important;
-  color: $color-white !important;
-  font-weight: $font-weight-medium;
-  font-size: $font-size-sm;
+  gap: 8px;
 
   &:hover {
-    background: $color-primary-dark !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(72, 98, 132, 0.3);
+    background: rgba(65, 130, 249, 0.15);
   }
 }
 
-.taskInfo {
+/* -------------------
+   КНОПКИ МАСШТАБА (День, Неделя, Месяц, Год, Сводка)
+------------------- */
+.scaleGroup {
   display: flex;
-  align-items: center;
-  gap: $spacing-xs;
-  padding: $spacing-xs $spacing-sm;
-  background: rgba(72, 98, 132, 0.05);
-  border-radius: $border-radius-md;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-medium;
-  color: $color-primary;
-
-  svg {
-    font-size: $font-size-sm;
-  }
-}
-
-.zoomGroup,
-.viewGroup,
-.historyGroup,
-.exportGroup {
-  display: flex;
-  gap: 2px;
-  align-items: center;
+  gap: 8px;
   background: rgba(72, 98, 132, 0.03);
-  border-radius: $border-radius-md;
-  padding: 2px;
+  border-radius: 8px;
+  padding: 4px;
 
   button {
-    min-width: 36px;
-    border-radius: $border-radius-sm;
-    
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: $color-text-dark;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
     &:hover {
-      background: rgba(72, 98, 132, 0.1);
+      background: rgba(72, 98, 132, 0.08);
     }
-  }
-}
-
-.viewGroup {
-  button {
-    width: auto;
-    padding: 0 $spacing-sm !important;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-medium;
-    transition: all $transition-fast;
 
     &.active {
-      background: $color-primary !important;
-      color: $color-white !important;
+      background: rgba(65, 130, 249, 0.1) !important;
+      color: #486284 !important;
+      font-weight: 600;
     }
   }
 }
 
-.zoomAuto {
-  font-size: $font-size-sm !important;
-}
-
-
-.toolbar button {
+/* -------------------
+   ИКОНОЧНЫЕ КНОПКИ (История, Экспорт, Fullscreen)
+------------------- */
+.historyGroup, .exportGroup {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border: none;
-  border-radius: $border-radius-md;
-  background: transparent;
-  cursor: pointer;
-  font-size: $font-size-sm;
-  transition: all $transition-fast;
-  color: $color-text-dark;
+  gap: 4px;
+  background: rgba(72, 98, 132, 0.03);
+  border-radius: 8px;
+  padding: 4px;
 
-  &:hover:not(:disabled) {
-    background: rgba(72, 98, 132, 0.1);
-    transform: scale(1.05);
-  }
+  button {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-text-dark;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
 
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    transform: none;
+    &:hover {
+      background: rgba(72, 98, 132, 0.08);
+    }
   }
 }
 
 .fullscreenButton {
-  border: $border-width solid rgba(72, 98, 132, 0.2) !important;
-  
+  background: transparent;
+  border: 1px solid rgba(72, 98, 132, 0.15) !important;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-dark;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+
   &:hover {
     border-color: $color-primary !important;
+    background: rgba(72, 98, 132, 0.05) !important;
   }
 }
 
+/* -------------------
+   TASK INFO BOX
+------------------- */
+.taskInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(65,130,249,0.05);
+  border-radius: 6px;
+  color: #486284;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+}
+
+/* -------------------
+   GANTT CHART STYLING
+------------------- */
 .ganttContainer {
   flex: 1;
   min-height: 600px;
+  overflow: auto;
   background: $color-white;
-  overflow: hidden;
-  
-  // Стили для Gantt chart
+
   :global {
-    .gantt_task_scale,
-    .gantt_grid_scale,
-    .gantt_grid_data {
-      min-width: fit-content;
+    /* Прямоугольники задач */
+    .gantt_task_line {
+      background: rgba(65,130,249,0.1) !important;
+      border: 1px solid rgba(65,130,249,0.2) !important;
+      border-radius: 6px !important;
+      
+      &:hover {
+        background: rgba(65,130,249,0.15) !important;
+        border-color: rgba(65,130,249,0.3) !important;
+      }
     }
-    
+
+    /* Прогресс внутри задачи */
+    .gantt_task_progress {
+      background: rgba(65,130,249,0.3) !important;
+      border-radius: 6px !important;
+    }
+
+    /* Текст задачи */
+    .gantt_task_content {
+      color: #486284 !important;
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    /* Сетка */
     .gantt_grid_head_cell {
-      background: lighten($color-primary, 65%);
-      border-right: $border-width solid lighten($color-primary, 60%);
-      font-weight: $font-weight-semibold;
-      color: $color-primary;
-      font-size: $font-size-sm;
+      background: rgba(72,98,132,0.05) !important;
+      border-right: 1px solid rgba(72,98,132,0.1) !important;
+      font-family: "Plus Jakarta Sans", sans-serif !important;
     }
-    
-    .gantt_scale_cell {
-      border-right: $border-width solid lighten($color-primary, 60%);
-      background: lighten($color-primary, 68%);
-      font-weight: $font-weight-medium;
-      color: $color-text-dark;
-    }
-    
+
+    /* Строки */
     .gantt_task_row {
-      border-bottom: $border-width solid rgba(72, 98, 132, 0.1);
-    }
-    
-    .gantt_task_cell {
-      border-right: $border-width solid rgba(72, 98, 132, 0.1);
-    }
-    
-    .gantt_task_link {
-      .gantt_line_wrapper {
-        stroke: $color-primary;
+      border-bottom: 1px solid rgba(72,98,132,0.08) !important;
+      
+      &:nth-child(even) {
+        background: rgba(72,98,132,0.02) !important;
       }
     }
   }
 }
 
+/* -------------------
+   MODALS
+------------------- */
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2000;
-  backdrop-filter: blur(4px);
+  padding: 24px;
 }
 
 .modal {
   background: $color-white;
-  padding: $spacing-xl;
-  border-radius: $border-radius-lg;
-  width: 100%;
+  padding: 24px;
+  border-radius: 12px;
   max-width: 480px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modalHeader {
   display: flex;
-  flex-direction: column;
-  gap: $spacing-lg;
-  animation: modalAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: "Plus Jakarta Sans", sans-serif;
 
-  .modalHeader {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-    margin-bottom: $spacing-sm;
-
-    .modalIcon {
-      color: $color-primary;
-      font-size: $font-size-lg;
-    }
-
-    h3 {
-      margin: 0;
-      font-size: $font-size-xl;
-      font-weight: $font-weight-semibold;
-      color: $color-text-dark;
-    }
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: $color-text-dark;
   }
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xs;
+  gap: 8px;
+  margin-bottom: 16px;
 
   label {
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
+    font-size: 14px;
+    font-weight: 500;
     color: $color-text-dark;
+    font-family: "Plus Jakarta Sans", sans-serif;
   }
 }
 
 .formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $spacing-md;
-
-  @media (max-width: $breakpoint-mobile) {
-    grid-template-columns: 1fr;
-    gap: $spacing-sm;
-  }
+  gap: 16px;
 }
 
 .formInput {
-  padding: $spacing-sm;
-  border: $border-width solid rgba(72, 98, 132, 0.2);
-  border-radius: $border-radius-md;
-  font-size: $font-size-base;
-  font-family: $font-family;
-  transition: all $transition-fast;
-  background: $color-white;
-
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(72,98,132,0.2);
+  height: 48px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  
   &:focus {
     outline: none;
     border-color: $color-primary;
-    box-shadow: 0 0 0 3px rgba(72, 98, 132, 0.1);
-  }
-
-  &::placeholder {
-    color: $color-text-light;
+    box-shadow: 0 0 0 3px rgba(72,98,132,0.1);
   }
 }
 
 .modalActions {
   display: flex;
-  gap: $spacing-sm;
-  margin-top: $spacing-md;
-
-  button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $spacing-xs;
-    padding: $spacing-sm $spacing-md;
-    border: none;
-    border-radius: $border-radius-md;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-medium;
-    cursor: pointer;
-    transition: all $transition-fast;
-    font-family: $font-family;
-  }
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .cancelButton {
-  background: rgba(72, 98, 132, 0.05);
+  background: rgba(72,98,132,0.05);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
   color: $color-text-dark;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
 
   &:hover {
-    background: rgba(72, 98, 132, 0.1);
+    background: rgba(72,98,132,0.1);
   }
 }
 
 .submitButton {
-  background: $color-primary;
-  color: $color-white;
-
-  &:hover:not(:disabled) {
-    background: $color-primary-dark;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(72, 98, 132, 0.3);
-  }
+  @extend .primaryButton;
+  flex: 1;
+  justify-content: center;
 
   &:disabled {
-    opacity: 0.6;
+    background: rgba(65, 130, 249, 0.05);
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+    color: rgba(72,98,132,0.5);
   }
 }
 
-@keyframes modalAppear {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
+/* -------------------
+   АДАПТИВНОСТЬ
+------------------- */
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 12px 16px;
+    gap: 16px;
   }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+
+  .scaleGroup button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .primaryButton {
+    padding: 10px 14px;
+    font-size: 14px;
   }
 }
 
-@media (max-width: $breakpoint-tablet) {
+@media (max-width: 480px) {
   .toolbar {
     flex-direction: column;
     align-items: stretch;
-    gap: $spacing-sm;
+    gap: 12px;
   }
 
-  .toolbarLeft,
-  .toolbarCenter,
-  .toolbarRight {
+  .toolbarLeft, .toolbarCenter, .toolbarRight {
     justify-content: center;
   }
 
-  .ganttContainer {
-    min-height: 500px;
-  }
-
-  .modal {
-    margin: $spacing-md;
-    padding: $spacing-lg;
-  }
-}
-
-@media (max-width: $breakpoint-mobile) {
-  .toolbar {
-    padding: $spacing-xs;
-  }
-
-  .toolbarLeft,
-  .toolbarCenter,
-  .toolbarRight {
-    gap: $spacing-xs;
-  }
-
-  .primaryButton span {
-    display: none;
-  }
-
-  .taskInfo span {
-    display: none;
-  }
-
-  .ganttContainer {
-    min-height: 400px;
-  }
-
-  .modal {
-    padding: $spacing-md;
-  }
-
-  .modalActions {
-    flex-direction: column;
+  .scaleGroup {
+    width: 100%;
+    justify-content: center;
+    
+    button {
+      flex: 1;
+      min-width: 0;
+    }
   }
 }
