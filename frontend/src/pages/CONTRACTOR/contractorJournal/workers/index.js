@@ -1,2 +1,2 @@
-import Workers from './Workers';
+import Workers from './components/WorkersForm';
 export default Workers;
