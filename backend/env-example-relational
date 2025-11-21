@@ -18,9 +18,12 @@ DATABASE_PASSWORD=1
 DATABASE_NAME=Hacaton
 DATABASE_URL=postgresql://postgres:1@postgres:5432/Hacaton
 
-YANDEX_API_KEY=AQVNw9FfToBgKHq0hTUuzk0VMOA1d9E29rHARweH
-YANDEX_FOLDER_ID=b1ges3vdk1da16vq9rgk
-YANDEX_VISION_URL=https://ocr.api.cloud.yandex.net/ocr/v1/recognizeText
+YANDEX_API_KEY=env-example-relational
+
+YANDEX_FOLDER_ID=env-example-relational
+
+YANDEX_VISION_URL=env-example-relational
+
 
 FILE_DRIVER=local
 ACCESS_KEY_ID=
