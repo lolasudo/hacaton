@@ -1,0 +1,514 @@
+@use '../../../../styles/globals.scss' as *;
+@use '../../../../styles/mixins.scss' as m;
+
+.reportsContainer {
+  padding: 0;
+}
+
+.welcomeSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xl;
+  padding: 0 $spacing-md;
+
+  @include m.tablet {
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+}
+
+.welcomeText {
+  h1 {
+    @include m.typography(xxl, medium);
+    color: #3E435D;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    @include m.typography(base, light);
+    color: #ADA7A7;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.exportButton {
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  letter-spacing: -0.01em;
+  height: $button-height;
+  padding: 0 $spacing-md;
+  background: $color-white;
+  border: $border-width solid $color-primary;
+  border-radius: $border-radius-md;
+  color: $color-primary;
+  cursor: pointer;
+  transition: $transition-fast;
+  
+  &:hover {
+    background: $color-primary;
+    color: $color-white;
+  }
+}
+
+.reportsCard {
+  background: $color-white;
+  border-radius: 10px;
+  margin: 0 $spacing-md;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+
+.cardHeader {
+  height: 120px;
+  background: $color-background;
+  padding: 0;
+  margin: 0;
+  display: block;
+
+  @include m.tablet {
+    height: 80px;
+  }
+
+  @include m.mobile {
+    height: 60px;
+  }
+}
+
+
+.filtersSection {
+  display: flex;
+  gap: $spacing-md;
+  margin: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-normal;
+  letter-spacing: -0.01em;
+  padding: $spacing-xs $spacing-sm;
+  border: $border-width solid #cbd5e0;
+  border-radius: $border-radius-md;
+  background: $color-white;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin: 0 $spacing-xl $spacing-xl;
+}
+
+.metricCard {
+  background: #FAFBFD;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+  border: $border-width solid rgba($color-primary, 0.1);
+  text-align: center;
+}
+
+.metricValue {
+  @include m.typography(xl, bold);
+  color: $color-text-dark;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.metricLabel {
+  @include m.typography(sm, normal);
+  color: $color-text-light;
+}
+
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+  margin: 0 $spacing-xl $spacing-xl;
+  
+  @include m.tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+  
+  @include m.mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+
+.chartSection, .materialsSection, .issuesSection {
+  background: #FAFBFD;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+  border: $border-width solid rgba($color-primary, 0.1);
+}
+
+.sectionTitle {
+  @include m.typography(lg, medium);
+  color: $color-text-dark;
+  margin-bottom: $spacing-lg;
+  margin-top: 0;
+}
+
+.chartContainer {
+  height: 200px;
+  width: 100%;
+}
+
+.chartPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background: $color-white;
+  border-radius: $border-radius-md;
+  border: 2px dashed #e2e8f0;
+  @include m.typography(base, normal);
+  color: $color-text-light;
+}
+
+
+.materialsTable, .issuesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.materialsTable th, .materialsTable td,
+.issuesTable th, .issuesTable td {
+  padding: $spacing-sm;
+  text-align: left;
+  border-bottom: $border-width solid #e2e8f0;
+}
+
+.tableHeader {
+  @include m.typography(sm, semibold);
+  color: $color-text-light;
+}
+
+.tableCell {
+  @include m.typography(sm, normal);
+  color: $color-text-dark;
+}
+
+.deviationPositive {
+  color: #38a169;
+}
+
+.deviationNegative {
+  color: #e53e3e;
+}
+
+.statusOverview {
+  display: flex;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+}
+
+.statusCritical {
+  color: #e53e3e;
+  font-weight: $font-weight-semibold;
+}
+
+.statusWarning {
+  color: #dd6b20;
+  font-weight: $font-weight-semibold;
+}
+
+.statusResolved {
+  color: #38a169;
+  font-weight: $font-weight-semibold;
+}
+
+
+.dailyReportSection {
+  background: #FAFBFD;
+  padding: $spacing-xl;
+  border-radius: $border-radius-lg;
+  border: $border-width solid rgba($color-primary, 0.1);
+  margin: 0 $spacing-xl $spacing-xl;
+}
+
+.reportForm {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.formLabel {
+  @include m.typography(base, normal);
+  color: $color-text-dark;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.formInput, .formSelect, .formTextarea {
+  background: $color-white;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  border: $border-width solid rgba($color-primary, 0.1);
+  @include m.typography(base, normal);
+  color: $color-text-dark;
+  transition: all $transition-normal;
+  height: 44px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $color-text-dark;
+    opacity: 0.4;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+  }
+
+  &:hover {
+    border-color: rgba($color-primary, 0.3);
+  }
+}
+
+.formTextarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.photoUpload {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.uploadButton {
+  @include m.typography(base, normal);
+  padding: $spacing-sm;
+  background: $color-white;
+  border: $border-width dashed #cbd5e0;
+  border-radius: $border-radius-md;
+  cursor: pointer;
+  text-align: center;
+  transition: $transition-fast;
+  
+  &:hover {
+    border-color: $color-primary;
+    background: lighten($color-white, 2%);
+  }
+}
+
+.submitButton {
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  color: $color-primary;
+  @include m.typography(base, normal);
+  border: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+  width: 100%;
+  margin-top: $spacing-sm;
+
+  &:hover {
+    background: rgba(65, 130, 249, 0.2);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+@include m.mobile {
+  .reportsCard {
+    margin: 0 $spacing-sm;
+  }
+  
+  .filtersSection,
+  .dashboard,
+  .contentGrid,
+  .dailyReportSection {
+    margin: $spacing-md;
+  }
+  
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtersSection {
+    flex-direction: column;
+  }
+  
+  .filterSelect {
+    width: 100%;
+  }
+  
+  .materialsTable, .issuesTable {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .statusOverview {
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+}
+
+
+@include m.tablet {
+  .cardHeader {
+    height: 80px;
+  }
+}
+.fadePlaceholder {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fadeIn {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.fadePlaceholder {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fadeIn {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+// Добавь эти стили в contractorReports.module.scss
+
+.statusOverview {
+  display: flex;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  @include m.typography(sm, medium);
+  color: $color-text-dark;
+}
+
+.statusDotCritical,
+.statusDotWarning,
+.statusDotResolved {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.statusDotCritical {
+  background: #e53e3e;
+}
+
+.statusDotWarning {
+  background: #dd6b20;
+}
+
+.statusDotResolved {
+  background: #38a169;
+}
+
+.dragDrop {
+  border: 2px dashed #CED7E4;
+  border-radius: 6px;
+  padding: $spacing-lg;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #FFFFFF;
+  
+  &:hover {
+    border-color: $color-primary;
+    background: #f8fafc;
+  }
+  
+  p {
+    margin: 0;
+    @include m.typography(base, medium);
+    color: $color-text-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+  }
+}
+
+// Улучшенные стили для таблиц
+.materialsTable, .issuesTable {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th, td {
+    padding: $spacing-sm;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    @include m.typography(sm, normal);
+  }
+  
+  th {
+    @include m.typography(sm, semibold);
+    color: $color-text-light;
+    background: #f8fafc;
+  }
+}
+
+// Улучшенные стили для карточек метрик
+.metricCard {
+  background: #FAFBFD;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($color-primary, 0.1);
+  text-align: center;
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.metricValue {
+  @include m.typography(xl, bold);
+  color: $color-text-dark;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.metricLabel {
+  @include m.typography(sm, normal);
+  color: $color-text-light;
+}

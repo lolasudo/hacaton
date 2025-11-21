@@ -1,0 +1,495 @@
+@use '../../../styles/globals.scss' as *;
+@use '../../../styles/mixins.scss' as m;
+
+.profilePage {
+  padding-top: 100px;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+
+.profileContainer {
+  display: flex;
+  min-height: 100vh;
+  background: #FAFBFD;
+}
+
+.mainContent {
+  flex: 1;
+  padding: $spacing-2xl $spacing-md $spacing-md;
+  padding-left: $container-padding-mobile;
+  padding-right: $container-padding-mobile;
+
+  @include m.tablet {
+    padding-left: $container-padding-tablet;
+    padding-right: $container-padding-tablet;
+  }
+
+  @include m.desktop {
+    padding-left: $container-padding-desktop;
+    padding-right: $container-padding-desktop;
+  }
+}
+
+
+.welcomeSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xl;
+  padding: 0 $spacing-md;
+
+  @include m.tablet {
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+}
+
+.welcomeText {
+  h1 {
+    @include m.typography(xxl, medium);
+    color: #3E435D;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    @include m.typography(base, light);
+    color: #ADA7A7;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: $color-white;
+  border-radius: $border-radius-md;
+  width: 300px;
+  border: $border-width solid rgba($color-primary, 0.1);
+
+  @include m.tablet {
+    width: 100%;
+  }
+
+  img {
+    width: $icon-size;
+    height: $icon-size;
+  }
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  @include m.typography(base, normal);
+  color: #ADA7A7;
+  width: 100%;
+
+  &::placeholder {
+    color: #ADA7A7;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.notificationButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: $color-white;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color $transition-normal;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  img {
+    width: $icon-size;
+    height: $icon-size;
+  }
+}
+
+
+.profileCard {
+  background: $color-white;
+  border-radius: 10px;
+  margin: 0 $spacing-md;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.profileHeader {
+  height: 120px;
+  background: $color-background;
+  padding: 0;
+  margin: 0;
+  display: block;
+
+  @include m.tablet {
+    height: 80px;
+  }
+
+  @include m.mobile {
+    height: 60px;
+  }
+}
+
+
+.profileUserSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-xl;
+  padding-top: $spacing-2xl;
+
+  @include m.tablet {
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+}
+
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: $color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid rgba($color-primary, 0.1);
+
+  @include m.mobile {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.avatarPlaceholder {
+  @include m.typography(xxl, semibold);
+  color: $color-primary;
+}
+
+.userInfo {
+  h2 {
+    @include m.typography(xl, medium);
+    color: $color-text-dark;
+    margin-bottom: $spacing-xs;
+  }
+
+  p {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    opacity: 0.5;
+  }
+}
+
+.editButton {
+  background: $color-primary;
+  border-radius: $border-radius-sm;
+  padding: $spacing-sm $spacing-lg;
+  color: $color-white;
+  @include m.typography(base, normal);
+  border: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+
+  &:hover {
+    background: $color-primary-dark;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+
+.profileForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-2xl;
+  margin: $spacing-2xl 0;
+  padding: 0 $spacing-xl;
+
+  @include m.tablet {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.formLabel {
+  @include m.typography(base, normal);
+  color: $color-text-dark;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.formInput {
+  background: #FAFBFD;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  border: $border-width solid rgba($color-primary, 0.1);
+  @include m.typography(base, normal);
+  color: $color-text-dark;
+  transition: all $transition-normal;
+  height: 44px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $color-text-dark;
+    opacity: 0.4;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+  }
+
+  &:hover {
+    border-color: rgba($color-primary, 0.3);
+  }
+}
+
+
+.selectWrapper {
+  display: none;
+}
+
+
+.emailSection {
+  padding: 0 $spacing-xl $spacing-xl;
+  
+  h3 {
+    @include m.typography(lg, medium);
+    color: $color-text-dark;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.emailItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  background: #FAFBFD;
+  border-radius: $border-radius-md;
+  border: $border-width solid rgba($color-primary, 0.1);
+}
+
+.emailIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: 50%;
+}
+
+.emailInfo {
+  flex: 1;
+  
+  p {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    margin-bottom: 4px;
+  }
+
+  span {
+    @include m.typography(sm, normal);
+    color: $color-text-dark;
+    opacity: 0.5;
+  }
+}
+
+.addEmailButton {
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  color: $color-primary;
+  @include m.typography(base, normal);
+  border: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+  width: 100%;
+  margin-top: $spacing-sm;
+
+  &:hover {
+    background: rgba(65, 130, 249, 0.2);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+
+.loading {
+  text-align: center;
+  padding: $spacing-2xl;
+  @include m.typography(lg, normal);
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+
+@include m.mobile {
+  .mainContent {
+    padding: $spacing-md $spacing-sm;
+  }
+  
+  .profileCard {
+    margin: 0 $spacing-sm;
+  }
+  
+  .profileForm,
+  .emailSection {
+    padding: 0 $spacing-md $spacing-md;
+  }
+  
+  .profileUserSection {
+    padding: $spacing-lg;
+    padding-top: $spacing-xl;
+  }
+  
+  .profileHeader {
+    height: 60px;
+  }
+  
+  .welcomeSection {
+    padding: 0 $spacing-sm;
+  }
+  
+  .searchBox {
+    width: 100%;
+  }
+}
+
+/* ==========================
+   TABLET RESPONSIVE
+========================== */
+@include m.tablet {
+  .profileUserSection {
+    padding: $spacing-lg;
+    padding-top: $spacing-xl;
+  }
+  
+  .profileHeader {
+    height: 80px;
+  }
+}
+
+
+.react-select-container {
+  .react-select__control {
+    background: #FAFBFD;
+    border: $border-width solid rgba($color-primary, 0.1);
+    border-radius: $border-radius-md;
+    min-height: 44px;
+    box-shadow: none;
+    transition: all $transition-normal;
+    
+    &:hover {
+      border-color: rgba($color-primary, 0.3);
+    }
+    
+    &--is-focused {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+    }
+  }
+  
+  .react-select__value-container {
+    padding: 0 $spacing-md;
+  }
+  
+  .react-select__single-value {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+  }
+  
+  .react-select__placeholder {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    opacity: 0.4;
+  }
+  
+  .react-select__menu {
+    border-radius: $border-radius-md;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: $border-width solid rgba($color-primary, 0.1);
+    overflow: hidden;
+  }
+  
+  .react-select__option {
+    padding: $spacing-sm $spacing-md;
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    transition: background-color $transition-fast;
+    
+    &--is-focused {
+      background: rgba($color-primary, 0.1);
+    }
+    
+    &--is-selected {
+      background: rgba($color-primary, 0.2);
+      color: $color-primary;
+      font-weight: 500;
+    }
+  }
+  
+  .react-select__indicator {
+    padding: $spacing-sm;
+    color: $color-text-dark;
+    opacity: 0.5;
+    
+    &:hover {
+      color: $color-text-dark;
+      opacity: 0.7;
+    }
+  }
+  
+  .react-select__indicator-separator {
+    background-color: rgba($color-primary, 0.1);
+  }
+}

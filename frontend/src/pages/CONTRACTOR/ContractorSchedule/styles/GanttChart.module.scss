@@ -1,0 +1,369 @@
+@import '../../../../styles/globals.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $color-white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1px solid rgba(72,98,132,0.1);
+  transition: all 0.3s ease;
+
+  &.fullscreen {
+    position: fixed;
+    inset: 0;
+    border-radius: 0;
+    border: none;
+    z-index: 1000;
+  }
+}
+
+/* -------------------
+   TOOLBAR
+------------------- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-white;
+  border-bottom: 1px solid rgba(72,98,132,0.1);
+  padding: 16px 24px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.toolbarLeft, .toolbarRight, .toolbarCenter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* -------------------
+   ОСНОВНЫЕ КНОПКИ
+------------------- */
+.primaryButton {
+  background: rgba(65, 130, 249, 0.1);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: #486284;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background: rgba(65, 130, 249, 0.15);
+  }
+}
+
+/* -------------------
+   КНОПКИ МАСШТАБА (День, Неделя, Месяц, Год, Сводка)
+------------------- */
+.scaleGroup {
+  display: flex;
+  gap: 8px;
+  background: rgba(72, 98, 132, 0.03);
+  border-radius: 8px;
+  padding: 4px;
+
+  button {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: $color-text-dark;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(72, 98, 132, 0.08);
+    }
+
+    &.active {
+      background: rgba(65, 130, 249, 0.1) !important;
+      color: #486284 !important;
+      font-weight: 600;
+    }
+  }
+}
+
+/* -------------------
+   ИКОНОЧНЫЕ КНОПКИ (История, Экспорт, Fullscreen)
+------------------- */
+.historyGroup, .exportGroup {
+  display: flex;
+  gap: 4px;
+  background: rgba(72, 98, 132, 0.03);
+  border-radius: 8px;
+  padding: 4px;
+
+  button {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-text-dark;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+
+    &:hover {
+      background: rgba(72, 98, 132, 0.08);
+    }
+  }
+}
+
+.fullscreenButton {
+  background: transparent;
+  border: 1px solid rgba(72, 98, 132, 0.15) !important;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-dark;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+
+  &:hover {
+    border-color: $color-primary !important;
+    background: rgba(72, 98, 132, 0.05) !important;
+  }
+}
+
+/* -------------------
+   TASK INFO BOX
+------------------- */
+.taskInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(65,130,249,0.05);
+  border-radius: 6px;
+  color: #486284;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+}
+
+/* -------------------
+   GANTT CHART STYLING
+------------------- */
+.ganttContainer {
+  flex: 1;
+  min-height: 600px;
+  overflow: auto;
+  background: $color-white;
+
+  :global {
+    /* Прямоугольники задач */
+    .gantt_task_line {
+      background: rgba(65,130,249,0.1) !important;
+      border: 1px solid rgba(65,130,249,0.2) !important;
+      border-radius: 6px !important;
+      
+      &:hover {
+        background: rgba(65,130,249,0.15) !important;
+        border-color: rgba(65,130,249,0.3) !important;
+      }
+    }
+
+    /* Прогресс внутри задачи */
+    .gantt_task_progress {
+      background: rgba(65,130,249,0.3) !important;
+      border-radius: 6px !important;
+    }
+
+    /* Текст задачи */
+    .gantt_task_content {
+      color: #486284 !important;
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+    }
+
+    /* Сетка */
+    .gantt_grid_head_cell {
+      background: rgba(72,98,132,0.05) !important;
+      border-right: 1px solid rgba(72,98,132,0.1) !important;
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+    }
+
+    /* Строки */
+    .gantt_task_row {
+      border-bottom: 1px solid rgba(72,98,132,0.08) !important;
+      
+      &:nth-child(even) {
+        background: rgba(72,98,132,0.02) !important;
+      }
+    }
+  }
+}
+
+/* -------------------
+   MODALS
+------------------- */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 24px;
+}
+
+.modal {
+  background: $color-white;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: $color-text-dark;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: $color-text-dark;
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formInput {
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(72,98,132,0.2);
+  height: 48px;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba(72,98,132,0.1);
+  }
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.cancelButton {
+  background: rgba(72,98,132,0.05);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 20px;
+  color: $color-text-dark;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+
+  &:hover {
+    background: rgba(72,98,132,0.1);
+  }
+}
+
+.submitButton {
+  @extend .primaryButton;
+  flex: 1;
+  justify-content: center;
+
+  &:disabled {
+    background: rgba(65, 130, 249, 0.05);
+    cursor: not-allowed;
+    color: rgba(72,98,132,0.5);
+  }
+}
+
+/* -------------------
+   АДАПТИВНОСТЬ
+------------------- */
+@media (max-width: 768px) {
+  .toolbar {
+    padding: 12px 16px;
+    gap: 16px;
+  }
+
+  .scaleGroup button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  .primaryButton {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .toolbarLeft, .toolbarCenter, .toolbarRight {
+    justify-content: center;
+  }
+
+  .scaleGroup {
+    width: 100%;
+    justify-content: center;
+    
+    button {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+}

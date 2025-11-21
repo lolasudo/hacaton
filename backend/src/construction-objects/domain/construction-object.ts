@@ -2,9 +2,9 @@ export class ConstructionObject {
   id: number;
   name: string;
   address: string;
-  polygon: string; // Координаты полигона "lat,lng;lat,lng;..."
-  customerId: number; // ID заказчика
-  contractorId: number; // ID прораба
+  polygon: string;
+  customerId: number; 
+  contractorId: number; 
   status: 'planned' | 'active' | 'completed' | 'suspended';
   startDate: Date;
   endDate: Date;

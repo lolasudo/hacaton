@@ -1,0 +1,65 @@
+@use './globals.scss' as *;
+
+/* ==========================
+   RESPONSIVE MIXINS
+========================== */
+@mixin mobile {
+  @media (max-width: #{$breakpoint-tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) and (max-width: #{$breakpoint-large - 1px}) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: #{$breakpoint-large}) {
+    @content;
+  }
+}
+
+/* Дополнительные вариации для больших экранов */
+@mixin large-desktop {
+  @media (min-width: 1920px) and (max-width: #{$breakpoint-large - 1px}) {
+    @content;
+  }
+}
+
+@mixin large-plus {
+  @media (min-width: 1920px) {
+    @content;
+  }
+}
+
+/* ==========================
+   TYPOGRAPHY MIXIN
+========================== */
+@mixin typography($size: base, $weight: medium) {
+  font-family: $font-family;
+  font-style: normal;
+  line-height: $line-height-normal;
+  letter-spacing: $letter-spacing-tight;
+
+  // Размер шрифта
+  @if $size == xs { font-size: $font-size-xs; }
+  @else if $size == sm { font-size: $font-size-sm; }
+  @else if $size == base { font-size: $font-size-base; }
+  @else if $size == lg { font-size: $font-size-lg; }
+  @else if $size == xl { font-size: $font-size-xl; }
+  @else if $size == xxl { font-size: $font-size-2xl; }
+
+  // Вес шрифта
+  @if $weight == normal { font-weight: $font-weight-normal; }
+  @else if $weight == medium { font-weight: $font-weight-medium; }
+  @else if $weight == semibold { font-weight: $font-weight-semibold; }
+  @else if $weight == bold { font-weight: $font-weight-bold; }
+}

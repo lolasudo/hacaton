@@ -1,4 +1,4 @@
-// src/ttn/controllers/ttn.controller.ts
+
 import {
   Controller,
   Post,
@@ -60,51 +60,34 @@ export class TTNController {
     @Request() req,
   ): Promise<TTN> {
     try {
-      // Проверяем, что файл загружен
       if (!file) {
         throw new BadRequestException('Файл не загружен');
       }
 
-      // Проверяем тип файла
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
       if (!allowedMimeTypes.includes(file.mimetype)) {
         throw new BadRequestException('Недопустимый тип файла. Разрешены только JPEG, PNG');
       }
 
-      // Проверяем размер файла (макс. 10 МБ)
-      const maxSize = 10 * 1024 * 1024; // 10 МБ
+      const maxSize = 10 * 1024 * 1024;
       if (file.size > maxSize) {
         throw new BadRequestException('Размер файла не должен превышать 10 МБ');
       }
 
-      console.log('🔍 Starting OCR recognition...');
-      
-      // Используем OCR для распознавания ТТН
       const recognitionResult = await this.ocrService.recognizeTTN(file.buffer);
 
-      console.log('✅ OCR completed:', {
-        invoiceNumber: recognitionResult.invoiceNumber,
-        supplier: recognitionResult.supplier,
-        itemsCount: recognitionResult.items?.length || 0
-      });
-
-      // 🔴 ИСПРАВЛЕНИЕ: Передаем только createTTNDto и recognitionResult
       return await this.ttnService.processTTNWithOCR(
         file, 
-        createTTNDto, // Передаем оригинальный DTO
+        createTTNDto,
         req.user.id, 
-        recognitionResult // Передаем результат OCR
+        recognitionResult
       );
 
     } catch (error) {
-      console.error('❌ OCR Error:', error);
-      
       if (error instanceof BadRequestException) {
         throw error;
       }
       
-      // Если OCR не сработал, создаем ТТН только с данными из DTO (без OCR)
-      console.log('🔄 Fallback to standard processTTN method (without OCR)');
       return await this.ttnService.processTTN(file, createTTNDto, req.user.id);
     }
   }

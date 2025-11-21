@@ -1,0 +1,885 @@
+@use '../../../../../styles/globals.scss' as *;
+@use '../../../../../styles/mixins.scss' as m;
+
+.page {
+  min-height: 100vh;
+  padding-top: $navbar-height;
+  background-color: #FAFBFD;
+  
+  @include m.mobile {
+    padding-top: $navbar-height-mobile;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-2xl;
+  
+  @include m.mobile {
+    padding: $spacing-sm;
+  }
+  
+  @include m.tablet {
+    padding: $spacing-md $spacing-lg;
+  }
+}
+
+// Header
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: $spacing-2xl;
+  padding-bottom: $spacing-lg;
+  border-bottom: 1px solid rgba($color-primary, 0.1);
+  
+  @include m.mobile {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-md;
+  }
+}
+
+.titleSection {
+  flex: 1;
+}
+
+.title {
+  @include m.typography(2xl, bold);
+  text-align: left;
+  color: $color-primary-dark;
+  margin-bottom: $spacing-sm;
+  
+  @include m.mobile {
+    @include m.typography(xl, bold);
+    text-align: center;
+  }
+}
+
+.subtitle {
+  @include m.typography(base, medium);
+  text-align: left;
+  color: darken($color-text-dark, 10%);
+  margin-bottom: 0;
+  
+  @include m.mobile {
+    @include m.typography(sm, medium);
+    text-align: center;
+  }
+}
+
+// Navigation
+.viewTabs {
+  display: flex;
+  gap: $spacing-sm;
+  background: $color-white;
+  padding: $spacing-sm;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  
+  @include m.mobile {
+    justify-content: stretch;
+  }
+}
+
+.viewTab {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  background: transparent;
+  border-radius: $border-radius-md;
+  @include m.typography(sm, medium);
+  color: $color-text-light;
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  &:hover {
+    color: $color-primary;
+    background: rgba($color-primary, 0.05);
+  }
+}
+
+.viewTabActive {
+  color: $color-primary;
+  background: rgba($color-primary, 0.1);
+  font-weight: 600;
+}
+
+.tabIcon {
+  font-size: 16px;
+}
+
+.tabBadge {
+  background: $color-primary;
+  color: $color-white;
+  border-radius: 12px;
+  padding: 2px 8px;
+  @include m.typography(xs, bold);
+  margin-left: 4px;
+}
+
+// Statistics
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-2xl;
+  
+  @include m.mobile {
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.statCard {
+  background: $color-white;
+  padding: $spacing-lg;
+  border-radius: $border-radius-lg;
+  border: 1px solid rgba($color-primary, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: all $transition-normal;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.statValue {
+  @include m.typography(2xl, bold);
+  color: $color-primary-dark;
+  margin-bottom: $spacing-xs;
+  line-height: 1.2;
+}
+
+.statLabel {
+  @include m.typography(sm, medium);
+  color: $color-text-light;
+  line-height: 1.3;
+}
+
+// Main Content
+.mainContent {
+  animation: fadeInUp 0.3s ease;
+}
+
+.formContainer {
+  animation: slideInLeft 0.4s ease;
+}
+
+.listContainer {
+  animation: slideInRight 0.4s ease;
+}
+
+// Form Styles
+.formSection {
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.sectionHeader {
+  padding: $spacing-xl $spacing-lg;
+  border-bottom: 1px solid rgba($color-primary, 0.1);
+  background: $color-background;
+  
+  h3 {
+    @include m.typography(lg, semibold);
+    color: $color-primary-dark;
+    margin: 0 0 $spacing-xs 0;
+  }
+}
+
+.formIndicator {
+  @include m.typography(sm, medium);
+  opacity: 0.9;
+}
+
+.formIndicatorValid {
+  color: #59b07e;
+  font-weight: 600;
+}
+
+.form {
+  padding: $spacing-xl;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  
+  @include m.mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  
+  label {
+    @include m.typography(sm, semibold);
+    color: $color-text-dark;
+    margin-bottom: 2px;
+  }
+  
+  input, textarea, .dateInput {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba($color-primary, 0.2);
+    border-radius: $border-radius-md;
+    @include m.typography(sm, normal);
+    background: $color-white;
+    transition: all $transition-normal;
+    min-height: 52px;
+    box-sizing: border-box;
+    line-height: 1.4;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    }
+    
+    &::placeholder {
+      color: $color-text-light;
+    }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: $line-height-normal;
+    padding: $spacing-md;
+  }
+}
+
+.dateInput {
+  width: 100%;
+  background: $color-white;
+  padding: 14px 16px;
+  
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $color-text-light;
+  }
+}
+
+.error {
+  border-color: #E74C3C !important;
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(#E74C3C, 0.1);
+  }
+}
+
+.errorText {
+  @include m.typography(xs, normal);
+  color: #E74C3C;
+  margin-top: 4px;
+}
+
+.volumeInput {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: stretch;
+  
+  input {
+    flex: 1;
+    min-width: 60px;
+    min-height: 52px;
+  }
+}
+
+.coordinatesInput {
+  display: flex;
+  gap: $spacing-sm;
+  
+  input {
+    flex: 1;
+    min-height: 52px;
+  }
+}
+
+.locationButton {
+  padding: 14px 16px;
+  background: rgba($color-primary, 0.1);
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: $border-radius-md;
+  color: $color-primary;
+  cursor: pointer;
+  transition: all $transition-normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 52px;
+  
+  &:hover {
+    background: rgba($color-primary, 0.2);
+    border-color: $color-primary;
+  }
+}
+
+.durationInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: rgba($color-primary, 0.05);
+  border-radius: $border-radius-md;
+  @include m.typography(sm, medium);
+  color: $color-primary-dark;
+  margin: $spacing-md 0;
+  border-left: 4px solid $color-primary;
+}
+
+// React Select
+:global {
+  .react-select-container {
+    width: 100%;
+    
+    .react-select__control {
+      min-height: 52px !important;
+      border: 1px solid rgba($color-primary, 0.2);
+      border-radius: $border-radius-md;
+      background: $color-white;
+      transition: all $transition-normal;
+      box-shadow: none;
+      
+      &:hover {
+        border-color: rgba($color-primary, 0.3);
+      }
+      
+      &.react-select__control--is-focused {
+        border-color: $color-primary !important;
+        box-shadow: 0 0 0 3px rgba($color-primary, 0.1) !important;
+      }
+    }
+    
+    .react-select__value-container {
+      padding: 6px 12px;
+    }
+    
+    .react-select__single-value {
+      @include m.typography(sm, normal);
+      color: $color-text-dark;
+    }
+    
+    .react-select__placeholder {
+      @include m.typography(sm, normal);
+      color: $color-text-light;
+    }
+    
+    .react-select__menu {
+      border-radius: $border-radius-md;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba($color-primary, 0.1);
+      overflow: hidden;
+    }
+    
+    .react-select__option {
+      padding: 12px 16px;
+      @include m.typography(sm, normal);
+      color: $color-text-dark;
+      transition: background-color $transition-fast;
+      
+      &--is-focused {
+        background: rgba($color-primary, 0.1);
+      }
+      
+      &--is-selected {
+        background: rgba($color-primary, 0.2);
+        color: $color-primary-dark;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.addButton {
+  background: $color-primary;
+  border-radius: $border-radius-md;
+  padding: $spacing-md $spacing-lg;
+  color: $color-white;
+  @include m.typography(base, semibold);
+  border: none;
+  cursor: pointer;
+  transition: all $transition-normal;
+  width: 100%;
+  margin-top: $spacing-lg;
+  min-height: 56px;
+  box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($color-primary, 0.4);
+  }
+
+  &:disabled {
+    background: $color-text-light;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.addButtonLoading {
+  position: relative;
+  color: transparent;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid $color-white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// List Styles
+.listSection {
+  background: $color-white;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.listHeader {
+  padding: $spacing-xl;
+  border-bottom: 1px solid rgba($color-primary, 0.1);
+  background: #f8f9fa;
+}
+
+.listTitle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+  
+  h3 {
+    @include m.typography(lg, semibold);
+    color: $color-text-dark;
+    margin: 0;
+  }
+}
+
+.workersCount {
+  @include m.typography(sm, medium);
+  color: $color-text-light;
+  background: rgba($color-primary, 0.1);
+  padding: 6px 12px;
+  border-radius: $border-radius-sm;
+}
+
+.controls {
+  display: flex;
+  gap: $spacing-md;
+  align-items: stretch;
+  
+  @include m.mobile {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+.searchBox {
+  flex: 2;
+  
+  input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba($color-primary, 0.2);
+    border-radius: $border-radius-md;
+    @include m.typography(sm, normal);
+    background: $color-white;
+    min-height: 52px;
+    box-sizing: border-box;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    }
+  }
+}
+
+.filterSelect {
+  flex: 1;
+  min-width: 160px;
+  
+  @include m.mobile {
+    min-width: 100%;
+  }
+}
+
+// Workers List
+.workersList {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 600px;
+  padding: $spacing-xl;
+}
+
+.workerItem {
+  background: #FAFBFD;
+  border: 1px solid rgba($color-primary, 0.1);
+  border-radius: $border-radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  transition: all $transition-normal;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.workerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid rgba($color-primary, 0.1);
+}
+
+.workerMainInfo {
+  flex: 1;
+}
+
+.workerName {
+  @include m.typography(lg, semibold);
+  color: $color-primary-dark;
+  display: block;
+  margin-bottom: $spacing-xs;
+}
+
+.workerPosition {
+  @include m.typography(sm, medium);
+  color: $color-text-light;
+  background: rgba($color-primary, 0.1);
+  padding: 6px 12px;
+  border-radius: $border-radius-sm;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.workDate {
+  @include m.typography(sm, medium);
+  color: $color-text-light;
+  background: rgba($color-primary, 0.1);
+  padding: 6px 12px;
+  border-radius: $border-radius-sm;
+  display: inline-block;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: $color-text-light;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: $border-radius-sm;
+  transition: all $transition-normal;
+  line-height: 1;
+  
+  &:hover {
+    color: #E74C3C;
+    background: rgba(#E74C3C, 0.1);
+    transform: scale(1.1);
+  }
+}
+
+.workerDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+  
+  @include m.mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: $spacing-sm;
+  background: rgba($color-white, 0.8);
+  border-radius: $border-radius-md;
+}
+
+.detailLabel {
+  @include m.typography(xs, semibold);
+  color: $color-text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailValue {
+  @include m.typography(sm, medium);
+  color: $color-text-dark;
+  line-height: 1.4;
+}
+
+.workDescription {
+  background: $color-white;
+  padding: $spacing-md;
+  border-radius: $border-radius-md;
+  border-left: 4px solid $color-primary;
+  margin-bottom: $spacing-md;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  p {
+    margin: 0;
+    @include m.typography(sm, normal);
+    color: $color-text-dark;
+    line-height: $line-height-normal;
+  }
+}
+
+.workerNotes {
+  background: rgba(#FFA726, 0.05);
+  padding: $spacing-sm;
+  border-radius: $border-radius-md;
+  border-left: 3px solid #FFA726;
+  margin-bottom: $spacing-sm;
+}
+
+.workerFooter {
+  border-top: 1px solid rgba($color-primary, 0.1);
+  padding-top: $spacing-md;
+  margin-top: $spacing-sm;
+}
+
+.timestamp {
+  @include m.typography(xs, normal);
+  color: $color-text-light;
+  font-style: italic;
+}
+
+// Empty State
+.emptyState {
+  padding: $spacing-3xl;
+  text-align: center;
+  color: $color-text-light;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.emptyAnimation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.emptyIcon {
+  font-size: 48px;
+  margin-bottom: $spacing-sm;
+  opacity: 0.5;
+}
+
+.emptyState h4 {
+  @include m.typography(lg, semibold);
+  margin: 0 0 $spacing-sm 0;
+  color: $color-text-dark;
+}
+
+.emptyState p {
+  @include m.typography(base, normal);
+  margin: 0 0 $spacing-lg 0;
+  color: $color-text-light;
+}
+
+.emptyAction {
+  padding: $spacing-md $spacing-xl;
+  background: $color-primary;
+  color: $color-white;
+  border: none;
+  border-radius: $border-radius-md;
+  @include m.typography(sm, semibold);
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+  
+  &:hover {
+    background: $color-primary-dark;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba($color-primary, 0.4);
+  }
+}
+
+// Calendar Styles
+.calendar {
+  border: 1px solid rgba($color-primary, 0.1) !important;
+  border-radius: $border-radius-lg !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  font-family: inherit !important;
+
+  :global {
+    .react-datepicker__header {
+      background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%) !important;
+      border-bottom: none !important;
+      border-radius: $border-radius-lg $border-radius-lg 0 0 !important;
+      padding: $spacing-md 0 !important;
+    }
+
+    .react-datepicker__current-month {
+      @include m.typography(base, semibold);
+      color: $color-white !important;
+      margin-bottom: $spacing-sm !important;
+    }
+
+    .react-datepicker__day {
+      @include m.typography(sm, normal);
+      width: 36px !important;
+      height: 36px !important;
+      line-height: 36px !important;
+      margin: 2px !important;
+      border-radius: $border-radius-md !important;
+      transition: all $transition-normal !important;
+
+      &:hover {
+        background: rgba($color-primary, 0.1) !important;
+        transform: scale(1.1);
+      }
+
+      &.react-datepicker__day--selected {
+        background: $color-primary !important;
+        color: $color-white !important;
+        font-weight: 600 !important;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.popper {
+  z-index: 1000 !important;
+}
+
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+// Mobile
+@include m.mobile {
+  .container {
+    padding: $spacing-sm;
+  }
+  
+  .form, .workersList {
+    padding: $spacing-md;
+  }
+  
+  .header {
+    margin-bottom: $spacing-lg;
+  }
+  
+  .statsGrid {
+    margin-bottom: $spacing-lg;
+  }
+  
+  .statCard {
+    padding: $spacing-md;
+  }
+  
+  .statValue {
+    @include m.typography(lg, bold);
+  }
+  
+  .formRow {
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+  
+  .workerItem {
+    padding: $spacing-md;
+  }
+  
+  .workerDetails {
+    gap: $spacing-sm;
+  }
+}

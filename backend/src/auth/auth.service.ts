@@ -136,7 +136,7 @@ export class AuthService {
       user = userByEmail;
     } else if (socialData.id) {
       const role = {
-        id: RoleEnum.CONTRACTOR, // ✅ ИСПРАВЛЕНО
+        id: RoleEnum.CONTRACTOR, 
       };
       const status = {
         id: StatusEnum.active,
@@ -146,7 +146,7 @@ export class AuthService {
         email: socialEmail ?? null,
         firstName: socialData.firstName ?? null,
         lastName: socialData.lastName ?? null,
-        phone: null, // ✅ ДОБАВЛЕНО phone
+        phone: null, 
         socialId: socialData.id,
         provider: authProvider,
         role,
@@ -200,9 +200,9 @@ export class AuthService {
     const user = await this.usersService.create({
       ...dto,
       email: dto.email,
-      phone: dto.phone, // ✅ ДОБАВЛЕНО phone
+      phone: dto.phone, 
       role: {
-        id: RoleEnum.CONTRACTOR, // ✅ ИСПРАВЛЕНО
+        id: RoleEnum.CONTRACTOR, 
       },
       status: {
         id: StatusEnum.inactive,

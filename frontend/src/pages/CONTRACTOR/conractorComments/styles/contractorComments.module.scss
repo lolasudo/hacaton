@@ -1,0 +1,770 @@
+@use '../../../../styles/globals.scss' as *;
+@use '../../../../styles/mixins.scss' as m;
+
+.page {
+  min-height: 100vh;
+  padding-top: 100px;
+  background-color: #FAFBFD;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: $spacing-2xl;
+}
+
+.title {
+  @include m.typography(2xl, bold);
+  text-align: center;
+  color: $color-primary-dark;
+  margin-bottom: $spacing-sm;
+}
+
+.subtitle {
+  @include m.typography(base, medium);
+  text-align: center;
+  color: darken($color-text-dark, 10%);
+  margin-bottom: $spacing-xl;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+  position: relative;
+}
+
+.stepWrapper {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+
+  .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #CED7E4;
+    color: $color-text-dark;
+    font-weight: $font-weight-bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .connector {
+    width: 2px;
+    background: #CED7E4;
+    position: absolute;
+    top: 50px;
+    left: 24px;
+    bottom: -$spacing-2xl;
+    z-index: 1;
+  }
+
+  .step {
+    background: $color-white;
+    border-radius: $border-radius-md;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    padding: $spacing-xl $spacing-2xl;
+    margin-left: 66px;
+    flex: 1;
+
+    h2 {
+      @include m.typography(xl, semibold);
+      color: $color-primary-dark;
+      margin-bottom: $spacing-xs;
+    }
+
+    p {
+      @include m.typography(base, normal);
+      color: $color-text-dark;
+      opacity: 0.8;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+
+.remarksList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-lg;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-dark;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.selectedRemarkInfo {
+  background: $color-white;
+  border-radius: 12px;
+  padding: $spacing-xl;
+  margin-top: $spacing-md;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+  animation: slideInUp 0.4s ease-out;
+
+  .remarkDetails {
+    h4 {
+      @include m.typography(lg, bold);
+      color: $color-primary-dark;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid rgba($color-primary, 0.2);
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+.remarkMeta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+  padding: $spacing-lg;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+
+  .metaLabel {
+    @include m.typography(sm, semibold);
+    color: $color-text-dark;
+    min-width: 120px;
+    background: rgba($color-primary, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  span:last-child {
+    @include m.typography(sm, normal);
+    color: $color-text-dark;
+    flex: 1;
+  }
+
+  .deadline {
+    color: #E74C3C;
+    font-weight: $font-weight-semibold;
+    background: rgba(#E74C3C, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .priority {
+    font-weight: $font-weight-semibold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    
+    &.high {
+      color: #E74C3C;
+      background: rgba(#E74C3C, 0.1);
+    }
+    
+    &.medium {
+      color: #F39C12;
+      background: rgba(#F39C12, 0.1);
+    }
+    
+    &.low {
+      color: #27AE60;
+      background: rgba(#27AE60, 0.1);
+    }
+  }
+
+  .author {
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+}
+
+.remarkDescription {
+  background: #f8f9fa;
+  padding: $spacing-lg;
+  border-radius: 8px;
+  margin-bottom: $spacing-lg;
+
+  strong {
+    @include m.typography(sm, semibold);
+    color: $color-primary-dark;
+    display: block;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    @include m.typography(base, normal);
+    color: $color-text-dark;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.requiredActions {
+  background: #f8f9fa;
+  padding: $spacing-lg;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.actionsLabel {
+  @include m.typography(sm, semibold);
+  color: $color-primary-dark;
+  margin-bottom: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.actionsList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.actionItem {
+  @include m.typography(sm, normal);
+  color: $color-text-dark;
+  padding: $spacing-sm $spacing-md;
+  background: rgba($color-primary, 0.05);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba($color-primary, 0.1);
+  }
+}
+
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.correctionData {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.selectedRemarkInfo {
+  h4 {
+    @include m.typography(base, semibold);
+    color: $color-text-dark;
+    margin-bottom: $spacing-xs;
+  }
+  
+  p {
+    @include m.typography(sm, normal);
+    color: $color-primary;
+    background: rgba($color-primary, 0.1);
+    padding: $spacing-sm $spacing-md;
+    border-radius: 6px;
+  }
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $color-text-dark;
+    margin-bottom: $spacing-sm;
+  }
+
+  textarea {
+    padding: $spacing-md;
+    border: 2px solid #e9ecef;
+    border-radius: $border-radius-md;
+    font-size: $font-size-base;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.5;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+      background: #fff;
+    }
+
+    &::placeholder {
+      color: $color-text-light;
+    }
+  }
+}
+
+.helperText {
+  font-size: $font-size-sm;
+  color: $color-text-light;
+  margin-top: $spacing-xs;
+  font-style: italic;
+}
+
+
+.fileUploader {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.uploadSection {
+  margin-bottom: $spacing-xl;
+}
+
+.dragDrop {
+  border: 2px dashed #CED7E4;
+  border-radius: $border-radius-md;
+  padding: $spacing-xl;
+  text-align: center;
+  cursor: pointer;
+  transition: all $transition-fast;
+  background: $color-white;
+
+  p {
+    margin: 0;
+    color: $color-text-dark;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-sm;
+  }
+
+  &:hover {
+    border-color: $color-primary;
+    background: lighten($color-primary, 48%);
+    transform: translateY(-2px);
+  }
+}
+
+.fileList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+}
+
+.filePreview {
+  position: relative;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.imagePreview {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .imageOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    padding: $spacing-sm;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    .fileName {
+      color: $color-white;
+      font-size: $font-size-xs;
+      flex: 1;
+      margin-right: $spacing-xs;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .deleteIcon {
+      color: $color-white;
+      cursor: pointer;
+      font-size: 14px;
+      flex-shrink: 0;
+      
+      &:hover {
+        color: #E74C3C;
+      }
+    }
+  }
+}
+
+.documentPreview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-md;
+  background: $color-white;
+  height: 120px;
+  justify-content: center;
+  position: relative;
+  
+  .fileIcon {
+    font-size: 32px;
+    color: $color-primary;
+    margin-bottom: $spacing-xs;
+  }
+  
+  .fileName {
+    font-size: $font-size-xs;
+    text-align: center;
+    color: $color-text-dark;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+  
+  .deleteIcon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: $color-text-light;
+    cursor: pointer;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    padding: 4px;
+    
+    &:hover {
+      color: #E74C3C;
+      background: $color-white;
+    }
+  }
+}
+
+.supportedFormats {
+  font-size: $font-size-sm;
+  color: $color-text-light;
+  text-align: center;
+  margin-top: $spacing-md;
+  padding: $spacing-sm;
+  background: rgba($color-primary, 0.05);
+  border-radius: $border-radius-md;
+}
+
+
+.stepActions {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.commentSection {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.commentLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: $font-weight-semibold;
+  color: $color-text-dark;
+  margin-bottom: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+
+.filledIndicator {
+  color: #28a745;
+  font-weight: $font-weight-bold;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  min-height: 80px;
+  max-width: 100%;
+  box-sizing: border-box;
+  
+  display: block;
+  overflow: auto;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+
+  &::placeholder {
+    color: $color-text-light;
+  }
+}
+
+.commentCounter {
+  text-align: right;
+  font-size: 12px;
+  color: $color-text-light;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 160px;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.buttonPrimary {
+  background: $color-primary;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+    transform: translateY(-1px);
+  }
+}
+
+.buttonSecondary {
+  background: #6c757d;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background: #545b62;
+    transform: translateY(-1px);
+  }
+}
+
+.buttonDanger {
+  background: #dc3545;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background: #c82333;
+    transform: translateY(-1px);
+  }
+}
+
+.buttonIcon {
+  font-size: 14px;
+}
+
+.actionHints {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.hint {
+  font-size: 12px;
+  color: $color-text-light;
+  line-height: 1.4;
+}
+
+
+.reactSelect {
+  width: 100%;
+  margin-bottom: $spacing-md;
+
+  .react-select__control {
+    background: $color-white;
+    border: 1px solid #CED7E4;
+    border-radius: $border-radius-md;
+    min-height: 44px;
+    box-shadow: none;
+
+    &:hover {
+      border-color: #CED7E4;
+    }
+
+    &--is-focused {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+    }
+  }
+
+  .react-select__single-value,
+  .react-select__placeholder {
+    color: $color-text-dark;
+  }
+
+  .react-select__menu {
+    border-radius: $border-radius-md;
+    border: 1px solid #CED7E4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: $color-white;
+  }
+
+  .react-select__option {
+    padding: $spacing-sm $spacing-md;
+    color: $color-text-dark;
+
+    &--is-focused {
+      background: rgba(206, 215, 228, 0.3);
+    }
+
+    &--is-selected {
+      background: rgba(206, 215, 228, 0.5);
+      color: $color-primary;
+      font-weight: 500;
+    }
+  }
+}
+
+
+@include m.mobile {
+  .selectedRemarkInfo {
+    padding: $spacing-lg;
+  }
+
+  .remarkMeta {
+    grid-template-columns: 1fr;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+  }
+
+  .metaItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-xs;
+
+    .metaLabel {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  .stepWrapper .step {
+    margin-left: 0;
+    margin-top: $spacing-md;
+  }
+
+  .circle {
+    align-self: flex-start;
+  }
+
+  .fileList {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: $spacing-sm;
+  }
+  
+  .imagePreview,
+  .documentPreview {
+    height: 100px;
+  }
+  
+  .dragDrop {
+    padding: $spacing-lg;
+  }
+
+  .stepActions {
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .button {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .textarea {
+    min-height: 60px;
+    font-size: 16px;
+  }
+}
+
+@include m.tablet {
+  .remarkMeta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stepActions {
+    padding: 20px;
+  }
+
+  .actions {
+    justify-content: space-between;
+  }
+
+  .button {
+    min-width: 140px;
+    flex: 1;
+  }
+}

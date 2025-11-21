@@ -55,7 +55,7 @@ export class TTNEntity {
   @Column({ name: 'tax_amount', type: 'decimal', nullable: true })
   taxAmount?: number; // ← Сделать nullable
 
-  // Связи
+ 
   @ManyToOne(() => ConstructionObjectEntity)
   @JoinColumn({ name: 'construction_object_id' })
   constructionObject: ConstructionObjectEntity;

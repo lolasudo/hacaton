@@ -1,0 +1,41 @@
+.gantt {
+  font-family: sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gantt .bar {
+  stroke: #888;
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+.gantt .task-completed {
+  fill: #4caf50 !important;
+}
+.gantt .task-progress {
+  fill: #ffc107 !important;
+}
+.gantt .task-planned {
+  fill: #2196f3 !important;
+}
+
+.gantt .bar-label {
+  font-size: 12px;
+  fill: #000;
+}
+
+.gantt .grid .grid-row {
+  fill: #fff;
+  stroke: #eee;
+}
+
+.gantt .today-highlight {
+  fill: rgba(33, 150, 243, 0.1);
+}
+
+.details-container {
+  font-size: 13px;
+  padding: 8px;
+  line-height: 1.4;
+}

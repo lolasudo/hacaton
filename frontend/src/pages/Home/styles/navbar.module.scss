@@ -1,0 +1,182 @@
+@use '../../../styles/globals' as g;
+@use '../../../styles/mixins' as m;
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: g.$navbar-height;
+  background-color: g.$color-background;
+  border-bottom: 1px solid g.$color-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  @include m.mobile {
+    height: g.$navbar-height-mobile;
+  }
+}
+
+.navbarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: g.$breakpoint-large;
+  padding: 0 g.$container-padding-desktop;
+  margin: 0 auto;
+
+  @include m.tablet {
+    max-width: g.$breakpoint-desktop;
+    padding: 0 g.$container-padding-tablet;
+  }
+
+  @include m.mobile {
+    padding: 0 g.$container-padding-mobile;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-sm;
+}
+
+.houseIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: g.$icon-size-large;
+    height: g.$icon-size-large;
+    object-fit: contain;
+    transition: transform g.$transition-fast;
+
+    @include m.mobile {
+      width: 28px;
+      height: 28px;
+    }
+
+    @include m.large {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+}
+
+.logoText {
+  @include m.typography(xl, semibold);
+  color: g.$color-text-dark;
+  white-space: nowrap;
+
+  @include m.mobile {
+    font-size: g.$font-size-lg;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-2xl;
+  }
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: g.$spacing-xl;
+
+  @include m.mobile {
+    gap: g.$spacing-md;
+  }
+
+  @include m.large {
+    gap: g.$spacing-2xl;
+  }
+}
+
+.mosLink,
+.registerLink {
+  @include m.typography(base, medium);
+  color: g.$color-primary;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0.9;
+  transition: opacity g.$transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  @include m.mobile {
+    font-size: g.$font-size-sm;
+  }
+
+  @include m.large {
+    font-size: g.$font-size-lg;
+  }
+}
+
+.registerLink {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
+.divider {
+  width: 1px;
+  height: 21px;
+  background: g.$color-primary;
+  opacity: 0.8;
+
+  @include m.mobile {
+    display: none;
+  }
+
+  @include m.large {
+    height: 24px;
+  }
+}
+
+.loginBtn {
+  @include m.typography(base, medium);
+  width: 100px;
+  height: 40px;
+  background-color: g.$color-primary;
+  color: g.$color-white;
+  border: none;
+  border-radius: g.$border-radius-sm;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all g.$transition-fast;
+
+  &:hover {
+    background-color: g.$color-primary-dark;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @include m.mobile {
+    width: 90px;
+    height: 36px;
+    font-size: g.$font-size-sm;
+  }
+
+  @include m.large {
+    width: 120px;
+    height: 44px;
+    font-size: g.$font-size-lg;
+  }
+}
