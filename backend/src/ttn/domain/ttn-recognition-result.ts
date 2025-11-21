@@ -1,4 +1,4 @@
-// src/ttn/domain/ttn-recognition-result.ts
+
 export interface TTNRecognitionResult {
   invoiceNumber: string;
   invoiceDate: Date;

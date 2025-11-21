@@ -39,3 +39,52 @@ lerna-debug.log*
 .env
 /ormconfig.json
 .codegpt
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Environment
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.db
+*.sqlite
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build outputs
+build/
+.out/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# IDE
+*.swp
+*.swo
+
+# OS
+Thumbs.db

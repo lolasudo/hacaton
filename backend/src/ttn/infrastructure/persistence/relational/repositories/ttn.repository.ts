@@ -18,7 +18,7 @@ export class TTNRelationalRepository extends TTNRepository {
     super();
   }
 
-  // ✅ Существующие методы (оставляем как есть)
+  
   async create(data: TTN): Promise<TTN> {
     const persistenceEntity = TTNMapper.toPersistence(data);
     const newEntity = await this.ttnRepository.save(
@@ -74,7 +74,6 @@ export class TTNRelationalRepository extends TTNRepository {
     return TTNMapper.toDomain(updatedEntity);
   }
 
-  // 🔴 НОВЫЕ МЕТОДЫ - добавляем к существующим
   async findAll(filters: {
     constructionObjectId?: number;
     contractorId?: number;

@@ -34,7 +34,6 @@ export class ConstructionObjectMapper {
     entity.endDate = domain.endDate;
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
-    // ✅ deletedAt не устанавливаем - TypeORM сам управляет
     return entity;
   }
 }

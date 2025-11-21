@@ -14,7 +14,7 @@ export interface TTNRecognitionResult {  // ← ПЕРЕНЕСТИ интерф�
 @Injectable()
 export class LocalOCRService {
   async recognizeTTN(imageBuffer: Buffer): Promise<TTNRecognitionResult> {
-    // ЗАГЛУШКА - имитация работы OCR
+ 
     console.log('🔍 Local OCR processing TTN...');
     
     await new Promise(resolve => setTimeout(resolve, 1000));

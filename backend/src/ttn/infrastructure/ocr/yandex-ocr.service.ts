@@ -1,11 +1,11 @@
-// src/ttn/infrastructure/ocr/yandex-ocr.service.ts
+
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 import { TTNRecognitionResult } from '../../domain/ttn-recognition-result';
 
-// Интерфейс ответа для Vision OCR
+
 export interface YandexVisionOCRResponse {
   result: {
     textAnnotation: {
@@ -49,14 +49,12 @@ export class YandexVisionOCRService {
       
       const visionResult = await this.sendToVisionAPI(imageBuffer);
       
-      // 🔴 ДЕТАЛЬНОЕ ЛОГИРОВАНИЕ РАСПОЗНАННОГО ТЕКСТА
       console.log('🔍 [OCR] ======= FULL RECOGNIZED TEXT =======');
       console.log(visionResult);
       console.log('🔍 [OCR] ======= END TEXT =======');
       
       const parsedData = this.parseTTNText(visionResult);
       
-      // 🔴 ЛОГИРОВАНИЕ РЕЗУЛЬТАТОВ ПАРСИНГА
       console.log('🔍 [OCR] Parsing results:', {
         invoiceNumber: parsedData.invoiceNumber,
         invoiceDate: parsedData.invoiceDate,
@@ -321,19 +319,16 @@ export class YandexVisionOCRService {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       
-      // 🔴 ПОИСК СЕКЦИИ МАТЕРИАЛОВ
       if (line.match(/Наименование материала|Материал|Товар|Номенклатура/i)) {
         inMaterialsSection = true;
         console.log('✅ [OCR] Materials section header found at line', i, ':', line);
         continue;
       }
-      
-      // 🔴 ВЫХОД ИЗ СЕКЦИИ
+ 
       if (inMaterialsSection && line.match(/Итого|Всего|ИТОГО|ВСЕГО/i)) {
         console.log('🔍 [OCR] Exiting materials section at line', i, ':', line);
         inMaterialsSection = false;
         
-        // 🔴 СОХРАНИТЬ ПОСЛЕДНИЙ МАТЕРИАЛ ПЕРЕД ВЫХОДОМ
         if (currentMaterial.name && currentMaterial.quantity) {
           this.saveMaterial(items, currentMaterial);
           currentMaterial = {};
@@ -344,7 +339,7 @@ export class YandexVisionOCRService {
       if (inMaterialsSection && line) {
         console.log('🔍 [OCR] Processing line', i, ':', line);
         
-        // 🔴 ПОПЫТКА НАЙТИ ПОЛНЫЙ МАТЕРИАЛ В ОДНОЙ СТРОКЕ
+        
         const fullMaterialPattern = /([А-Яа-яЁё\s\w.-]{3,})\s+(\d+[,.]?\d*)\s*([А-Яа-я]{0,5})/;
         const fullMatch = line.match(fullMaterialPattern);
         
@@ -352,7 +347,7 @@ export class YandexVisionOCRService {
           const materialName = fullMatch[1].trim();
           const quantity = parseFloat(fullMatch[2].replace(',', '.'));
           
-          // 🔴 ПРОВЕРКА ЧТО ЭТО МАТЕРИАЛ
+        
           if (this.isValidMaterial(materialName, quantity)) {
             const item = {
               materialName: materialName,
@@ -366,11 +361,9 @@ export class YandexVisionOCRService {
           }
         }
         
-        // 🔴 ЕСЛИ НЕ НАЙДЕН ПОЛНЫЙ МАТЕРИАЛ, ПРОВЕРЯЕМ ЧАСТИ
         
-        // 🔴 ЭТО МОЖЕТ БЫТЬ НАЗВАНИЕ МАТЕРИАЛА (только буквы, без цифр)
         if (line.match(/^[А-Яа-яЁё\s.-]+$/) && line.length > 3 && !line.match(/изм|ед|шт|т|кг|м|л/i)) {
-          // 🔴 ЕСЛИ УЖЕ ЕСТЬ СОБРАННЫЙ МАТЕРИАЛ - СОХРАНИТЬ ЕГО
+        
           if (currentMaterial.name && currentMaterial.quantity) {
             this.saveMaterial(items, currentMaterial);
           }
@@ -379,9 +372,8 @@ export class YandexVisionOCRService {
           console.log('🔍 [OCR] Potential material name:', line);
         }
         
-        // 🔴 ЭТО МОЖЕТ БЫТЬ КОЛИЧЕСТВО (только цифры)
         else if (line.match(/^\d+[,.]?\d*\.?\.?\.?$/)) {
-          const cleanLine = line.replace(/\.+$/, ''); // Удалить многоточия в конце
+          const cleanLine = line.replace(/\.+$/, '');
           const quantity = parseFloat(cleanLine.replace(',', '.'));
           
           if (quantity > 0) {
@@ -389,7 +381,7 @@ export class YandexVisionOCRService {
               currentMaterial.quantity = quantity;
               console.log('🔍 [OCR] Potential quantity:', quantity, 'for material:', currentMaterial.name);
             } else {
-              // 🔴 ЕСЛИ ЕСТЬ КОЛИЧЕСТВО БЕЗ НАЗВАНИЯ, ИСПОЛЬЗУЕМ ПРЕДЫДУЩУЮ СТРОКУ
+              
               if (i > 0) {
                 const prevLine = lines[i-1].trim();
                 if (prevLine.match(/[А-Яа-яЁё]/) && !prevLine.match(/\d/)) {
@@ -402,7 +394,6 @@ export class YandexVisionOCRService {
           }
         }
         
-        // 🔴 ЭТО МОЖЕТ БЫТЬ ЕДИНИЦА ИЗМЕРЕНИЯ (короткое слово)
         else if (line.match(/^[А-Яа-я]{1,5}$/) && line.match(/т|шт|кг|м|л|ед/i)) {
           if (currentMaterial.name && currentMaterial.quantity) {
             currentMaterial.unit = line;
@@ -410,7 +401,6 @@ export class YandexVisionOCRService {
           }
         }
         
-        // 🔴 ЕСЛИ У НАС ЕСТЬ ПОЛНЫЙ МАТЕРИАЛ, СОХРАНЯЕМ ЕГО
         if (currentMaterial.name && currentMaterial.quantity) {
           this.saveMaterial(items, currentMaterial);
           currentMaterial = {};
@@ -418,7 +408,7 @@ export class YandexVisionOCRService {
       }
     }
     
-    // 🔴 СОХРАНИТЬ ПОСЛЕДНИЙ МАТЕРИАЛ В КОНЦЕ
+    
     if (currentMaterial.name && currentMaterial.quantity) {
       this.saveMaterial(items, currentMaterial);
     }
@@ -427,7 +417,7 @@ export class YandexVisionOCRService {
     return items;
   }
 
-  // 🔴 ВСПОМОГАТЕЛЬНЫЙ МЕТОД ДЛЯ СОХРАНЕНИЯ МАТЕРИАЛА
+ 
   private saveMaterial(
     items: Array<{ materialName: string; quantity: number; unit: string; price?: number; totalAmount?: number }>,
     currentMaterial: { name?: string; quantity?: number; unit?: string }
@@ -444,9 +434,9 @@ export class YandexVisionOCRService {
     }
   }
 
-  // 🔴 ДОПОЛНИТЕЛЬНЫЙ МЕТОД ДЛЯ ПРОВЕРКИ ВАЛИДНОСТИ МАТЕРИАЛА
+  
   private isValidMaterial(materialName: string, quantity: number): boolean {
-    // 🔴 ИСКЛЮЧАЕМ ЗАГОЛОВКИ И СЛУЖЕБНЫЕ СТРОКИ
+  
     const excludedPatterns = [
       /Наименование/i,
       /Материал/i,
@@ -477,10 +467,10 @@ export class YandexVisionOCRService {
       throw new Error('Не удалось распознать номер ТТН');
     }
     
-    // 🔴 ВРЕМЕННО ОСЛАБЛЯЕМ ПРОВЕРКУ МАТЕРИАЛОВ ДЛЯ ТЕСТИРОВАНИЯ
+   
     if (data.items.length === 0) {
       console.log('⚠️ [OCR] No materials found, but continuing for testing...');
-      // throw new Error('Не удалось распознать позиции материалов в ТТН');
+   
     }
     
     console.log('✅ [OCR] TTN data validation passed');

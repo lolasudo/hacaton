@@ -82,8 +82,6 @@ export class AuthController {
     return { message: 'Инспектор инициировал проверку', user: req.user };
   }
 
-  // ---------------------- стандартные методы ----------------------
-
   @Post('email/confirm')
   @HttpCode(HttpStatus.NO_CONTENT)
   async confirmEmail(@Body() confirmEmailDto: AuthConfirmEmailDto): Promise<void> {

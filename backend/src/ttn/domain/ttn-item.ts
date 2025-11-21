@@ -8,7 +8,7 @@ export class TTNItem {
   price?: number;
   totalAmount?: number;
   batchNumber?: string;
-  qualityDocuments: string[] = []; // Инициализируем
+  qualityDocuments: string[] = []; 
   
   matchedMaterialId?: number;
   matchConfidence?: number;

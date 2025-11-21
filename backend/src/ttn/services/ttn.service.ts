@@ -43,7 +43,6 @@ export class TTNService {
     private readonly ttnFileService: TTNFileService,
   ) {}
 
-  // 🔴 ДОБАВЛЯЕМ НОВЫЙ МЕТОД processTTNWithOCR
   async processTTNWithOCR(
     file: Express.Multer.File,
     createTTNDto: CreateTTNDto,
@@ -67,7 +66,7 @@ export class TTNService {
       ttn.vehicleNumber = recognitionResult.vehicleNumber;
       ttn.driverName = recognitionResult.driverName;
       
-      // Преобразуем строку в число
+  
       ttn.constructionObjectId = parseInt(createTTNDto.constructionObjectId, 10);
       
       ttn.contractorId = contractorId;
@@ -77,7 +76,7 @@ export class TTNService {
       ttn.createdAt = new Date();
       ttn.updatedAt = new Date();
 
-      // Создаем TTNItem
+     
       ttn.items = (recognitionResult.items || []).map((item, index) => {
         const ttnItem = new TTNItem();
         ttnItem.materialName = item.materialName || 'Неизвестный материал';
@@ -103,7 +102,7 @@ export class TTNService {
     }
   }
 
-  // 🔴 ОБНОВЛЯЕМ СУЩЕСТВУЮЩИЙ МЕТОД processTTN
+  
   async processTTN(
     file: Express.Multer.File,
     createTTNDto: CreateTTNDto,
@@ -163,22 +162,22 @@ export class TTNService {
     }
   }
 
-  // Найти ТТН по ID
+
   async findById(id: number): Promise<NullableType<TTN>> {
     return this.ttnRepository.findById(id);
   }
 
-  // Найти ТТН по объекту строительства
+  
   async findByConstructionObjectId(constructionObjectId: number): Promise<TTN[]> {
     return this.ttnRepository.findByConstructionObjectId(constructionObjectId);
   }
 
-  // Найти ТТН по подрядчику
+
   async findByContractorId(contractorId: number): Promise<TTN[]> {
     return this.ttnRepository.findByContractorId(contractorId);
   }
 
-  // Получить все ТТН с фильтрацией
+
   async findAll(filters: {
     constructionObjectId?: number;
     contractorId?: number;
@@ -191,7 +190,6 @@ export class TTNService {
     return this.ttnRepository.findAll(filters);
   }
 
-  // Обновить данные ТТН
   async update(id: number, updateTTNDto: UpdateTTNDto): Promise<TTN> {
     const ttn = await this.ttnRepository.findById(id);
     if (!ttn) {
@@ -206,7 +204,7 @@ export class TTNService {
     return this.ttnRepository.update(id, updateData);
   }
 
-  // Обновить статус ТТН
+  
   async updateStatus(id: number, updateStatusDto: UpdateTTNStatusDto, userId: number): Promise<TTN> {
     const ttn = await this.ttnRepository.findById(id);
     if (!ttn) {
@@ -224,12 +222,11 @@ export class TTNService {
     return updatedTTN;
   }
 
-  // Найти ТТН по номеру накладной
   async findByInvoiceNumber(invoiceNumber: string): Promise<TTN | null> {
     return this.ttnRepository.findByInvoiceNumber(invoiceNumber);
   }
 
-  // Удалить ТТН
+
   async delete(id: number): Promise<void> {
     const ttn = await this.ttnRepository.findById(id);
     if (!ttn) {
@@ -238,7 +235,7 @@ export class TTNService {
     await this.ttnRepository.delete(id);
   }
 
-  // Верифицировать ТТН
+  
   async verifyTTN(id: number, userId: number): Promise<TTN> {
     return this.updateStatus(id, { 
       status: TTNStatus.VERIFIED, 
@@ -246,7 +243,7 @@ export class TTNService {
     }, userId);
   }
 
-  // Отклонить ТТН
+
   async rejectTTN(id: number, comment: string, userId: number): Promise<TTN> {
     return this.updateStatus(id, { 
       status: TTNStatus.REJECTED, 
@@ -254,7 +251,7 @@ export class TTNService {
     }, userId);
   }
 
-  // Запросить лабораторные испытания
+  
   async requestLabTest(id: number, userId: number): Promise<TTN> {
     const ttn = await this.ttnRepository.findById(id);
     if (!ttn) {
@@ -266,7 +263,7 @@ export class TTNService {
     }, userId);
   }
 
-  // Приватные методы
+
   private validateStatusTransition(oldStatus: TTNStatus, newStatus: TTNStatus): void {
     const allowedTransitions: Record<TTNStatus, TTNStatus[]> = {
       [TTNStatus.UPLOADED]: [TTNStatus.RECOGNIZING, TTNStatus.NEEDS_REVIEW, TTNStatus.REJECTED],

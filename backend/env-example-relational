@@ -1,3 +1,5 @@
+# Создайте правильный env-example-relational
+
 NODE_ENV=development
 APP_PORT=3000
 APP_NAME="NestJS API"
@@ -7,22 +9,19 @@ APP_HEADER_LANGUAGE=x-custom-lang
 FRONTEND_DOMAIN=http://localhost:3000
 BACKEND_DOMAIN=http://localhost:3000
 
+# ИЗМЕНИТЕ localhost на postgres для Docker
 DATABASE_TYPE=postgres
 DATABASE_HOST=postgres
 DATABASE_PORT=5432
-DATABASE_USERNAME=root
-DATABASE_PASSWORD=secret
-DATABASE_NAME=api
-DATABASE_SYNCHRONIZE=false
-DATABASE_MAX_CONNECTIONS=100
-DATABASE_SSL_ENABLED=false
-DATABASE_REJECT_UNAUTHORIZED=false
-DATABASE_CA=
-DATABASE_KEY=
-DATABASE_CERT=
-DATABASE_URL=
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=1
+DATABASE_NAME=Hacaton
+DATABASE_URL=postgresql://postgres:1@postgres:5432/Hacaton
 
-# Support "local", "s3", "s3-presigned"
+YANDEX_API_KEY=AQVNw9FfToBgKHq0hTUuzk0VMOA1d9E29rHARweH
+YANDEX_FOLDER_ID=b1ges3vdk1da16vq9rgk
+YANDEX_VISION_URL=https://ocr.api.cloud.yandex.net/ocr/v1/recognizeText
+
 FILE_DRIVER=local
 ACCESS_KEY_ID=
 SECRET_ACCESS_KEY=
@@ -58,3 +57,4 @@ GOOGLE_CLIENT_SECRET=
 APPLE_APP_AUDIENCE=[]
 
 WORKER_HOST=redis://redis:6379/1
+EOF

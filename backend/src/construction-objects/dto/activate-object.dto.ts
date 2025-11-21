@@ -5,5 +5,5 @@ export class ActivateObjectDto {
   @ApiProperty({ example: 1 })
   @IsNotEmpty()
   @IsNumber()
-  inspectorId: number; // ID инспектора который подтверждает активацию
+  inspectorId: number; 
 }
