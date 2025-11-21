@@ -28,10 +28,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
 import { ConstructionObjectsModule } from './construction-objects/construction-objects.module';
-import { TTNModule } from './ttn/ttn.module';
+//import { TTNModule } from './ttn/ttn.module';
 import { WorkSchedulesModule } from './work-schedules/work-schedules.module';
 import { DefectsModule } from './defects/defects.module';
-
+import { ActsModule } from './acts/acts.module'; 
+import { ChecklistsModule } from './acts/checklist.module';
 // <database-block>
 const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
   .isDocumentDatabase
@@ -97,9 +98,11 @@ const infrastructureDatabaseModule = (databaseConfig() as DatabaseConfig)
     MailerModule,
     HomeModule,
     ConstructionObjectsModule,
-    TTNModule,
+    //TTNModule,
     WorkSchedulesModule,
     DefectsModule,
+    ActsModule,
+    ChecklistsModule,
   ],
 })
 export class AppModule {}
