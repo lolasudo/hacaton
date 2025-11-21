@@ -138,4 +138,10 @@ export class DefectsService {
       .orderBy('defect.createdAt', 'DESC')
       .getMany();
   }
+
+  async findAll(): Promise<Defect[]> {
+    return await this.defectsRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+  }
 }

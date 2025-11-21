@@ -60,4 +60,13 @@ export class ConstructionObjectsService {
       updatedAt: new Date(),
     });
   }
+
+  // src/construction-objects/services/construction-objects.service.ts
+// Добавляем этот метод в класс
+// src/construction-objects/services/construction-objects.service.ts
+// Добавляем этот метод в класс
+  async findAll(): Promise<any[]> {
+    return await this.constructionObjectsRepository.find();
+  }
+
 }
